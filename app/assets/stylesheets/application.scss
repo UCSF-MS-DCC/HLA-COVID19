@@ -13,13 +13,12 @@
  @import "bootstrap";
 
  #home-page-card {
-    background-image: image_url("coronavirus.jpg");
-    min-height:500px;
+    background-image: image_url("coronavirus-banner.png");
+    min-height:400px;
     height:auto;
     background-repeat: no-repeat;
     background-size: cover;
     background-position-x: center;
-    border:1px solid black;
   }
   #home-page-card-header {
     top:5px;
@@ -32,4 +31,29 @@
       color:white;
       font-size:16pt;
       margin-left:15px;
+  }
+  .menu-link {
+    color:black;
+    font-size:16pt;
+  }
+  #title-placement-box {
+    margin-top:50px;
+    margin-left:50px;
+  }
+  #title-text {
+    font-size:60pt;
+    color:white;
+  }
+  .btn-trans {
+    background-color:transparent;
+  }
+  #main-dropdown-button-text {
+    color:white;
+    font-size:16pt;
+  }
+  .dropdown-menu {
+    width:100% !important;
+  }
+  .dropdown-list-item {
+    margin-left:20px;
   }
