@@ -1,0 +1,66 @@
+<div class="container">
+    <div class="row justify-content-md-center" style="margin-top:50px;">
+        <div class="col-4">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#log-in-form">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#registration-form">Register Account</a>
+                </li>
+            </ul>
+
+                <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane container active" id="log-in-form">
+                    <h2>Log in</h2>
+                    <%= form_for(@user, url: session_path(@user)) do |f| %>
+                        <div class="field">
+                            <%= f.label :email %><br />
+                            <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+                        </div>
+
+                        <div class="field">
+                            <%= f.label :password %><br />
+                            <%= f.password_field :password, autocomplete: "current-password" %>
+                        </div>
+
+                        <div class="actions">
+                            <%= f.submit "Log in" %>
+                        </div>
+                    <% end %>
+                </div>
+                <div class="tab-pane container fade" id="registration-form">
+                    <h2>Sign up</h2>
+                    <%= form_for(@user, url: registration_path(@user)) do |f| %>
+                        <div class="field">
+                            <%= f.label :email %><br />
+                            <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+                        </div>
+
+                        <div class="field">
+                            <%= f.label :affiliation, "Institutional Affiliation" %><br />
+                            <%= f.text_field :affiliation %>
+                        </div>
+
+                        <div class="field">
+                            <%= f.label :password %>
+                            <% if @minimum_password_length %>
+                            <em>(<%= @minimum_password_length %> characters minimum)</em>
+                            <% end %><br />
+                            <%= f.password_field :password, autocomplete: "new-password" %>
+                        </div>
+
+                        <div class="field">
+                            <%= f.label :password_confirmation %><br />
+                            <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+                        </div>
+                        <div class="actions">
+                            <%= f.submit "Sign up" %>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

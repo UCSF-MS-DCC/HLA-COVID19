@@ -2,8 +2,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, , :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :timeoutable
-  after_create :send_new_account_notification
+         :recoverable, :rememberable, :timeoutable
+  #after_create :send_new_account_notification
 
   def send_new_account_notification
     AdminMailer.new_user_waiting_for_approval(email).deliver
