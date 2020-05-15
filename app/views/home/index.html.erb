@@ -17,7 +17,7 @@
                         <li class="dropdown-menu-item"><%= link_to "Edit password", edit_user_password_path, :class => "menu-link"%></li>
                         <li class="dropdown-menu-item"><%= link_to "Logout", destroy_user_session_path, :method => 'delete', :class => "menu-link"%></li>
                         <% if Rails.env == "production" && current_user.rstudio == true %>
-                            <li class="dropdown-menu-item"><%= link_to "RStudio server", "https://database-hlacovid19/rstudio", target: :_blank, :class => "menu-link" %>
+                            <li class="dropdown-menu-item"><%= link_to "RStudio server", "https://database-hlacovid19.org/rstudio", target: :_blank, :class => "menu-link" %>
                         <% end %>
                     </ul>     
                 </div>
