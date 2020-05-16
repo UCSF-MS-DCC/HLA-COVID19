@@ -81,5 +81,12 @@ $(document).on('turbolinks:load',function(){
         }
     });
 
+    $('#reg-chkbox').on('change', function() {
+      if ($(this).prop('checked') == true) {
+        $('#new_registration_submit').prop('disabled',false);
+      } else {
+        $('#new_registration_submit').prop('disabled',true);
+      }
+    })
 
 });
