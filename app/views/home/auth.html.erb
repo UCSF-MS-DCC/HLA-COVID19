@@ -13,50 +13,57 @@
                 <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane container active" id="log-in-form">
+                <br />
                     <h2>Log in</h2>
                     <%= form_for(@user, url: session_path(@user)) do |f| %>
-                        <div class="field">
-                            <%= f.label :email %><br />
-                            <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+                        <div class="row form-group" style="margin-left:1px;margin-right:1px;">
+                            <%= f.label :email, :class => "col-4 col-form-label"  %><br />
+                            <%= f.email_field :email, autofocus: true, autocomplete: "email", :class => "form-control", :required => true %>
                         </div>
 
-                        <div class="field">
-                            <%= f.label :password %><br />
-                            <%= f.password_field :password, autocomplete: "current-password" %>
+                        <div class="row form-group" style="margin-left:1px;margin-right:1px;">
+                            <%= f.label :password, :class => "col-4 col-form-label" %><br />
+                            <%= f.password_field :password, autocomplete: "password", :class => "form-control", :required => true %>
                         </div>
 
-                        <div class="actions">
-                            <%= f.submit "Log in" %>
+                        <div class="row justify-content-md-center" style="margin-bottom:15px;"> 
+                            <div class="actions">
+                                <%= f.submit "Log in", :class => "btn btn-primary" %>
+                            </div>
                         </div>
                     <% end %>
                 </div>
                 <div class="tab-pane container fade" id="registration-form">
-                    <h2>Sign up</h2>
+                <br />
+                    <h2>Register New Account</h2>
+                    <p style="font-size:12pt;">New account applications are reviewed and subject to approval of the HLA-COVID19 governing body. You will be notified by email if your account is approved.</p>
                     <%= form_for(@user, url: registration_path(@user)) do |f| %>
-                        <div class="field">
-                            <%= f.label :email %><br />
-                            <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+                        <div class="row form-group" style="margin-left:1px;margin-right:1px;">
+                            <%= f.label :email, :class => "col-4 col-form-label" %><br />
+                            <%= f.email_field :email, autofocus: true, autocomplete: "email", :class => "form-control", :required => true %>
                         </div>
 
-                        <div class="field">
-                            <%= f.label :affiliation, "Institutional Affiliation" %><br />
-                            <%= f.text_field :affiliation %>
+                        <div class="row form-group" style="margin-left:1px;margin-right:1px;">
+                            <%= f.label :affiliation, "Institutional Affiliation", :class => "col-10 col-form-label" %><br />
+                            <%= f.text_field :affiliation, :class => "form-control", :required => true %>
                         </div>
 
-                        <div class="field">
-                            <%= f.label :password %>
+                        <div class="row form-group" style="margin-left:1px;margin-right:1px;">
+                            <%= f.label :password, :class => "col-4 col-form-label" %>
                             <% if @minimum_password_length %>
                             <em>(<%= @minimum_password_length %> characters minimum)</em>
                             <% end %><br />
-                            <%= f.password_field :password, autocomplete: "new-password" %>
+                            <%= f.password_field :password, autocomplete: "new-password", :class => "form-control", :required => true %>
                         </div>
 
-                        <div class="field">
-                            <%= f.label :password_confirmation %><br />
-                            <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+                        <div class="row form-group" style="margin-left:1px;margin-right:1px;">
+                            <%= f.label :password_confirmation, :class => "col-10 col-form-label" %><br />
+                            <%= f.password_field :password_confirmation, autocomplete: "new-password", :class => "form-control" %>
                         </div>
-                        <div class="actions">
-                            <%= f.submit "Sign up" %>
+                        <div class="row justify-content-md-center" style="margin-bottom:15px;"> 
+                            <div class="actions">
+                                <%= f.submit "Register", :class => "btn btn-primary" %>
+                            </div>
                         </div>
                     <% end %>
                 </div>
