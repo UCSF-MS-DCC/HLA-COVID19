@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :timeoutable
   #after_create :send_new_account_notification
   validates_uniqueness_of :email
+  has_many_attached :uploads
   
   def send_new_account_notification
     AdminMailer.new_user_waiting_for_approval(email).deliver
