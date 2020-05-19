@@ -9,6 +9,8 @@ gem 'devise'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem 'popper_js', '~> 1.14.5'
+gem 'dotenv-rails', groups: [:development, :test]
+gem 'recaptcha'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets

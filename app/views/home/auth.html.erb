@@ -64,6 +64,9 @@
                         <p style="font-size:10pt;"> <input type="checkbox" id="reg-chkbox"> I understand new account applications are reviewed and subject to approval of the HLA-COVID19 governing body.
                          Approved users shall be notified by email. I acknowledge my account will be inactive until I am otherwise notified. </p>
                         </div>
+                        <div class="row justify-content-md-center">
+                            <%= recaptcha_tags %>
+                        </div>
                         <div class="row justify-content-md-center" style="margin-bottom:15px;"> 
                             <div class="actions">
                                 <%= f.submit "Register", :class => "btn btn-primary", :id => "new_registration_submit", :disabled => true %>

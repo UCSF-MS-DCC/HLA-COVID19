@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_18_203829) do
+ActiveRecord::Schema.define(version: 2020_05_19_161437) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -73,6 +73,43 @@ ActiveRecord::Schema.define(version: 2020_05_18_203829) do
     t.index ["subject_id"], name: "index_baseline_c19_surveys_on_subject_id"
   end
 
+  create_table "comorbidities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "subject_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "hiv"
+    t.decimal "cd4_cell_count", precision: 10
+    t.decimal "hiv_load", precision: 10
+    t.boolean "immunocompromised"
+    t.boolean "organ_transplant"
+    t.text "organ_transplant_type"
+    t.boolean "bone_marrow_transplant"
+    t.boolean "autoimmune_rheum_disease"
+    t.boolean "diabetes_type_1"
+    t.boolean "diabetes_type_2"
+    t.boolean "asthma"
+    t.boolean "copd"
+    t.boolean "cycstic_fib"
+    t.boolean "liver_disease"
+    t.boolean "gallbladder_disease"
+    t.boolean "pancreas_disease"
+    t.boolean "angio_coronary_intervention"
+    t.boolean "artery_bypass"
+    t.boolean "cong_heart_failure"
+    t.boolean "hypertension"
+    t.boolean "infarction_type_1"
+    t.boolean "infarction_type_2"
+    t.boolean "peri_vascular_dis"
+    t.boolean "stroke"
+    t.boolean "arythmia"
+    t.boolean "dementia"
+    t.boolean "neur_disease"
+    t.boolean "leukemia"
+    t.boolean "lymphoma"
+    t.boolean "malignant_solid_tumor"
+    t.index ["subject_id"], name: "index_comorbidities_on_subject_id"
+  end
+
   create_table "families", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
     t.datetime "created_at", null: false
@@ -105,6 +142,40 @@ ActiveRecord::Schema.define(version: 2020_05_18_203829) do
     t.string "drb345_1"
     t.string "drb345_2"
     t.index ["subject_id"], name: "index_hlas_on_subject_id"
+  end
+
+  create_table "hospitalizations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "subject_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "icu_admit"
+    t.integer "icu_duration_days"
+    t.date "start_date"
+    t.date "end_date"
+    t.text "reason_hosp_ended"
+    t.boolean "septic_shock"
+    t.integer "days_after_c19_septic_shock"
+    t.boolean "organ_failure"
+    t.boolean "resp_failure"
+    t.text "resp_rate_intake"
+    t.integer "resp_breath_per_min"
+    t.decimal "blood_o2_sat", precision: 10
+    t.text "highest_resp_support"
+    t.integer "days_ventilator"
+    t.decimal "pa02_min", precision: 10
+    t.decimal "fio2_max", precision: 10
+    t.decimal "lung_infiltrates", precision: 10
+    t.text "pneumonia"
+    t.integer "pneumonia_days_after_c19_symptoms"
+    t.decimal "ef_echo", precision: 10
+    t.boolean "hepatits"
+    t.boolean "pancreatitis"
+    t.boolean "pleural_effusion"
+    t.boolean "acute_kidney_failure"
+    t.boolean "acute_kidney_chronic"
+    t.boolean "ascites"
+    t.boolean "dyspnea"
+    t.index ["subject_id"], name: "index_hospitalizations_on_subject_id"
   end
 
   create_table "medical_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -140,6 +211,7 @@ ActiveRecord::Schema.define(version: 2020_05_18_203829) do
     t.boolean "education"
     t.integer "age"
     t.text "ethnicity"
+    t.boolean "pregnant"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -187,8 +259,10 @@ ActiveRecord::Schema.define(version: 2020_05_18_203829) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "anxieties", "subjects"
   add_foreign_key "baseline_c19_surveys", "subjects"
+  add_foreign_key "comorbidities", "subjects"
   add_foreign_key "families", "subjects"
   add_foreign_key "hlas", "subjects"
+  add_foreign_key "hospitalizations", "subjects"
   add_foreign_key "medical_histories", "subjects"
   add_foreign_key "smoking_histories", "subjects"
   add_foreign_key "weekly_c19_surveys", "subjects"

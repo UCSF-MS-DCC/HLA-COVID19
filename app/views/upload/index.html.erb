@@ -16,8 +16,8 @@
         <div class="col-md-8">  
             <h5>Upload Files</h5>
             <%= form_for @user, :url => upload_store_path do |f|%>
-                <%= f.file_field :attachments, multiple: true, direct_upload: true %><br />
-                <%= f.submit %>
+                <%= f.file_field :attachments, multiple: true, direct_upload: true %><br /><br />
+                <%= f.submit "Upload Files", :class => "btn btn-primary" %>
             <% end %>
         </div>
     </div>
