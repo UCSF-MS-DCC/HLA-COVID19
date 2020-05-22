@@ -1,19 +1,20 @@
-<div class="container">
-    <div class="row justify-content-md-center">
-        <div class="col-md-8">
-            <h2><%= current_user.email %></h2>
+<div class="container" style="margin-top:20px;">
+    <div class="row justify-content-md-left">
+        <div class="col-md-auto">
+            <h4>File Upload History for:<br><%= current_user.email %></h4>
         </div>
     </div>
-    <div class="row justify-content-md-center">
-        <div class="col-md-4">
+    <div class="row justify-content-md-center" style="margin-top:30px">
+        <div class="col-md-6" style="padding-top:10px;">
             <h5>Previous Uploads</h5>
             <ul>
                 <% current_user.uploads.each do |u|%>
-                    <li><%= u.filename.to_json %></li>
+                    <% puts u.created_at.strftime("%Y-%m-%d")%>
+                    <li><%= u.created_at.strftime("%Y-%m-%d") %><br>&nbsp;&nbsp;<%= u.filename.to_json %></li>
                 <% end %>
             </ul>
         </div>
-        <div class="col-md-8">  
+        <div class="col-md-6" style="padding-top:10px;">  
             <h5>Upload Files</h5>
             <%= form_for @user, :url => upload_store_path do |f|%>
                 <%= f.file_field :attachments, multiple: true, direct_upload: true %><br /><br />

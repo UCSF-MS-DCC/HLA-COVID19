@@ -1,7 +1,12 @@
 class RegistrationsController < Devise::RegistrationsController
     def create
       begin
-        super
+        build_resource(sign_up_params)
+        if verify_recaptcha(model: resource)
+          super
+        else
+          render new
+        end
       rescue ActiveRecord::RecordNotUnique
         user = User.find_by_email(params[:user][:email])
         if user.present? && user.valid_password?(params[:user][:password])

@@ -1,7 +1,6 @@
 class UploadController < ApplicationController
 
     def index
-        puts "HOME CONTROLLER"
         if !current_user
             redirect_to root_path
         end
@@ -9,9 +8,6 @@ class UploadController < ApplicationController
     end
 
     def store 
-        puts "STORE ACTION"
-        puts params.to_json
-        puts upload_params
         current_user.uploads.attach(upload_params[:attachments])
     end
 
