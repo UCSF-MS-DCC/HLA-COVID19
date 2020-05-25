@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_19_161437) do
+ActiveRecord::Schema.define(version: 2020_05_25_224956) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -46,27 +46,6 @@ ActiveRecord::Schema.define(version: 2020_05_19_161437) do
     t.datetime "updated_at", null: false
     t.boolean "coronavirus_tested"
     t.string "coronavirus_test_result"
-    t.integer "n_weeks_positive"
-    t.boolean "infections_in_county"
-    t.boolean "worried_health"
-    t.text "local_gov_restrictions"
-    t.text "hand_hygience_practices"
-    t.boolean "sanitized_phone"
-    t.text "school_age_children_at_home"
-    t.text "college_age_children_at_home"
-    t.text "when_college_age_child_return_home"
-    t.text "child_college_attended"
-    t.text "child_college_location"
-    t.boolean "elderly_immunocompromized_person_interaction"
-    t.boolean "pets_at_home"
-    t.text "pets_type"
-    t.boolean "flu_shot_last_year"
-    t.boolean "cold_flu_last_year"
-    t.integer "n_fever_cold_flu"
-    t.text "when_last_fever_cold_flu"
-    t.boolean "n_nofever_cold_flu"
-    t.text "when_last_nofever_cold_flu"
-    t.text "avg_exercise_last_year"
     t.boolean "hospitalized"
     t.boolean "respirator"
     t.text "c19_symptons"
@@ -237,19 +216,7 @@ ActiveRecord::Schema.define(version: 2020_05_19_161437) do
     t.datetime "updated_at", null: false
     t.boolean "tested_past_week"
     t.text "test_result"
-    t.text "wait_prior_to_testing"
     t.text "wait_for_results"
-    t.text "new_infections_in_county"
-    t.text "worried_health"
-    t.text "wash_hands_freq"
-    t.integer "times_visit_gym"
-    t.integer "times_visit_restaurant"
-    t.integer "times_visit_bar"
-    t.integer "times_visit_movies"
-    t.integer "times_event_10_people"
-    t.integer "times_exercise"
-    t.text "local_govt_restrictions"
-    t.integer "average_sleep"
     t.boolean "hospitalized"
     t.boolean "respirator"
     t.text "c19_symptons"
