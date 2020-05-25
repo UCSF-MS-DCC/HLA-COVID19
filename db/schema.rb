@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_25_224956) do
+ActiveRecord::Schema.define(version: 2020_05_25_230351) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -216,7 +216,6 @@ ActiveRecord::Schema.define(version: 2020_05_25_224956) do
     t.datetime "updated_at", null: false
     t.boolean "tested_past_week"
     t.text "test_result"
-    t.text "wait_for_results"
     t.boolean "hospitalized"
     t.boolean "respirator"
     t.text "c19_symptons"
