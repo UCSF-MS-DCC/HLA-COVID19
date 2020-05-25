@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_25_230351) do
+ActiveRecord::Schema.define(version: 2020_05_25_232149) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -206,6 +206,8 @@ ActiveRecord::Schema.define(version: 2020_05_25_230351) do
     t.text "affiliation"
     t.integer "upload_count", default: 0
     t.boolean "can_upload"
+    t.string "rstudio_username"
+    t.string "rstudio_password"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

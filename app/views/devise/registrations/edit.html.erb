@@ -48,6 +48,19 @@
       </div>
     <% end %>
   </div>
+  <br><br>
+  <hr>
+  <div class="row justify-content-md-left">
+      <% if current_user.rstudio == true %>
+        <div class="col-md-8 offset-md-2">
+          Rstudio username: <span id="rusername" style="margin-right:150px;"><b><%= current_user.rstudio_username %></b></span>
+          <button class="clipboard-btn btn btn-primary btn-sm" data-clipboard-action="copy" data-clipboard-target="#rusername">Copy to clipboard</button>
+          <br><br>
+          Rstudio password: <span id="rpassword"" style="margin-right:150px;"><b><%= current_user.rstudio_password %></b></span>
+          <button class="clipboard-btn btn btn-primary btn-sm" data-clipboard-action="copy" data-clipboard-target="#rpassword">Copy to clipboard</button>
+        </div>
+      <% end %>
+  </div>
 
 
 </div>
