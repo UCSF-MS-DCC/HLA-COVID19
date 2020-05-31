@@ -6,4 +6,5 @@ class Subject < ApplicationRecord
     has_one :anxiety
     has_one :smoking_history
     has_one :medical_history
+    has_one :risk_factor
 end

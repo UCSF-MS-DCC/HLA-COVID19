@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_184031) do
+ActiveRecord::Schema.define(version: 2020_05_31_170221) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -33,23 +33,29 @@ ActiveRecord::Schema.define(version: 2020_05_27_184031) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "anxieties", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "c19_symptoms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["subject_id"], name: "index_anxieties_on_subject_id"
-  end
-
-  create_table "baseline_c19_surveys", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "coronavirus_tested"
-    t.string "coronavirus_test_result"
-    t.boolean "hospitalized"
-    t.boolean "respirator"
-    t.text "c19_symptons"
-    t.index ["subject_id"], name: "index_baseline_c19_surveys_on_subject_id"
+    t.date "c19_test_date"
+    t.text "c19_test_result"
+    t.boolean "dry_cough"
+    t.boolean "mucus_cough"
+    t.integer "days_cough"
+    t.boolean "difficulty_breathing"
+    t.boolean "fever"
+    t.boolean "highest_temp"
+    t.integer "days_fever"
+    t.boolean "fatigue"
+    t.boolean "pain_chest_heart"
+    t.boolean "pain_back"
+    t.boolean "runny_nose"
+    t.boolean "sore_throat"
+    t.text "loss_taste_smell"
+    t.boolean "diarrhea"
+    t.boolean "nauseam"
+    t.text "other_symptoms"
+    t.index ["subject_id"], name: "index_c19_symptoms_on_subject_id"
   end
 
   create_table "comorbidities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -87,13 +93,6 @@ ActiveRecord::Schema.define(version: 2020_05_27_184031) do
     t.boolean "lymphoma"
     t.boolean "malignant_solid_tumor"
     t.index ["subject_id"], name: "index_comorbidities_on_subject_id"
-  end
-
-  create_table "families", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["subject_id"], name: "index_families_on_subject_id"
   end
 
   create_table "hlas", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -157,18 +156,55 @@ ActiveRecord::Schema.define(version: 2020_05_27_184031) do
     t.index ["subject_id"], name: "index_hospitalizations_on_subject_id"
   end
 
-  create_table "medical_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "subject_id"
+  create_table "lab_tests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["subject_id"], name: "index_medical_histories_on_subject_id"
+    t.date "result_date"
+    t.text "blood_type"
+    t.text "rh_factor"
+    t.text "wbc"
+    t.text "lymphocytes"
+    t.text "neutrophils"
+    t.text "monocytes"
+    t.text "eosinophils"
+    t.text "basophils"
+    t.text "crp"
+    t.text "trop_i"
+    t.text "trop_t"
+    t.text "bnp"
+    t.text "idh"
+    t.text "ast"
+    t.text "alt"
+    t.text "bilirubin"
+    t.text "ggt"
+    t.text "alp"
+    t.text "d_dimer"
+    t.text "il6"
+    t.text "tumor_necrosis_factor"
+    t.text "serum_femtin"
+    t.text "hba1c"
+    t.text "cholesterol"
+    t.text "triglycerides"
+    t.text "hdl"
+    t.text "ldl"
+    t.text "ace"
+    t.text "ace2r"
+    t.text "hemoglobin"
+    t.text "amylase"
+    t.text "lipase"
+    t.text "urea"
+    t.text "creatinine"
   end
 
-  create_table "smoking_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "risk_factors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["subject_id"], name: "index_smoking_histories_on_subject_id"
+    t.text "smoke_100"
+    t.text "smoke_freq"
+    t.text "alcohol_freq"
+    t.text "substances_freq"
+    t.index ["subject_id"], name: "index_risk_factors_on_subject_id"
   end
 
   create_table "subjects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -177,20 +213,43 @@ ActiveRecord::Schema.define(version: 2020_05_27_184031) do
     t.string "hlac19_id"
     t.string "origin_identifier"
     t.string "country_of_residence"
-    t.string "zip_code"
-    t.string "field_employment"
     t.text "sex"
     t.text "gender"
-    t.text "gender_identity"
-    t.boolean "asian"
-    t.boolean "pacific_islander"
-    t.boolean "hispanic"
-    t.boolean "african_american"
-    t.boolean "white"
     t.boolean "education"
     t.integer "age"
     t.text "ethnicity"
     t.boolean "pregnant"
+    t.text "ancestry"
+    t.integer "height"
+    t.integer "weight"
+    t.boolean "exposed_to_covid19_carrier_20_days"
+    t.text "travel_last_20_days"
+    t.boolean "medical_worker"
+  end
+
+  create_table "treatments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "subject_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.text "ace_inhib"
+    t.text "angio_blocker"
+    t.text "antibiotics"
+    t.text "antiviral_med"
+    t.text "allergy_med"
+    t.text "androgen_med"
+    t.text "asthma_med"
+    t.text "immunosuppressor_light"
+    t.text "immunosuppressor_strong"
+    t.text "biologics_mabs"
+    t.text "nsaid"
+    t.text "antipytetics"
+    t.text "blood_thinner"
+    t.text "vitamin_d_med"
+    t.text "vitamin_c_med"
+    t.text "med_udca"
+    t.index ["subject_id"], name: "index_treatments_on_subject_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -214,26 +273,11 @@ ActiveRecord::Schema.define(version: 2020_05_27_184031) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "weekly_c19_surveys", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "tested_past_week"
-    t.text "test_result"
-    t.boolean "hospitalized"
-    t.boolean "respirator"
-    t.text "c19_symptons"
-    t.index ["subject_id"], name: "index_weekly_c19_surveys_on_subject_id"
-  end
-
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "anxieties", "subjects"
-  add_foreign_key "baseline_c19_surveys", "subjects"
+  add_foreign_key "c19_symptoms", "subjects"
   add_foreign_key "comorbidities", "subjects"
-  add_foreign_key "families", "subjects"
   add_foreign_key "hlas", "subjects"
   add_foreign_key "hospitalizations", "subjects"
-  add_foreign_key "medical_histories", "subjects"
-  add_foreign_key "smoking_histories", "subjects"
-  add_foreign_key "weekly_c19_surveys", "subjects"
+  add_foreign_key "risk_factors", "subjects"
+  add_foreign_key "treatments", "subjects"
 end

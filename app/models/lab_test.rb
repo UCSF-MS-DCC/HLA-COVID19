@@ -1,0 +1,2 @@
+class LabTest < ApplicationRecord
+end
