@@ -24,4 +24,11 @@ $(document).on('turbolinks:load', function(){
   
     var clipboard = new Clipboard('.clipboard-btn');
       
+    $('#irb_checkbox').on('change', function(){
+      if ($(this).prop("checked") === true) {
+        $('#file_upload_submit').prop("disabled",false);
+      } else {
+        $('#file_upload_submit').prop("disabled",true);
+      }
+    })
   });

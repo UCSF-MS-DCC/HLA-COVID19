@@ -8,12 +8,13 @@ class UploadController < ApplicationController
     end
 
     def store 
-        current_user.uploads.attach(upload_params[:attachments])
+        unless upload_params[:irb_sharing_approved] == false
+            current_user.uploads.attach(upload_params[:attachments])
+        end
     end
-
 
 end
 
     def upload_params
-        params.require(:user).permit(attachments:[])
+        params.require(:user).permit(:irb_sharing_approved, attachments:[])
     end

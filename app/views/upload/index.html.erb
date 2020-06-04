@@ -18,7 +18,11 @@
             <h5>Upload Files</h5>
             <%= form_for @user, :url => upload_store_path do |f|%>
                 <%= f.file_field :attachments, multiple: true, direct_upload: true %><br /><br />
-                <%= f.submit "Upload Files", :class => "btn btn-primary" %>
+                <div class="row">
+                    <%= f.check_box :irb_sharing_approved, :id => "irb_checkbox", :checked => false, :style => "margin-right:10px;" %>
+                    <%= f.label :irb_sharing_approved, "I am authorized by my IRB/ethics committee to share the data I am uploading.", :style => "font-size:10pt;font-weight:bold;" %>
+                </div>
+                <%= f.submit "Upload Files", :class => "btn btn-primary", :id => "file_upload_submit", :disabled => true %>
             <% end %>
         </div>
     </div>

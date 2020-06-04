@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_31_170221) do
+ActiveRecord::Schema.define(version: 2020_06_04_151204) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -119,6 +119,12 @@ ActiveRecord::Schema.define(version: 2020_05_31_170221) do
     t.string "drbo_2"
     t.string "drb345_1"
     t.string "drb345_2"
+    t.text "reference_database"
+    t.text "reference_database_version"
+    t.text "typing_method_name"
+    t.text "typing_method_version"
+    t.text "gl_string"
+    t.text "novel_polymorphisms"
     t.index ["subject_id"], name: "index_hlas_on_subject_id"
   end
 
