@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_04_151204) do
+ActiveRecord::Schema.define(version: 2020_06_05_163223) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -200,6 +200,8 @@ ActiveRecord::Schema.define(version: 2020_06_04_151204) do
     t.text "lipase"
     t.text "urea"
     t.text "creatinine"
+    t.bigint "subject_id"
+    t.index ["subject_id"], name: "index_lab_tests_on_subject_id"
   end
 
   create_table "risk_factors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
