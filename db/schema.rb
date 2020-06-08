@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_08_163316) do
+ActiveRecord::Schema.define(version: 2020_06_08_212153) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -227,6 +227,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_163316) do
     t.text "ancestry"
     t.integer "height"
     t.integer "weight"
+    t.string "project_name"
   end
 
   create_table "treatments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -270,6 +271,10 @@ ActiveRecord::Schema.define(version: 2020_06_08_163316) do
     t.string "rstudio_password"
     t.boolean "request_rstudio_priv", default: false
     t.boolean "request_upload_priv", default: false
+    t.string "authentication_token", limit: 30
+    t.string "project_owner"
+    t.string "approved_access"
+    t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

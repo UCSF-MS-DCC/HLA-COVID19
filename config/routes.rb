@@ -8,5 +8,7 @@ Rails.application.routes.draw do
   get 'home/ethnicity_data'
   get 'upload/index'
   patch 'upload/store'
+
+  post 'query/data'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
