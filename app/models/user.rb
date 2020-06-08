@@ -8,6 +8,8 @@ class User < ApplicationRecord
   validates_uniqueness_of :email
   has_many_attached :uploads
 
+  before_create :set_default_approved_access
+
   serialize :project_owner, Array
   serialize :approved_access, Array
   
@@ -32,5 +34,9 @@ class User < ApplicationRecord
 
   def inactive_message
     approved ? super : :not_approved
+  end
+
+  def set_default_approved_access 
+    self.approved_access = ["general"]
   end
 end
