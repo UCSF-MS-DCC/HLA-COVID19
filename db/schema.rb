@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_05_163223) do
+ActiveRecord::Schema.define(version: 2020_06_08_163316) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -37,14 +37,13 @@ ActiveRecord::Schema.define(version: 2020_06_05_163223) do
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "c19_test_date"
     t.text "c19_test_result"
     t.boolean "dry_cough"
     t.boolean "mucus_cough"
     t.integer "days_cough"
     t.boolean "difficulty_breathing"
     t.boolean "fever"
-    t.boolean "highest_temp"
+    t.integer "highest_temp"
     t.integer "days_fever"
     t.boolean "fatigue"
     t.boolean "pain_chest_heart"
@@ -53,7 +52,7 @@ ActiveRecord::Schema.define(version: 2020_06_05_163223) do
     t.boolean "sore_throat"
     t.text "loss_taste_smell"
     t.boolean "diarrhea"
-    t.boolean "nauseam"
+    t.boolean "nausea"
     t.text "other_symptoms"
     t.index ["subject_id"], name: "index_c19_symptoms_on_subject_id"
   end
@@ -134,8 +133,6 @@ ActiveRecord::Schema.define(version: 2020_06_05_163223) do
     t.datetime "updated_at", null: false
     t.boolean "icu_admit"
     t.integer "icu_duration_days"
-    t.date "start_date"
-    t.date "end_date"
     t.text "reason_hosp_ended"
     t.boolean "septic_shock"
     t.integer "days_after_c19_septic_shock"
@@ -159,13 +156,13 @@ ActiveRecord::Schema.define(version: 2020_06_05_163223) do
     t.boolean "acute_kidney_chronic"
     t.boolean "ascites"
     t.boolean "dyspnea"
+    t.integer "hospitalization_duration_days"
     t.index ["subject_id"], name: "index_hospitalizations_on_subject_id"
   end
 
   create_table "lab_tests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "result_date"
     t.text "blood_type"
     t.text "rh_factor"
     t.text "wbc"
@@ -230,17 +227,12 @@ ActiveRecord::Schema.define(version: 2020_06_05_163223) do
     t.text "ancestry"
     t.integer "height"
     t.integer "weight"
-    t.boolean "exposed_to_covid19_carrier_20_days"
-    t.text "travel_last_20_days"
-    t.boolean "medical_worker"
   end
 
   create_table "treatments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "start_date"
-    t.date "end_date"
     t.text "ace_inhib"
     t.text "angio_blocker"
     t.text "antibiotics"
@@ -257,6 +249,7 @@ ActiveRecord::Schema.define(version: 2020_06_05_163223) do
     t.text "vitamin_d_med"
     t.text "vitamin_c_med"
     t.text "med_udca"
+    t.integer "treatment_duration_days"
     t.index ["subject_id"], name: "index_treatments_on_subject_id"
   end
 
