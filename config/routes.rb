@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   get 'home/auth'
+  get 'home/access'
   get 'home/age_data'
   get 'home/sex_data'
   get 'home/ethnicity_data'
@@ -10,5 +11,6 @@ Rails.application.routes.draw do
   patch 'upload/store'
 
   post 'query/data'
+  post 'home/approve_users'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

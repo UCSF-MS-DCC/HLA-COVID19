@@ -21,6 +21,9 @@
                         <% if Rails.env == "production" && current_user.rstudio == true %>
                             <li class="dropdown-menu-item"><%= link_to "RStudio server", "https://database-hlacovid19.org/rstudio", target: :_blank, :class => "menu-link" %>
                         <% end %>
+                        <% if !current_user.project_owner.empty? %>
+                            <li class="dropdown-menu-item"><%= link_to "Manage Data Access", home_access_path, :class => "menu-link"%></li>
+                        <% end %>
                         <li class="dropdown-menu-item"><%= link_to "Logout", destroy_user_session_path, :method => 'delete', :class => "menu-link"%></li>
                     </ul>     
                 </div>
@@ -40,3 +43,8 @@
         </div>
     </div>
 </div>
+
+
+
+
+

@@ -1,0 +1,17 @@
+<div class="container-fluid">
+    <div class="row justify-content-md-center">
+        <div class="col-md-10">
+            <h3>Approve Access to data from your project: <span id="project-name-span"><%= current_user.project_owner.first %></h3>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <ul style="list-style-type:none;">
+                <li><input type="checkbox" id="approve_all_checkbox">&nbsp;&nbsp;<b>Approve all users</b></li>
+                <% User.where(approved:true).each_with_index do |user, idx| %>
+                    <li><input type='checkbox' class="user-list" data-email="<%=user.email %>" data-index="<%=idx%>" data-appstatus = <%= (user.approved_access.include? @project ) ? "yes" : "no" %> >&nbsp;&nbsp;<%= user.email %>&nbsp;&nbsp;<span id="status-<%=idx%>"></span></li>
+                <% end %>
+            </ul>
+        </div>
+    </div>
+</div>

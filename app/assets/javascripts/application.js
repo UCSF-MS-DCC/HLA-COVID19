@@ -18,17 +18,67 @@
 //= require activestorage
 //= require turbolinks
 //= require clipboard
+//= require best_in_place
 //= require_tree .
 
 $(document).on('turbolinks:load', function(){  
   
-    var clipboard = new Clipboard('.clipboard-btn');
-      
-    $('#irb_checkbox').on('change', function(){
-      if ($(this).prop("checked") === true) {
-        $('#file_upload_submit').prop("disabled",false);
-      } else {
-        $('#file_upload_submit').prop("disabled",true);
-      }
+  var clipboard = new Clipboard('.clipboard-btn');
+  jQuery(".best_in_place").best_in_place();
+    
+  $('#irb_checkbox').on('change', function(){
+    if ($(this).prop("checked") === true) {
+      $('#file_upload_submit').prop("disabled",false);
+    } else {
+      $('#file_upload_submit').prop("disabled",true);
+    }
+  });
+  /* set default checkbox checked state to reflect whether user is already approved for a project */
+  $('.user-list').each(function(){
+    if ( $(this).data("appstatus") === "yes") {
+      $(this).prop("checked", "true");
+    }
+  })
+
+  $('#approve_all_checkbox').on('change', function(){
+    var userApproved = $(this).prop("checked") == true ? true : false
+    $('.user-list').prop("checked", userApproved)
+    $('.user-list').each(function(idx, obj){
+      var email = $(obj).data("email");
+      var userIndex = $(obj).data("index");
+      $.ajax({
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        type: "POST",
+        url: "/home/approve_users.json",
+        data: {"email":email,"project_name":$('#project-name-span').text(), "approved":userApproved},
+        dataType: "json",
+        success: function(response){
+          var resStatus = response["user_status"]
+          var colorCode = resStatus === "access approved" ? "green" : "red"
+           $('#status-'+userIndex).text(resStatus);
+           $('#status-'+userIndex).css("color", colorCode);
+          }
+      });
     })
   });
+  /* listens on checkboxes on the user access management page & updates user approved access lists with AJAX calls */
+  $('.user-list').on('change', function(){
+    var userApproved = $(this).prop("checked") == true ? true : false
+      var email = $(this).data("email")
+      var userIndex = $(this).data("index")
+      $.ajax({
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        type: "POST",
+        url: "/home/approve_users.json",
+        data: {"email":email,"project_name":$('#project-name-span').text(), "approved":userApproved},
+        dataType: "json",
+        success: function(response){
+          var resStatus = response["user_status"]
+          var colorCode = resStatus === "access approved" ? "green" : "red"
+           $('#status-'+userIndex).text(resStatus);
+           $('#status-'+userIndex).css("color", colorCode);
+          }
+      });
+
+  })
+});
