@@ -18,7 +18,6 @@
 //= require activestorage
 //= require turbolinks
 //= require clipboard
-//= require best_in_place
 //= require_tree .
 
 $(document).on('turbolinks:load', function(){  

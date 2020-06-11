@@ -12,5 +12,7 @@ Rails.application.routes.draw do
 
   post 'query/data'
   post 'home/approve_users'
+
+  get '*unmatched', to: 'error#error_404', via: :all, as: 'error'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
