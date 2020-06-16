@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_08_212153) do
+ActiveRecord::Schema.define(version: 2020_06_16_223613) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -37,7 +37,6 @@ ActiveRecord::Schema.define(version: 2020_06_08_212153) do
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "c19_test_result"
     t.boolean "dry_cough"
     t.boolean "mucus_cough"
     t.integer "days_cough"
@@ -54,6 +53,8 @@ ActiveRecord::Schema.define(version: 2020_06_08_212153) do
     t.boolean "diarrhea"
     t.boolean "nausea"
     t.text "other_symptoms"
+    t.boolean "c19_test_result_positive"
+    t.boolean "patient_self_reported_postive"
     t.index ["subject_id"], name: "index_c19_symptoms_on_subject_id"
   end
 
@@ -157,6 +158,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_212153) do
     t.boolean "ascites"
     t.boolean "dyspnea"
     t.integer "hospitalization_duration_days"
+    t.boolean "hospitalization_admit"
     t.index ["subject_id"], name: "index_hospitalizations_on_subject_id"
   end
 
@@ -205,10 +207,10 @@ ActiveRecord::Schema.define(version: 2020_06_08_212153) do
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "smoke_100"
     t.text "smoke_freq"
     t.text "alcohol_freq"
     t.text "substances_freq"
+    t.boolean "smoke"
     t.index ["subject_id"], name: "index_risk_factors_on_subject_id"
   end
 
@@ -225,9 +227,10 @@ ActiveRecord::Schema.define(version: 2020_06_08_212153) do
     t.text "ethnicity"
     t.boolean "pregnant"
     t.text "ancestry"
-    t.integer "height"
-    t.integer "weight"
+    t.integer "height_cm"
+    t.integer "weight_kg"
     t.string "project_name"
+    t.text "race"
   end
 
   create_table "treatments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
