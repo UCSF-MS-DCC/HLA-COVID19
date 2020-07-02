@@ -10,7 +10,12 @@ class UploadController < ApplicationController
     def store 
         unless upload_params[:irb_sharing_approved] == false
             current_user.uploads.attach(upload_params[:attachments])
+            current_user.upload_filename_check
         end
+        # current_user.uploads.each do |u|
+        #     puts "FILE: #{u.filename}"
+        # end
+        redirect_to action: "index"
     end
 
 end
