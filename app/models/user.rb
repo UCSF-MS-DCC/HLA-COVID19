@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many_attached :uploads
 
   before_create :set_default_approved_access
+  after_update :upload_filename_check
 
   serialize :project_owner, Array
   serialize :approved_access, Array
@@ -38,5 +39,16 @@ class User < ApplicationRecord
 
   def set_default_approved_access 
     self.approved_access = ["general"]
+  end
+
+  def upload_filename_check
+    self.uploads.each do |u|
+      unless u.filename.to_s.match(/^'#{self.rstudio_username}'/)
+        puts "NO MATCH: #{u.filename}"
+        u.update(filename:"#{self.rstudio_username}_#{u.filename}")
+        puts "UPDATED: #{u.filename}"
+        system("pwd")
+      end
+    end
   end
 end

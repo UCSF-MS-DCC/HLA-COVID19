@@ -7,7 +7,6 @@ class SubjectSerializer < ActiveModel::Serializer
   has_one :risk_factor
   has_one :treatment
   attributes Subject.column_names.reject{ |c| ["id", "created_at", "updated_at"].include? c }
-
   def hla
     if @instance_options[:hla] == true
       @atts = object.hla.attributes.reject{ |c| ["id", "subject_id", "created_at", "updated_at"].include? c }
@@ -15,17 +14,17 @@ class SubjectSerializer < ActiveModel::Serializer
       @atts.each_with_object({}) { |(k, v), memo| memo[@hla_aliases[k] || k] = v }
       @atts
     else
-      "N/A"
+      "not requested"
     end
   end
 
   def c19_symptom
-    if @instance_options[:c19_symptom] == true
+    if @instance_options[:c19_symptoms] == true
       @atts = object.c19_symptom.attributes.reject{ |c| ["id", "subject_id", "created_at", "updated_at"].include? c }
       @c19_aliases = C19Symptom.attribute_aliases.invert
       @atts.each_with_object({}) { |(k, v), memo| memo[@c19_aliases[k] || k] = v }
     else
-      "N/A"
+      "not requested"
     end
   end
   def comorbidity
@@ -34,7 +33,7 @@ class SubjectSerializer < ActiveModel::Serializer
       @com_aliases = Comorbidity.attribute_aliases.invert
       @atts.each_with_object({}) { |(k, v), memo| memo[@com_aliases[k] || k] = v }
     else
-      "N/A"
+      "not requested"
     end
   end
   def hospitalization
@@ -43,7 +42,7 @@ class SubjectSerializer < ActiveModel::Serializer
       @hosp_aliases = Hospitalization.attribute_aliases.invert
       @atts.each_with_object({}) { |(k, v), memo| memo[@hosp_aliases[k] || k] = v }
     else
-      "N/A"
+      "not requested"
     end
   end
   def lab_test
@@ -52,7 +51,7 @@ class SubjectSerializer < ActiveModel::Serializer
       @lt_aliases = LabTest.attribute_aliases.invert
       @atts.each_with_object({}) { |(k, v), memo| memo[@lt_aliases[k] || k] = v }
     else
-      "N/A"
+      "not requested"
     end
   end
   def risk_factor
@@ -61,7 +60,7 @@ class SubjectSerializer < ActiveModel::Serializer
       @rf_aliases = RiskFactor.attribute_aliases.invert
       @atts.each_with_object({}) { |(k, v), memo| memo[@rf_aliases[k] || k] = v }
     else
-      "N/A"
+      "not requested"
     end
   end
   def treatment
@@ -70,7 +69,7 @@ class SubjectSerializer < ActiveModel::Serializer
       @tmt_aliases = Treatment.attribute_aliases.invert
       @atts.each_with_object({}) { |(k, v), memo| memo[@tmt_aliases[k] || k] = v }
     else
-      "N/A"
+      "not requested"
     end
   end
 end

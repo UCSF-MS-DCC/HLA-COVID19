@@ -15,6 +15,7 @@ gem 'clipboard-rails'
 gem 'cancancan'
 gem 'simple_token_authentication', '~> 1.0'
 gem 'active_model_serializers', '~> 0.10'
+gem 'faker'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets

@@ -23,7 +23,6 @@
 $(document).on('turbolinks:load', function(){  
   
   var clipboard = new Clipboard('.clipboard-btn');
-  jQuery(".best_in_place").best_in_place();
     
   $('#irb_checkbox').on('change', function(){
     if ($(this).prop("checked") === true) {

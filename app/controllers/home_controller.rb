@@ -17,6 +17,7 @@ class HomeController < ApplicationController
         @project = current_user.project_owner.first
     end
     def approve_users
+        puts "APPROVED USERS PARAMS: #{approved_users_params}"
         @user = User.find_by(email:approved_users_params[:email])
         proj_list = @user.approved_access
         approval_status = approved_users_params[:approved]
