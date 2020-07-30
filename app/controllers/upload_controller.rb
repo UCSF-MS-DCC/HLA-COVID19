@@ -42,32 +42,47 @@ class UploadController < ApplicationController
                         # flow control here for different upload types.
                         if upload_type == "new_subject"
                             csv.each do |row|
-                                if current_user.projects.find_by(name:row["project_name"]).nil?
-                                    puts current_user.projects.pluck(:name)
+                                # if no project_name in csv, add to user's existing project 
+                                if !row["project_name"] || !csv.headers.include?("project_name")
+                                    puts "LINE 47"
+                                    unless current_user.projects.size > 0# if no project_name in csv and no projects in user's list, create a default project name
+                                        puts "CREATING DEFAULT PROJECT"
+                                        current_user.update_attributes(project_name:["MyDataset"])
+                                    end
+                                    @project = current_user.projects.first
+                                    puts "LINE 53, PROJECT: #{@project.to_json}"
+                                # if project_name exists in csv but is not in user's list, create a new project to add subjects to
+                                elsif current_user.projects.find_by(name:row["project_name"]).nil?
+                                    puts "LINE 54"
                                     user_projects = current_user.project_name.concat([row["project_name"]])
                                     current_user.update_attributes(project_name:user_projects)
-                                    puts current_user.projects.pluck(:name)
+                                    @project = current_user.projects.find_by(name:row["project_name"])
+                                else 
+                                    puts "LINE 59"
+                                    @project = current_user.projects.find_by(name:row["project_name"])
                                 end
-                                @project = current_user.projects.find_by(name:row["project_name"])
-                                puts "PROJECT ID: #{@project.id}"
                                 datapoints = helpers.parse_row(row)
                                 subject = Subject.find_by(origin_identifier: datapoints[:subject]["origin_identifier"]) # need to guard against subjects with the same ids from being overwritten
                                 if subject.nil?
                                     @subject = Subject.new(datapoints[:subject])
                                     @subject["project_id"] = @project.id
-                                    if !@subject.project_name.nil? && @subject.save 
+                                    puts "SUBJECT BEFORE SAVE: #{@subject.to_json}"
+                                    if !@subject.project_id.nil? && @subject.save 
                                         subjects_n += 1
                                         helpers.build_relations(@subject, datapoints)
+                                    else
+                                        puts "SUBJECT ERRORS: #{@subject.errors.to_json}"
                                     end
                                     #log result of save attempt to log file
                                 else
+                                    puts "LINE 73"
                                     # subject.update_attributes(datapoints[:subject])
                                     # if errors from the update, capture on log file
                                 end
                             end
                             UploadRecord.new(active_storage_attachment_id:current_user.uploads.order("created_at ASC").last.id, subjects:subjects_n,
                             csv_file:csv_attached, irb_approved_checkbox:irb_approved, upload_filename:filename, uploaded_by:current_user.email,
-                            upload_type:upload_type).save
+                            upload_type:upload_type, project:@project.name).save
                         # longitudinal data (c19 symptoms, labtests, hospitalizations(if they've been more than once)) can be added to existing patients
                         elsif upload_type == "long_data"
                             csv.each do |row|
@@ -79,7 +94,7 @@ class UploadController < ApplicationController
                             end
                             UploadRecord.new(active_storage_attachment_id:current_user.uploads.order("created_at ASC").last.id, subjects:subjects_n,
                             csv_file:csv_attached, irb_approved_checkbox:irb_approved, upload_filename:filename, uploaded_by:current_user.email,
-                            upload_type:upload_type).save
+                            upload_type:upload_type, project:@project.name).save
                         # elsif upload_type == "correction"
                         end
                         gflash :success => "Data upload successful"
@@ -114,6 +129,7 @@ class UploadController < ApplicationController
         file = Tempfile.new("HLAC19_tempfile_#{upload_record.created_at.strftime('%Y%m%d%H%M')}")
         file.write("User: #{upload_record.uploaded_by}\n")
         file.write("Filename: #{upload_record.upload_filename}\n")
+        file.write("Project: #{upload_record.project}\n")
         file.write("Data depositing approved by IRB/ethics board? #{upload_record.irb_approved_checkbox}\n")
         file.write("Upload time: #{upload_record.created_at.strftime('%b %d, %Y %H:%M')}\n")
         file.write("Upload type: #{upload_record.upload_type}\n")

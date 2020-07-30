@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_30_001950) do
+ActiveRecord::Schema.define(version: 2020_07_30_165923) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -278,6 +278,7 @@ ActiveRecord::Schema.define(version: 2020_07_30_001950) do
     t.string "upload_filename"
     t.string "uploaded_by"
     t.string "upload_type"
+    t.string "project"
     t.index ["active_storage_attachment_id"], name: "index_upload_records_on_active_storage_attachment_id"
   end
 
