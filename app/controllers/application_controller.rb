@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
     protected
   
     def configure_permitted_parameters
-      devise_parameter_sanitizer.permit(:sign_up, keys: [:affiliation, :request_rstudio_priv, :request_upload_priv])
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:affiliation, :request_rstudio_priv, :request_upload_priv, :project_owner, :project_name])
+      devise_parameter_sanitizer.permit(:account_update, keys: [:affiliation, :request_rstudio_priv, :request_upload_priv, :project_owner, :project_name])
     end
 end

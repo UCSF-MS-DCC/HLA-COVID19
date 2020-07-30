@@ -8,9 +8,12 @@ Rails.application.routes.draw do
   get 'home/sex_data'
   get 'home/ethnicity_data'
   get 'upload/index'
+  get 'upload/get_report'
+  patch 'upload/import_data'
   patch 'upload/store'
 
   post 'query/data'
+  post 'query/import_hla'
   post 'home/approve_users'
 
   get '*unmatched', to: 'error#error_404', via: :all, as: 'error'

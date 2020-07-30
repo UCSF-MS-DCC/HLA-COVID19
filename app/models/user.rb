@@ -7,13 +7,31 @@ class User < ApplicationRecord
   #after_create :send_new_account_notification
   validates_uniqueness_of :email
   has_many_attached :uploads
+  has_many :projects, :dependent => :delete_all
+  validates :uploads, blob: { content_type: 'text/csv' }
+  accepts_nested_attributes_for :projects
+  after_create :make_projects
+  after_update :make_projects
 
-  before_create :set_default_approved_access
   after_update :upload_filename_check
 
-  serialize :project_owner, Array
   serialize :approved_access, Array
+  serialize :project_name, Array
   
+  def make_projects
+    if self.project_owner == true && self.project_name.count > 0
+      self.project_name.each do |pname|
+        unless self.projects.where(name:pname).count == 1
+          Project.new(user_id:self.id, name:pname).save
+        end
+      end
+    end
+  end
+
+  def make_additional_project
+  end
+
+
   def send_new_account_notification
     AdminMailer.new_user_waiting_for_approval(email).deliver
     AdminMailer.new_user_notice(email).deliver
@@ -35,10 +53,6 @@ class User < ApplicationRecord
 
   def inactive_message
     approved ? super : :not_approved
-  end
-
-  def set_default_approved_access 
-    self.approved_access = ["general"]
   end
 
   def upload_filename_check

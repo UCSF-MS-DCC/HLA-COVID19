@@ -6,8 +6,12 @@ class Ability
   def initialize(user)
     alias_action :index, :show, :data, :to => :read
     if user.approved?
-      can :read, Subject, project_name:user.approved_access
+      can :read, Subject, project_id:user.approved_access
     end
+    if user.project_owner
+      can :import_hla, Subject, project_name:user.project_owner
+      can :import_data, Project, name:user.project_owner
+    end 
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

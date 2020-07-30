@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_06_185904) do
+ActiveRecord::Schema.define(version: 2020_07_30_001950) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -150,7 +150,7 @@ ActiveRecord::Schema.define(version: 2020_07_06_185904) do
     t.text "pneumonia"
     t.integer "pneumonia_days_after_c19_symptoms"
     t.decimal "ef_echo", precision: 10
-    t.boolean "hepatits"
+    t.boolean "hepatitis"
     t.boolean "pancreatitis"
     t.boolean "pleural_effusion"
     t.boolean "acute_kidney_failure"
@@ -203,6 +203,14 @@ ActiveRecord::Schema.define(version: 2020_07_06_185904) do
     t.index ["subject_id"], name: "index_lab_tests_on_subject_id"
   end
 
+  create_table "projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_projects_on_user_id"
+  end
+
   create_table "risk_factors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
     t.datetime "created_at", null: false
@@ -231,6 +239,8 @@ ActiveRecord::Schema.define(version: 2020_07_06_185904) do
     t.integer "weight_kg"
     t.string "project_name"
     t.text "race"
+    t.bigint "project_id"
+    t.index ["project_id"], name: "index_subjects_on_project_id"
   end
 
   create_table "treatments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -257,6 +267,20 @@ ActiveRecord::Schema.define(version: 2020_07_06_185904) do
     t.index ["subject_id"], name: "index_treatments_on_subject_id"
   end
 
+  create_table "upload_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "active_storage_attachment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "subjects"
+    t.string "bad_columns"
+    t.boolean "csv_file"
+    t.boolean "irb_approved_checkbox"
+    t.string "upload_filename"
+    t.string "uploaded_by"
+    t.string "upload_type"
+    t.index ["active_storage_attachment_id"], name: "index_upload_records_on_active_storage_attachment_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -275,18 +299,22 @@ ActiveRecord::Schema.define(version: 2020_07_06_185904) do
     t.boolean "request_rstudio_priv", default: false
     t.boolean "request_upload_priv", default: false
     t.string "authentication_token", limit: 30
-    t.string "project_owner"
     t.string "approved_access"
+    t.boolean "project_owner"
+    t.string "project_name"
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "c19_symptoms", "subjects"
-  add_foreign_key "comorbidities", "subjects"
-  add_foreign_key "hlas", "subjects"
-  add_foreign_key "hospitalizations", "subjects"
-  add_foreign_key "risk_factors", "subjects"
-  add_foreign_key "treatments", "subjects"
+  add_foreign_key "c19_symptoms", "subjects", on_delete: :cascade
+  add_foreign_key "comorbidities", "subjects", on_delete: :cascade
+  add_foreign_key "hlas", "subjects", on_delete: :cascade
+  add_foreign_key "hospitalizations", "subjects", on_delete: :cascade
+  add_foreign_key "projects", "users", on_delete: :cascade
+  add_foreign_key "risk_factors", "subjects", on_delete: :cascade
+  add_foreign_key "subjects", "projects", on_delete: :cascade
+  add_foreign_key "treatments", "subjects", on_delete: :cascade
+  add_foreign_key "upload_records", "active_storage_attachments"
 end

@@ -1,11 +1,11 @@
 class SubjectSerializer < ActiveModel::Serializer
   has_one :hla
-  has_one :c19_symptom
+  has_many :c19_symptom
   has_one :comorbidity
-  has_one :hospitalization
-  has_one :lab_test
+  has_many :hospitalization
+  has_many :lab_test
   has_one :risk_factor
-  has_one :treatment
+  has_many :treatment
   attributes Subject.column_names.reject{ |c| ["id", "created_at", "updated_at"].include? c }
   def hla
     if @instance_options[:hla] == true
@@ -20,7 +20,7 @@ class SubjectSerializer < ActiveModel::Serializer
 
   def c19_symptom
     if @instance_options[:c19_symptoms] == true
-      @atts = object.c19_symptom.attributes.reject{ |c| ["id", "subject_id", "created_at", "updated_at"].include? c }
+      @atts = object.c19_symptom.first.attributes.reject{ |c| ["id", "subject_id", "created_at", "updated_at"].include? c }
       @c19_aliases = C19Symptom.attribute_aliases.invert
       @atts.each_with_object({}) { |(k, v), memo| memo[@c19_aliases[k] || k] = v }
     else

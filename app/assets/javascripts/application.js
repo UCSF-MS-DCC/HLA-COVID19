@@ -18,6 +18,8 @@
 //= require activestorage
 //= require turbolinks
 //= require clipboard
+//= require gritter
+//= require jquery_nested_form
 //= require_tree .
 
 $(document).on('turbolinks:load', function(){  
@@ -78,5 +80,15 @@ $(document).on('turbolinks:load', function(){
           }
       });
 
-  })
+  });
+  $('#upload-priv-checkbox').on('change', function(){
+    if ($(this).prop("checked") === false) {
+      $('#project-name-box').val('');
+      $('#project-name-box').prop('disabled',true)
+    } else {
+      $('#project-name-box').prop('disabled',false)
+    }
+  });
+  /* listens on keyup events in the text box where users enter their proposed project names and relays to the controller to check for */
+
 });
