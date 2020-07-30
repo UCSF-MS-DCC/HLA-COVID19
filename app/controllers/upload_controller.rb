@@ -42,13 +42,19 @@ class UploadController < ApplicationController
                         # flow control here for different upload types.
                         if upload_type == "new_subject"
                             csv.each do |row|
-                                proj_id = (current_user.projects.find_by(name:row["project_name"]).nil?) ? nil : current_user.projects.find_by(name:row["project_name"]).id
-                                puts "PROJECT ID: #{proj_id}"
+                                if current_user.projects.find_by(name:row["project_name"]).nil?
+                                    puts current_user.projects.pluck(:name)
+                                    user_projects = current_user.project_name.concat([row["project_name"]])
+                                    current_user.update_attributes(project_name:user_projects)
+                                    puts current_user.projects.pluck(:name)
+                                end
+                                @project = current_user.projects.find_by(name:row["project_name"])
+                                puts "PROJECT ID: #{@project.id}"
                                 datapoints = helpers.parse_row(row)
                                 subject = Subject.find_by(origin_identifier: datapoints[:subject]["origin_identifier"]) # need to guard against subjects with the same ids from being overwritten
                                 if subject.nil?
                                     @subject = Subject.new(datapoints[:subject])
-                                    @subject["project_id"] = proj_id
+                                    @subject["project_id"] = @project.id
                                     if !@subject.project_name.nil? && @subject.save 
                                         subjects_n += 1
                                         helpers.build_relations(@subject, datapoints)

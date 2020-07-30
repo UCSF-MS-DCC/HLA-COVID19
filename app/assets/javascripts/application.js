@@ -90,5 +90,5 @@ $(document).on('turbolinks:load', function(){
     }
   });
   /* listens on keyup events in the text box where users enter their proposed project names and relays to the controller to check for */
-
+  
 });
