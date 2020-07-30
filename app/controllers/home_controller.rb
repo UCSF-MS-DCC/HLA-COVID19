@@ -14,38 +14,17 @@ class HomeController < ApplicationController
     def account
     end
     def access
-        @project = current_user.project_owner.first
+        @projects = current_user.projects
     end
     def approve_users
-        puts "APPROVED USERS PARAMS: #{approved_users_params}"
-        @user = User.find_by(email:approved_users_params[:email])
-        proj_list = @user.approved_access
-        approval_status = approved_users_params[:approved]
-        project = approved_users_params[:project_name]
-        status_flag = nil
+        @user = User.find(approved_users_params[:user].to_i)
+        approved_list = approved_users_params[:approved] == "true" ? @user.approved_access.concat([approved_users_params[:project].to_i]) : @user.approved_access - [approved_users_params[:project].to_i]
+        @user.update_attributes(approved_access:approved_list)
 
-        if approval_status == "true"
-            unless proj_list.include? project
-                proj_list.push(project)
-                status_flag = "access approved"
-            end
+        status = (@user.approved_access.include?(approved_users_params[:project].to_i)) ? "access approved" : "no access"
+        respond_to do |format|
+            format.json { render json: {"user_status": status }, status: :ok}
         end
-        if approval_status == "false"
-            idx = proj_list.index(project)
-            proj_list.delete_at(idx)
-            puts proj_list
-            status_flag = "access removed"
-        end
-        if @user.update_attributes(approved_access:proj_list)
-            respond_to do |format|
-                format.json { render json: {"user_status": status_flag}, status: :ok}
-            end
-        else
-            respond_to do |format|
-                format.json { render json: {"error": "could not approve this user"}, status: :unprocessable_entity}
-            end
-        end
-
     end
     def age_data
         results = ActiveRecord::Base.connection.execute("select age, count(*) from subjects group by age")
@@ -72,6 +51,6 @@ class HomeController < ApplicationController
     private
 
     def approved_users_params
-        params.permit(:project_name, :email, :approved)
+        params.permit(:user, :project, :approved)
     end
 end

@@ -63,14 +63,14 @@ $(document).on('turbolinks:load', function(){
   });
   /* listens on checkboxes on the user access management page & updates user approved access lists with AJAX calls */
   $('.user-list').on('change', function(){
-    var userApproved = $(this).prop("checked") == true ? true : false
-      var email = $(this).data("email")
-      var userIndex = $(this).data("index")
+      var access_approved = $(this).prop("checked") == true ? true : false
+      var user_id = $(this).data("userid")
+      var project_id = $(this).data("projectid")
       $.ajax({
         beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
         type: "POST",
         url: "/home/approve_users.json",
-        data: {"email":email,"project_name":$('#project-name-span').text(), "approved":userApproved},
+        data: {"user":user_id,"project":project_id, "approved":access_approved},
         dataType: "json",
         success: function(response){
           var resStatus = response["user_status"]
@@ -90,5 +90,5 @@ $(document).on('turbolinks:load', function(){
     }
   });
   /* listens on keyup events in the text box where users enter their proposed project names and relays to the controller to check for */
-  
+
 });
