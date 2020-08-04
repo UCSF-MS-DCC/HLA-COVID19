@@ -48,6 +48,10 @@ p {
 .nav-item {
   font-family: $secondary-font;
 }
+.nav-link {
+  color:black !important;
+  font-weight: bold;
+}
 .main-view {
   min-height:100%;
 }
