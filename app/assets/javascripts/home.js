@@ -20,7 +20,8 @@ $(document).on('turbolinks:load',function(){
             bar: {groupWidth: "61.8%"},
             legend: { position: "none" },
             width: "100%",
-            height: 400
+            height: 400,
+            backgroundColor: { fill:'transparent' }
           };
     
           var chart = new google.visualization.ColumnChart(document.getElementById('age-chart'));
@@ -48,6 +49,7 @@ $(document).on('turbolinks:load',function(){
             legend: { position: "bottom" },
             width: "95%",
             height: 400,
+            backgroundColor: { fill:'transparent' }
           };
     
           var chart = new google.visualization.PieChart(document.getElementById('sex-chart'));
@@ -73,7 +75,8 @@ $(document).on('turbolinks:load',function(){
             legend: { position: "bottom" },
             width: "95%",
             height: 400,
-            colors:['purple','green','orange','blue']
+            colors:['purple','green','orange','blue'],
+            backgroundColor: { fill:'transparent' }
           };
     
           var chart = new google.visualization.PieChart(document.getElementById('ethnicity-chart'));

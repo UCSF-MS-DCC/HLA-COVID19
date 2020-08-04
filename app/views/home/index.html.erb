@@ -1,35 +1,11 @@
-<div class="container-fluid" >
-    <div class="row" id="home-page-card">
-        <div class="col-md-5">
-            <div id="title-placement-box">
-                <h1 id="title-text">HLA-COVID19 Database</h1>
-            </div>
+<div class="container-fluid main-view" >
+    <div class="row justify-content-md-center" style="margin-top:40px;margin-bottom:50px;">
+        <div class="col-10">
+            <h2>HLA | COVID19 Database portal</h2>
+            <br>
+            <p>From here, users may register for an account, view summary statistics, upload data and manage access to it, and request access to the consortium's online
+            HLA imputation tool and RStudio Server platform.<p>
         </div>
-        <% if !current_user %>
-            <div class="col-md-3 ml-auto" id="session-links">
-                <%= link_to "Log In / Register Account", home_auth_path, :class => "session-link"%>
-            </div>
-        <% else %>
-            <div class="col-md-3 ml-auto" id="session-links">
-                <div class="dropdown">
-                    <button class="btn btn-trans dropdown-toggle" type="button" data-toggle="dropdown" id="main-dropdown-button-text"><%= current_user.email %><span class="caret"></span></button>
-                    <ul class="dropdown-menu" style="padding-left:25px;">
-                        <li class="dropdown-menu-item"><%= link_to "My Account", edit_user_registration_path, :class => "menu-link"%></li>
-                        <% if current_user.can_upload == true %>
-                            <li class="dropdown-menu-item"><%= link_to "My File Uploads", upload_index_path, :class => "menu-link"%></li>
-                        <% end %>
-                        <% if Rails.env == "production" && current_user.rstudio == true %>
-                            <li class="dropdown-menu-item"><%= link_to "RStudio server", "https://database-hlacovid19.org/rstudio", target: :_blank, :class => "menu-link" %>
-                        <% end %>
-                        <% if current_user.project_owner %>
-                            <li class="dropdown-menu-item"><%= link_to "Manage Data Access", home_access_path, :class => "menu-link"%></li>
-                        <% end %>
-                        <li class="dropdown-menu-item"><%= link_to "Logout", destroy_user_session_path, :method => 'delete', :class => "menu-link"%></li>
-                    </ul>     
-                </div>
-                <%= render "devise/shared/error_messages", resource: @user %>
-            </div>
-        <% end %>
     </div>
     <div class="row justify-content-md-center">
         <div class="col-md-4">

@@ -13,6 +13,44 @@
  @import "bootstrap";
  @import "gritter";
 
+ //site color variables
+$body-color: #fff;
+$primary-color: #326CA7;
+$secondary-color: #B9B9B9;
+$text-color: #9e9fa6;
+$text-color-dark: #00113E;
+$site-ease: cubic-bezier(0.36, 0.03, 0, 0.91);
+$gray: #F7F9FF;
+$dark-gray: #646569;
+
+// solid colors
+$white: #fff;
+$black: #000;
+
+// Font Variables
+$primary-font: 'Josefin Sans', sans-serif;
+$secondary-font: 'Montserrat', sans-serif;
+html { height: 100%;}
+body {
+  height:100%;
+  background-image: image_url("largefadedcovid_square.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 750px auto;
+}
+h2 {
+  font-family: $secondary-font;
+  font-weight: bold;
+}
+p {
+  font-family: $secondary-font !important;
+}
+.nav-item {
+  font-family: $secondary-font;
+}
+.main-view {
+  min-height:100%;
+}
  #home-page-card {
     background-image: image_url("coronavirus-banner2.png");
     min-height:350px;
