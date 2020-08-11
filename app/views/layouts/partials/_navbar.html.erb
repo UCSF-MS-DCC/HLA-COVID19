@@ -13,13 +13,13 @@
             <li class="nav-item"><%= link_to "Log In / Register Account", home_auth_path, :class => "nav-link"%></li>
         <% else %>
             <% if current_user.can_upload == true %>
-                <li class="dropdown-menu-item"><%= link_to "File Uploads", upload_index_path, :class => "nav-link"%></li>
+                <li class="nav-item"><%= link_to "File Uploads", upload_index_path, :class => "nav-link"%></li>
             <% end %>
             <% if Rails.env == "production" && current_user.rstudio == true %>
-                <li class="dropdown-menu-item"><%= link_to "RStudio server", "https://database-hlacovid19.org/rstudio", target: :_blank, :class => "nav-link" %>
+                <li class="nav-item"><%= link_to "RStudio server", "https://database-hlacovid19.org/rstudio", target: :_blank, :class => "nav-link" %>
             <% end %>
             <% if current_user.project_owner %>
-                <li class="dropdown-menu-item"><%= link_to "Manage Data Access", home_access_path, :class => "nav-link"%></li>
+                <li class="nav-item"><%= link_to "Manage Data Access", home_access_path, :class => "nav-link"%></li>
             <% end %>
             <li><%= link_to "My Account", edit_user_registration_path, :class => "nav-link"%></li>
             <li><%= link_to "Logout", destroy_user_session_path, :method => 'delete', :class => "nav-link"%></li>
