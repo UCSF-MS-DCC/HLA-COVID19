@@ -21,8 +21,8 @@
             <% if current_user.project_owner %>
                 <li class="nav-item"><%= link_to "Manage Data Access", home_access_path, :class => "nav-link"%></li>
             <% end %>
-            <li><%= link_to "My Account", edit_user_registration_path, :class => "nav-link"%></li>
-            <li><%= link_to "Logout", destroy_user_session_path, :method => 'delete', :class => "nav-link"%></li>
+            <li class="nav-item"><%= link_to "My Account", edit_user_registration_path, :class => "nav-link"%></li>
+            <li class="nav-item"><%= link_to "Logout", destroy_user_session_path, :method => 'delete', :class => "nav-link"%></li>
         <% end %>
       </li>
 
