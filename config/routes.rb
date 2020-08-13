@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   post 'query/data'
   post 'query/import_hla'
+  post 'query/check_user_credentials'
   post 'home/approve_users'
 
   get '*unmatched', to: 'error#error_404', via: :all, as: 'error'

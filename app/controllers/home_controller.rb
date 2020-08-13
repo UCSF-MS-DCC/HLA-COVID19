@@ -27,21 +27,21 @@ class HomeController < ApplicationController
         end
     end
     def age_data
-        results = ActiveRecord::Base.connection.execute("select age, count(*) from subjects group by age")
+        results = ActiveRecord::Base.connection.execute("select age, count(*) from subjects s join projects p on s.project_id = p.id and p.name != 'TEST' group by age")
         respond_to do |format|
             format.html
             format.json { render json: { :data => results }, status: :ok }
         end
     end
     def sex_data
-        results = ActiveRecord::Base.connection.execute("select sex, count(*) from subjects group by sex")
+        results = ActiveRecord::Base.connection.execute("select sex, count(*) from subjects s join projects p on s.project_id = p.id and p.name != 'TEST' group by sex")
         respond_to do |format|
             format.html
             format.json { render json: { :data => results }, status: :ok }
         end
     end
     def ethnicity_data
-        results = ActiveRecord::Base.connection.execute("select ethnicity, count(*) from subjects group by ethnicity")
+        results = ActiveRecord::Base.connection.execute("select ethnicity, count(*) from subjects s join projects p on s.project_id = p.id and p.name != 'TEST' group by ethnicity")
         respond_to do |format|
             format.html
             format.json { render json: { :data => results }, status: :ok }

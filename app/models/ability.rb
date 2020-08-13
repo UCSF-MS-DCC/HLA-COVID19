@@ -5,10 +5,10 @@ class Ability
 
   def initialize(user)
     alias_action :index, :show, :data, :to => :read
-    if user.approved?
+    if user && user.approved?
       can :read, Subject, project_id:user.approved_access
     end
-    if user.project_owner
+    if user && user.project_owner
       can :import_hla, Subject, project_name:user.project_owner
       can :import_data, Project, name:user.project_owner
     end 
