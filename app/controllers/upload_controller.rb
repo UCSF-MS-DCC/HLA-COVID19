@@ -44,21 +44,16 @@ class UploadController < ApplicationController
                             csv.each do |row|
                                 # if no project_name in csv, add to user's existing project 
                                 if !row["project_name"] || !csv.headers.include?("project_name")
-                                    puts "LINE 47"
                                     unless current_user.projects.size > 0# if no project_name in csv and no projects in user's list, create a default project name
-                                        puts "CREATING DEFAULT PROJECT"
                                         current_user.update_attributes(project_name:["MyDataset"])
                                     end
                                     @project = current_user.projects.first
-                                    puts "LINE 53, PROJECT: #{@project.to_json}"
                                 # if project_name exists in csv but is not in user's list, create a new project to add subjects to
                                 elsif current_user.projects.find_by(name:row["project_name"]).nil?
-                                    puts "LINE 54"
                                     user_projects = current_user.project_name.concat([row["project_name"]])
                                     current_user.update_attributes(project_name:user_projects)
                                     @project = current_user.projects.find_by(name:row["project_name"])
                                 else 
-                                    puts "LINE 59"
                                     @project = current_user.projects.find_by(name:row["project_name"])
                                 end
                                 datapoints = helpers.parse_row(row)
@@ -66,16 +61,13 @@ class UploadController < ApplicationController
                                 if subject.nil?
                                     @subject = Subject.new(datapoints[:subject])
                                     @subject["project_id"] = @project.id
-                                    puts "SUBJECT BEFORE SAVE: #{@subject.to_json}"
                                     if !@subject.project_id.nil? && @subject.save 
                                         subjects_n += 1
                                         helpers.build_relations(@subject, datapoints)
                                     else
-                                        puts "SUBJECT ERRORS: #{@subject.errors.to_json}"
                                     end
                                     #log result of save attempt to log file
                                 else
-                                    puts "LINE 73"
                                     # subject.update_attributes(datapoints[:subject])
                                     # if errors from the update, capture on log file
                                 end
