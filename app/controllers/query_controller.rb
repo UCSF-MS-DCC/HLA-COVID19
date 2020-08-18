@@ -20,8 +20,8 @@ class QueryController < ApplicationController
         if !import_params[:project_name]
             message += "No project name, cannot load data."
             @project = nil
-        elsif !current_user.projects.find_by(project_name:import_params[:project_name]).nil?
-            @project = current_user.projects.find_by(project_name:import_params[:project_name])
+        elsif !current_user.projects.find_by(name:import_params[:project_name]).nil?
+            @project = current_user.projects.find_by(name:import_params[:project_name])
             message += "#{import_params[:project_name]} found, searching for subject. "
         end
         if @project
