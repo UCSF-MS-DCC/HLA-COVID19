@@ -22,17 +22,17 @@ class QueryController < ApplicationController
             @project = nil
         elsif !current_user.projects.find_by(name:import_params[:project_name]).nil?
             @project = current_user.projects.find_by(name:import_params[:project_name])
-            message += "#{import_params[:project_name]} found, searching for subject. "
+            message += "User project #{import_params[:project_name]} found, searching for subject. "
         end
         if @project
             @subject = @project.subjects.find_by(origin_identifier:import_params[:origin_identifier])
             if @subject
-                message += " #{import_params[:origin_identifier]} found."
+                message += "Subject #{import_params[:origin_identifier]} found."
             else
-                message += " #{import_params[:origin_identifier]} not found."
+                message += "Subject #{import_params[:origin_identifier]} not found."
             end
         else
-            message += "#{import_params[:project_name]} not found."
+            message += "User project #{import_params[:project_name]} not found."
             @subject = nil
         end
         #subject = Subject.accessible_by(current_ability).find_by(origin_identifier:import_params[:origin_identifier], project_name:import_params[:project_name])
@@ -40,12 +40,11 @@ class QueryController < ApplicationController
         if @subject && !@subject.hla.nil?
             message += " Subject has an existing HLA record. Contact the admin to update this record."
         else
-            message += " Attempting to insert HLA."
             p = import_params.except(:origin_identifier, :project_name)
             p[:subject_id] = @subject.id
             h = Hla.new(p)
             if h.save
-                message += " HLA successfully inserted for #{@subject[:origin_identifier]}."
+                message += " Successfully inserted values #{p.except(:subject_id)}."
                 success = true
             else
                 message += " There was a problem adding HLA for #{@subject[:origin_identifier]}. Error(s): #{h.errors.full_messages}"
