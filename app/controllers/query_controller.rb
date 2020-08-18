@@ -26,7 +26,7 @@ class QueryController < ApplicationController
         end
         if @project
             @subject = @project.subjects.find_by(origin_identifier:import_params[:origin_identifier])
-            if @subject
+            if !@subject.nil?
                 message += "Subject #{import_params[:origin_identifier]} found."
             else
                 message += "Subject #{import_params[:origin_identifier]} not found."
@@ -37,17 +37,19 @@ class QueryController < ApplicationController
         end
         #subject = Subject.accessible_by(current_ability).find_by(origin_identifier:import_params[:origin_identifier], project_name:import_params[:project_name])
         success = false
-        if @subject && !@subject.hla.nil?
-            message += " Subject has an existing HLA record. Contact the admin to update this record."
-        else
-            p = import_params.except(:origin_identifier, :project_name)
-            p[:subject_id] = @subject.id
-            h = Hla.new(p)
-            if h.save
-                message += " Successfully inserted values #{p.except(:subject_id)}."
-                success = true
+        if @subject 
+            if !@subject.hla.nil?
+                message += " Subject has an existing HLA record. Contact the admin to update this record."
             else
-                message += " There was a problem adding HLA for #{@subject[:origin_identifier]}. Error(s): #{h.errors.full_messages}"
+                p = import_params.except(:origin_identifier, :project_name)
+                p[:subject_id] = @subject.id
+                h = Hla.new(p)
+                if h.save
+                    message += " Successfully inserted values #{p.except(:subject_id)}."
+                    success = true
+                else
+                    message += " There was a problem adding HLA for #{@subject[:origin_identifier]}. Error(s): #{h.errors.full_messages}"
+                end
             end
         end
         if success == true
