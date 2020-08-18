@@ -44,7 +44,7 @@ class QueryController < ApplicationController
             p[:subject_id] = @subject.id
             h = Hla.new(p)
             if h.save
-                message += " Successfully inserted values #{p.except(:subject_id).to_hash}."
+                message += " Successfully inserted values #{p.except(:subject_id)}."
                 success = true
             else
                 message += " There was a problem adding HLA for #{@subject[:origin_identifier]}. Error(s): #{h.errors.full_messages}"
