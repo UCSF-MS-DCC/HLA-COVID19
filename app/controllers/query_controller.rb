@@ -1,6 +1,6 @@
 class QueryController < ApplicationController
     protect_from_forgery with: :null_session, if: Proc.new {|c| c.request.format.json? }
-    acts_as_token_authentication_handler_for User, fallback: :none
+    acts_as_token_authentication_handler_for User
 
     def data
         if !current_user
@@ -61,7 +61,7 @@ class QueryController < ApplicationController
     end
 
     def check_user_credentials # this method checks that an identified user is permitted to use the HLA imputation tool and has a project in the database
-        user = User.find_by(email:check_cred_params[:email])
+        user = User.find_by(email:check_cred_params[:email]) #also need to check can_upload?
         if user && user.projects.find_by(name:check_cred_params[:project_name])
             render json: {"message": "User and project found"}, status: :ok
         elsif user && !user.projects.find_by(name:check_cred_params[:project_name])
