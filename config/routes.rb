@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   post 'query/data'
   post 'query/import_hla'
-  post 'query/check_user_credentials'
+  post 'query/hibag_preflight'
   post 'query/user_key'
   post 'home/approve_users'
 

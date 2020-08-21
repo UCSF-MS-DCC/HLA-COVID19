@@ -60,14 +60,26 @@ class QueryController < ApplicationController
 
     end
 
-    def check_user_credentials # this method checks that an identified user is permitted to use the HLA imputation tool and has a project in the database
-        user = User.find_by(email:check_cred_params[:email], approved:true) #also need to check can_upload?
+    def hibag_preflight # this method checks that an identified user is permitted to use the HLA imputation tool and has a project in the database
+        user = User.find_by(email:preflight_params[:email], approved:true) #also need to check can_upload?
         response_params = { :user_approved => false, :project_exists => false }
         if user && user.can_upload == true
             response_params[:user_approved] = true
         end
-        if user && user.projects.size > 0 && user.projects.find_by(name:check_cred_params[:project_name])
+        @project = nil
+        if user && user.projects.size > 0 && user.projects.find_by(name:preflight_params[:project_name])
             response_params[:project_exists] = true
+            @project = user.projects.find_by(name:preflight_params[:project_name])
+        end
+        if @project && preflight_params[:origin_identifiers] && preflight_params[:origin_identifiers].size > 0
+            response_params[:origin_identifiers] = {}
+            preflight_params[:origin_identifiers].each do |oi|
+                if @project.subjects.find_by(origin_identifier:oi)
+                    response_params[:origin_identifiers][oi] = "valid"
+                else
+                    response_params[:origin_identifiers][oi] = "invalid"
+                end
+            end
         end
         render json: response_params, status: :ok
     end
@@ -98,8 +110,8 @@ class QueryController < ApplicationController
                     :dpa1_1, :dpa1_2, :dra1_1, :dqa1_1, :dqa1_2, :dra1_2, :drbo_1, :drbo_2, :drb345_1, :drb345_2, :reference_database, :reference_database_version,
                     :typing_method_name, :typing_method_version, :gl_string, :novel_polymorphisms, :pop)
     end
-    def check_cred_params
-        params.permit(:email, :project_name)
+    def preflight_params
+        params.permit(:email, :project_name, origin_identifiers: [])
     end
     def user_key_params
         params.permit(:email)
