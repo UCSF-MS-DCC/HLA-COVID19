@@ -61,14 +61,15 @@ class QueryController < ApplicationController
     end
 
     def check_user_credentials # this method checks that an identified user is permitted to use the HLA imputation tool and has a project in the database
-        user = User.find_by(email:check_cred_params[:email]) #also need to check can_upload?
-        if user && user.projects.find_by(name:check_cred_params[:project_name])
-            render json: {"message": "User and project found"}, status: :ok
-        elsif user && !user.projects.find_by(name:check_cred_params[:project_name])
-            render json: {"message": "User's project not found"}, status: :not_acceptable
-        else
-            render json: {"message": "User not approved"}, status: :not_acceptable
-        end 
+        user = User.find_by(email:check_cred_params[:email], approved:true) #also need to check can_upload?
+        response_params = { :user_approved => false, :project_exists => false }
+        if user && user.can_upload == true
+            response_params[:user_approved] = true
+        end
+        if user && user.projects.size > 0 && user.projects.find_by(name:check_cred_params[:project_name])
+            response_params[:project_exists] = true
+        end
+        render json: response_params, status: :ok
     end
 
     def user_key #LOCK THIS DOWN TO THE HLA SIDE LOADER ACCOUNT
