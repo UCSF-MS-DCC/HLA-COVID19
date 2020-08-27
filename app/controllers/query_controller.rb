@@ -61,20 +61,23 @@ class QueryController < ApplicationController
     end
 
     def hibag_preflight # this method checks that an identified user is permitted to use the HLA imputation tool and has a project in the database
-        user = User.find_by(email:preflight_params[:email], approved:true) #also need to check can_upload?
-        response_params = { :user_approved => false, :project_exists => false }
-        if user && user.can_upload == true
+        response_params = {}
+        if preflight_params[:email]
+            @user = User.find_by(email:preflight_params[:email], approved:true, can_upload:true)
             response_params[:user_approved] = true
+        else
+            response_params[:user_approved] = false
         end
-        @project = nil
-        if user && user.projects.size > 0 && user.projects.find_by(name:preflight_params[:project_name])
-            response_params[:project_exists] = true
-            @project = user.projects.find_by(name:preflight_params[:project_name])
+        if preflight_params[:project_name] && @user && @user.projects.size > 0 && @user.projects.find_by(name:preflight_params[:project_name])
+            response_params[:project_found] = true
+            @project = @user.projects.find_by(name:preflight_params[:project_name])
+        else
+            response_params[:project_found] = false
         end
-        if @project && preflight_params[:origin_identifiers] && preflight_params[:origin_identifiers].size > 0
+        if preflight_params[:origin_identifiers] && preflight_params[:origin_identifiers].size > 0
             response_params[:origin_identifiers] = {}
             preflight_params[:origin_identifiers].each do |oi|
-                if @project.subjects.find_by(origin_identifier:oi)
+                if Subject.find_by(origin_identifier:oi)
                     response_params[:origin_identifiers][oi] = "valid"
                 else
                     response_params[:origin_identifiers][oi] = "invalid"
