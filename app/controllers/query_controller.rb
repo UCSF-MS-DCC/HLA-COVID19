@@ -62,7 +62,7 @@ class QueryController < ApplicationController
 
     def hibag_preflight # this method checks that an identified user is permitted to use the HLA imputation tool and has a project in the database
         response_params = {}
-        if preflight_params[:email]
+        if preflight_params[:email] && User.find_by(email:preflight_params[:email], approved:true, can_upload:true)
             @user = User.find_by(email:preflight_params[:email], approved:true, can_upload:true)
             response_params[:user_approved] = true
         else
