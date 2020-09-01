@@ -21,6 +21,7 @@ class User < ApplicationRecord
   def make_projects
     if self.project_owner == true && self.project_name.count > 0
       self.project_name.each do |pname|
+        puts pname
         unless self.projects.where(name:pname).count >= 1
           @project = Project.new(user_id:self.id, name:pname)
           @project.save

@@ -46,13 +46,16 @@
           <%= f.check_box :request_upload_priv, :checked => current_user.can_upload == true, :disabled => current_user.can_upload == true %>
           <%= f.label :request_upload_priv, current_user.can_upload == true ? "Authorized to upload files" : "I would like authorization to upload data files" %>
       </div>
+      <% if @user.projects%>
+      <hr>
+        <div class="row">
+          <p><bold>Existing data sets:</bold> <% @user.projects.pluck(:name).each_with_index do |name, idx| %><%= idx == @user.projects.size - 1 ? "#{name}" : "#{name}, " %><% end %></p>
+        </div>
+      <% end %>
       <div class= "row form-check">
-        <%= f.label :project_name, "My project/dataset name is:", :class =>"col-12 col-form-label"%>
-        <%= f.text_field :project_name, :class => "form-control" %>
+        <%= f.label :project_name, "Create a new data set with this name:", :class =>"col-12 col-form-label"%>
+        <%= f.text_field :project_name, :class => "form-control", :multiple => true, :value => nil %>
       </div>
-
-
-  </div>
       <br>
       <div class="row justify-content-md-center">
         <div class="actions">
@@ -60,8 +63,8 @@
         </div>
       </div>
     <% end %>
-  </div>
   <br><br>
+  </div>
   <hr>
   <div class="row justify-content-md-left">
       <% if current_user.rstudio == true %>
