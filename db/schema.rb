@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_18_002658) do
+ActiveRecord::Schema.define(version: 2020_09_03_173408) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -115,8 +115,8 @@ ActiveRecord::Schema.define(version: 2020_08_18_002658) do
     t.string "dpa1_2"
     t.string "dqa1_1"
     t.string "dqa1_2"
-    t.string "drbo_1"
-    t.string "drbo_2"
+    t.boolean "drbo_1"
+    t.boolean "drbo_2"
     t.string "drb345_1"
     t.string "drb345_2"
     t.text "reference_database"
