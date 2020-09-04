@@ -12,6 +12,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :projects
   after_create :make_projects
   after_update :make_projects
+  has_paper_trail
 
   after_update :upload_filename_check
 

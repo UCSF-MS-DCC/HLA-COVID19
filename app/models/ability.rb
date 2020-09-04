@@ -9,7 +9,7 @@ class Ability
       can :read, Subject, project_id:user.approved_access
     end
     if user && user.project_owner
-      can :import_hla, Subject, project_name:user.project_owner
+      can :import_hla, Project
       can :import_data, Project, name:user.project_owner
     end 
 

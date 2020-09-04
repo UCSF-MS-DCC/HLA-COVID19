@@ -6,6 +6,7 @@ class Subject < ApplicationRecord
     has_many :hospitalization, dependent: :delete_all
     has_many :treatment, dependent: :delete_all
     has_many :comorbidity, dependent: :destroy
+    has_paper_trail
 
     after_create :assign_hla_covid_db_id
     # before_delete :delete_related_rows

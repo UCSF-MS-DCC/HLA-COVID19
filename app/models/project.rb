@@ -1,6 +1,7 @@
 class Project < ApplicationRecord
   belongs_to :user
   has_many :subjects, :dependent => :delete_all
+  has_paper_trail
 
   validates :name, uniqueness: { scope: :user_id, message: "A user's projects may not have identical names" }
 
