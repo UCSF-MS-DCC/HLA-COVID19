@@ -25,17 +25,29 @@
             </ul>
         </div>
         <div class="col-md-6" style="padding-top:10px;">  
-            <h5>Upload File</h5>
+            
             <%= form_with(model: @user, url: "/upload/import_data", action: 'post') do |f|%>
-               
-                <div class="row form-check">
-                    <%= f.radio_button :upload_type, "new_subject", :class => "form-check-input", :checked => true %>
-                    <%= f.label :upload_type, "Upload new subjects", :value => "new_subject" %><br>
-                    <%= f.radio_button :upload_type, "long_data", :class => "form-check-input" %>
-                    <%= f.label :upload_type, "Add new longitudinal data to existing subjects", :value => "long_data" %><br>
+                <h5>Upload File</h5>
+                <hr>
+                <div class="row ">
+                    <h6>1. Choose which of your data sets or projects to add the data</h6>
+                    <%= f.select :project_name, options_for_select(@projects.pluck(:name)), {}, {class: "form-control" } %>
                 </div>
                 <hr>
-                 <%= f.file_field :attachment, multiple: false, direct_upload: true %><br /><br />
+                <div class="row"> 
+                    <h6>2. Are you uploading new subjects, or adding longitudinal data for existing subjects?</h6>
+                    <div class="form-check">  
+                        <%= f.radio_button :upload_type, "new_subject", :class => "form-check-input", :checked => true %>
+                        <%= f.label :upload_type, "Upload new subjects", :value => "new_subject" %><br>
+                        <%= f.radio_button :upload_type, "long_data", :class => "form-check-input" %>
+                        <%= f.label :upload_type, "Add new longitudinal data to existing subjects", :value => "long_data" %><br>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <h6>3. Choose a file from your computer</h6>
+                    <%= f.file_field :attachment, multiple: false, direct_upload: true %><br /><br />
+                </div>
                 <br>
                 <div class="row">
                     <%= f.check_box :irb_sharing_approved, :id => "irb_checkbox", :checked => false, :style => "margin-right:10px;" %>

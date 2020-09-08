@@ -1,4 +1,5 @@
 class Subject < ApplicationRecord
+    belongs_to :project
     has_one :risk_factor, dependent: :destroy
     has_many :lab_test, dependent: :delete_all
     has_many :c19_symptom, dependent: :delete_all

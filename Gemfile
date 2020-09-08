@@ -19,6 +19,7 @@ gem 'faker'
 gem 'activestorage-validator'
 gem 'gritter', '1.2.0'
 gem 'nested_form'
+gem 'paper_trail'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets

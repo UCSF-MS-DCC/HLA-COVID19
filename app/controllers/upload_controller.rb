@@ -2,10 +2,11 @@ class UploadController < ApplicationController
     require 'csv'
 
     def index
-        if !current_user
+        if !current_user || current_user.projects.count < 1
             redirect_to root_path
         end
         @user = current_user
+        @projects = current_user.projects
     end
 
     def store 
@@ -27,33 +28,26 @@ class UploadController < ApplicationController
                     # capture upload params for flow control and upload record creation
                     irb_approved = upload_params[:irb_sharing_approved]
                     csv_attached = upload_params[:attachment].size > 0
+                    upload_project_name = upload_params[:project_name]
                     filename = current_user.uploads.order("created_at ASC").last.filename
                     upload_type = upload_params[:upload_type]
                     subjects_n = 0
-                    upload_type = upload_params[:upload_type]
+                    puts upload_params.to_json
 
                     csv = CSV.parse(current_user.uploads.order("created_at ASC").last.download, headers: true)
                     # check csv format for column headers not conforming to the db schema
                     header_format_check = helpers.check_headers(csv.headers)
                     bad_columns = header_format_check[:bad_headers]
                     # if headers are ok and user has verified they can share data, proceed with parsing & insertion
-                    if header_format_check[:form_ok] == true && irb_approved
+                    if header_format_check[:form_ok] == true && irb_approved && Project.find_by(user_id:current_user.id, name:upload_project_name)
                         # iterate over the csv rows, extracting and inserting the data points
                         # flow control here for different upload types.
                         if upload_type == "new_subject"
                             csv.each do |row|
-                                # if no project_name in csv, add to user's existing project 
-                                if !row["project_name"] || !csv.headers.include?("project_name")
-                                    unless current_user.projects.size > 0# if no project_name in csv and no projects in user's list, create a default project name
-                                        current_user.update_attributes(project_name:["MyDataset"])
-                                    end
-                                    @project = current_user.projects.first
-                                # if project_name exists in csv but is not in user's list, create a new project to add subjects to
-                                elsif current_user.projects.find_by(name:row["project_name"]).nil?
-                                    user_projects = current_user.project_name.concat([row["project_name"]])
-                                    current_user.update_attributes(project_name:user_projects)
-                                    @project = current_user.projects.find_by(name:row["project_name"])
-                                else 
+                                # if no project_name in csv, add to the user's project specified in the upload form 
+                                if !row["project_name"] || !csv.headers.include?("project_name") || !current_user.projects.find_by(name:row["project_name"])
+                                    @project = current_user.projects.find_by(name:upload_project_name)
+                                else
                                     @project = current_user.projects.find_by(name:row["project_name"])
                                 end
                                 datapoints = helpers.parse_row(row)
@@ -108,10 +102,13 @@ class UploadController < ApplicationController
                          bad_columns:bad_columns,csv_file:false, irb_approved_checkbox:irb_approved, upload_filename:filename,
                          uploaded_by:current_user.email,upload_type:upload_type).save
                          gflash :error => "There was a problem with your upload file. Be sure to your file is a csv and conforms to the data upload template."
+
                 end # close begin/rescue block
+
             end # close block check for attachment files
         end #close block check for irb approval
         redirect_to action: "index"
+
     end
 
     def get_report
@@ -145,7 +142,7 @@ class UploadController < ApplicationController
     private
 
     def upload_params
-        params.require(:user).permit(:irb_sharing_approved, :attachment, :upload_type)
+        params.require(:user).permit(:irb_sharing_approved, :attachment, :upload_type, :project_name)
     end
 
 end
