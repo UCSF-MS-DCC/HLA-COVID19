@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_18_181739) do
+ActiveRecord::Schema.define(version: 2020_09_21_162902) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -99,25 +99,25 @@ ActiveRecord::Schema.define(version: 2020_09_18_181739) do
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "drb1_1"
+    t.text "drb1_1"
     t.string "drb1_2"
-    t.string "dqb1_1"
-    t.string "dqb1_2"
-    t.string "dpb1_1"
-    t.string "dpb1_2"
-    t.string "a_1"
-    t.string "a_2"
-    t.string "b_1"
-    t.string "b_2"
-    t.string "c_1"
-    t.string "c_2"
-    t.string "dpa1_1"
-    t.string "dpa1_2"
-    t.string "dqa1_1"
-    t.string "dqa1_2"
+    t.text "dqb1_1"
+    t.text "dqb1_2"
+    t.text "dpb1_1"
+    t.text "dpb1_2"
+    t.text "a_1"
+    t.text "a_2"
+    t.text "b_1"
+    t.text "b_2"
+    t.text "c_1"
+    t.text "c_2"
+    t.text "dpa1_1"
+    t.text "dpa1_2"
+    t.text "dqa1_1"
+    t.text "dqa1_2"
     t.boolean "drbo_1"
     t.boolean "drbo_2"
-    t.string "drb345_1"
+    t.text "drb345_1"
     t.string "drb345_2"
     t.text "reference_database"
     t.text "reference_database_version"
