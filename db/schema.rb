@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_21_162902) do
+ActiveRecord::Schema.define(version: 2020_10_01_164514) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -163,6 +163,32 @@ ActiveRecord::Schema.define(version: 2020_09_21_162902) do
     t.index ["subject_id"], name: "index_hospitalizations_on_subject_id"
   end
 
+  create_table "imputationstats", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "hla_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "a_prob"
+    t.string "a_matching"
+    t.string "b_prob"
+    t.string "b_matching"
+    t.string "c_prob"
+    t.string "c_matching"
+    t.string "drb1_prob"
+    t.string "drb1_matching"
+    t.string "dqa1_prob"
+    t.string "dqa1_matching"
+    t.string "dqb1_prob"
+    t.string "dqb1_matching"
+    t.string "dpb1_prob"
+    t.string "dpb1_matching"
+    t.string "dpb1_1"
+    t.string "dpb1_2"
+    t.string "typing_method_name"
+    t.string "typing_method_version"
+    t.string "population"
+    t.index ["hla_id"], name: "index_imputationstats_on_hla_id"
+  end
+
   create_table "lab_tests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -305,6 +331,11 @@ ActiveRecord::Schema.define(version: 2020_09_21_162902) do
     t.boolean "project_owner"
     t.string "project_name"
     t.boolean "system_user", default: false, null: false
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -325,6 +356,7 @@ ActiveRecord::Schema.define(version: 2020_09_21_162902) do
   add_foreign_key "comorbidities", "subjects", on_delete: :cascade
   add_foreign_key "hlas", "subjects", on_delete: :cascade
   add_foreign_key "hospitalizations", "subjects", on_delete: :cascade
+  add_foreign_key "imputationstats", "hlas"
   add_foreign_key "projects", "users", on_delete: :cascade
   add_foreign_key "risk_factors", "subjects", on_delete: :cascade
   add_foreign_key "subjects", "projects", on_delete: :cascade

@@ -21,6 +21,10 @@ class UploadController < ApplicationController
     end
     # new method to replace 'store' - this will parse the csv, check for errors, and insert the contents into the database
     def import_data
+        if !current_user
+            gflash :error => "You're session has timed out. Please log in again before trying to upload files."
+            redirect_to root_path
+        end
         # for purposes of reporting errors, make these flags, writable to the upload_record table
         unless upload_params[:irb_sharing_approved] == false
             unless !current_user.uploads.attach(upload_params[:attachment]) 
