@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
     def index
+        @subjects_n = Subject.count
+        @hlas_n = Hla.count
         if current_user
             @user = current_user
         else
@@ -35,13 +37,6 @@ class HomeController < ApplicationController
     end
     def sex_data
         results = ActiveRecord::Base.connection.execute("select sex, count(*) from subjects s join projects p on s.project_id = p.id where p.id < 2 or p.id >= 10 group by s.sex")
-        respond_to do |format|
-            format.html
-            format.json { render json: { :data => results }, status: :ok }
-        end
-    end
-    def ethnicity_data
-        results = ActiveRecord::Base.connection.execute("select ethnicity, count(*) from subjects s join projects p on s.project_id = p.id where p.id < 2 or p.id >= 10 group by s.ethnicity")
         respond_to do |format|
             format.html
             format.json { render json: { :data => results }, status: :ok }

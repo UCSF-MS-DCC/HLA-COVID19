@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_01_164514) do
+ActiveRecord::Schema.define(version: 2020_10_01_182434) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(version: 2020_10_01_164514) do
     t.text "gl_string"
     t.text "novel_polymorphisms"
     t.string "pop"
+    t.boolean "imputed_using_hlacovid_platform", default: false
     t.index ["subject_id"], name: "index_hlas_on_subject_id"
   end
 
