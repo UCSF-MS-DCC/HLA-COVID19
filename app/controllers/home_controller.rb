@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
     def index
-        @subjects_n = Subject.count
+        @subjects_n = Subject.where(project_id:[1,8,10]).count
         subject_ids = Project.where(id:[1,8,10]).map{ |p| p.subjects.pluck(:id) }.flatten
         @all_hlas_n = Hla.where(subject_id:subject_ids).count
         @imputed_hlas_n = Hla.where(subject_id:subject_ids).where(imputed_using_hlacovid_platform:true).count
