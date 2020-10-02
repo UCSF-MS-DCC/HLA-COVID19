@@ -17,6 +17,8 @@ $(document).on('turbolinks:load',function(){
     
           var options = {
             title: 'Age',
+            fontName: 'Josefin Sans',
+            fontSize: '16',
             bar: {groupWidth: "61.8%"},
             legend: { position: "none" },
             width: "100%",
@@ -44,6 +46,8 @@ $(document).on('turbolinks:load',function(){
           var data = google.visualization.arrayToDataTable(sdMatrix);
     
           var options = {
+            fontName: 'Josefin Sans',
+            fontSize: '16',
             title: 'Sex',
             bar: {groupWidth: "95%"},
             legend: { position: "bottom" },
@@ -53,33 +57,6 @@ $(document).on('turbolinks:load',function(){
           };
     
           var chart = new google.visualization.PieChart(document.getElementById('sex-chart'));
-          chart.draw(data, options);
-        }
-    });
-
-    $.get('/home/ethnicity_data.json', function(response){
-
-        edMatrix = response['data'];
-        edMatrix.unshift(['Ethnicity', 'N']);
-
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawEthnicityChart);
-    
-        function drawEthnicityChart() {
-    
-          var data = google.visualization.arrayToDataTable(edMatrix);
-    
-          var options = {
-            title: 'Ethnicity',
-            bar: {groupWidth: "95%"},
-            legend: { position: "bottom" },
-            width: "95%",
-            height: 400,
-            colors:['purple','green','orange','blue'],
-            backgroundColor: { fill:'transparent' }
-          };
-    
-          var chart = new google.visualization.PieChart(document.getElementById('ethnicity-chart'));
           chart.draw(data, options);
         }
     });

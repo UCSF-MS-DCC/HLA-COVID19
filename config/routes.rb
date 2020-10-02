@@ -3,10 +3,11 @@ Rails.application.routes.draw do
   root 'home#index'
 
   get 'home/auth'
-  get 'home/access'
+  get 'home/project'
+  get 'home/hla_csv'
+  get 'home/stats_csv'
   get 'home/age_data'
   get 'home/sex_data'
-  get 'home/ethnicity_data'
   get 'upload/index'
   get 'upload/get_report'
   patch 'upload/import_data'

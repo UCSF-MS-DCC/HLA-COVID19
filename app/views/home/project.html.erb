@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-10">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#download">Download HLA</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#manage">Manage Access</a>
+                </li>
+            </ul>
+        </div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane container fade" id="download"><%= render 'home/partials/download' %></div>
+            <div class="tab-pane container fade" id="manage"><%= render 'home/partials/manage' %></div>
+        </div>
+    </div>
+</div>

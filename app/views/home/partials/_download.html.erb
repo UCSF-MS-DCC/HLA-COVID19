@@ -1,0 +1,27 @@
+<br>
+<div class="row justify-content-md-center">
+    <h3>Download HLA from your projects</h3>
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-12">
+        <table class="table table-bordered">
+            <% @user_owned_projects.each do |p| %>
+                <tr>
+                    <th><%= p.name %></th>
+                    <td><%= "#{Hla.where(subject_id:p.subjects.pluck(:id)).count} HLA records" %></td>
+                </tr>
+                <% unless Hla.where(subject_id:p.subjects.pluck(:id)).count < 1 %>
+                    <tr>
+                        <td><%= link_to "Download HLA", {controller:"home", action:"hla_csv", id: p.id, format:"csv"} %></td>
+                        <td>
+                            <% if Hla.where(subject_id:p.subjects.pluck(:id)).where(imputed_using_hlacovid_platform:true).count > 0 %>
+                                <%= link_to "Download Imputation Stats", {controller:"home", action:"stats_csv", id: p.id, format:"csv"} %>
+                            <% end %>
+                        </td>
+                    </tr>
+                <% end %>
+            <% end %>
+        </table>
+    </div>
+</div>
+

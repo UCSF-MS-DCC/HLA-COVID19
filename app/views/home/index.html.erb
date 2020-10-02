@@ -15,7 +15,38 @@
             <div id="age-chart"></div>
         </div>
         <div class="col-md-4">
-            <div id="ethnicity-chart"></div>
+            <div id="n-chart-box">
+                <div id="n-chart-inner">
+                    <div class="n-chart-label-box">
+                        <h6 class="n-chart-label">Subjects</h6>
+                    </div>
+                    <div id="n-chart-subjects-box">
+                        <h1 class="n-chart-value text-center"><%= @subjects_n %></h1>
+                    </div>
+                    <hr>
+                    <div class="n-chart-label-box">
+                        <h6 class="n-chart-label">HLA</h6>
+                    </div>
+                    <div id="n-chart-hlas-box">                   
+                        <div id="n-chart-imported-hlas-box">
+                            <div class="n-chart-value-box">
+                                <h1 class="n-chart-value text-center"><%= @imputed_hlas_n %></h1>
+                            </div>
+                            <div class="n-chart-label-box">
+                                <h6 class="n-chart-label text-center">Imputed</h6>
+                            </div>
+                        </div>
+                        <div id="n-chart-imputed-hlas-box">
+                            <div class="n-chart-value-box">
+                                <h1 class="n-chart-value text-center"><%= @all_hlas_n %></h1>
+                            </div>
+                            <div class="n-chart-label-box">
+                                <h6 class="n-chart-label text-center">Total</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

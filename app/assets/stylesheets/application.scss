@@ -45,6 +45,9 @@ h2, h3, h4, h5, a, label, #file_upload_submit {
 p {
   font-family: $secondary-font !important;
 }
+ul {
+  list-style:none;
+}
 .nav-item {
   font-family: $secondary-font;
 }
@@ -117,4 +120,49 @@ p {
     background-position: center;
     margin-top:150px;
     margin-bottom:40vh;
+  }
+  .n-chart-label {
+    font-family: $primary_font;
+    font-size: 12pt;
+  }
+  .n-chart-value {
+    font-family: $primary_font;
+    font-size: 72pt;
+  }
+  #n-chart-box {
+    height: 400px;
+  }
+  #n-chart-inner {
+    width:90%;
+    height:85%;
+    margin-top:7%;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .n-chart-label-box {
+    width:100%;
+    height:8%;
+  }
+  .n-chart-value-box {
+    width:100%;
+    height:92%;
+  }
+  #n-chart-subjects-box {
+    width:100%;
+    height:33%;
+  }
+  #n-chart-hlas-box {
+    width:100%;
+    height:51%;
+  }
+  #n-chart-imported-hlas-box {
+    width:50%;
+    height:91%;
+    border-right:1px solid black;
+    float:left;
+  }
+  #n-chart-imputed-hlas-box {
+    width:50%;
+    height:91%;
+    float:right;
   }
