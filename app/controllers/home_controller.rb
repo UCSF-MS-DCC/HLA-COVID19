@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
     def index
         @subjects_n = Subject.count
-        @all_hlas_n = Hla.where(project_id:[1,8,10]).count
-        @imputed_hlas_n = Hla.where(project_id:[1,8,10]).where(imputed_using_hlacovid_platform:true).count
+        @all_hlas_n = Hla.where(subject_id:Project.where(id:[1,8,10]).subjects.pluck(:id)).count
+        @imputed_hlas_n = Hla.where(subject_id:Project.where(id:[1,8,10]).subjects.pluck(:id)).where(imputed_using_hlacovid_platform:true).count
         if current_user
             @user = current_user
         else
