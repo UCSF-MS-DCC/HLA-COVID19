@@ -51,14 +51,14 @@ class HomeController < ApplicationController
     end
 
     def age_data
-        results = ActiveRecord::Base.connection.execute("select age, count(*) from subjects s join projects p on s.project_id = p.id where p.id < 2 or p.id >=10 group by s.age")
+        results = ActiveRecord::Base.connection.execute("select age, count(*) from subjects s join projects p on s.project_id = p.id where p.id in (1,10,11) group by s.age")
         respond_to do |format|
             format.html
             format.json { render json: { :data => results }, status: :ok }
         end
     end
     def sex_data
-        results = ActiveRecord::Base.connection.execute("select sex, count(*) from subjects s join projects p on s.project_id = p.id where p.id < 2 or p.id >= 10 group by s.sex")
+        results = ActiveRecord::Base.connection.execute("select sex, count(*) from subjects s join projects p on s.project_id = p.id where p.id in (1,10,11) group by s.sex")
         respond_to do |format|
             format.html
             format.json { render json: { :data => results }, status: :ok }
