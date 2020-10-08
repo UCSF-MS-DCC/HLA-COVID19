@@ -59,7 +59,7 @@ class QueryController < ApplicationController
         #     render json: {"log_message": message}, status: :unprocessable_entity
         # end
         respond_to do |format|
-            format.json { render json: {"data received"}, status: :ok }
+            format.json { render json: "data received", status: :ok }
         end
 
     end
