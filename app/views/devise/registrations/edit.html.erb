@@ -38,14 +38,6 @@
         <%= f.password_field :current_password, autocomplete: "current-password", :class => "form-control" %>
       </div>
       <br>
-      <div class="row form-check">
-          <%= f.check_box :request_rstudio_priv, :checked => current_user.rstudio == true, :disabled => current_user.rstudio == true %>
-          <%= f.label :request_rstudio_priv, current_user.rstudio == true ? "Authorized to use RStudio cloud server" : "I would like authorization to use the RStudio cloud server"%>
-      </div>
-      <div class="row form-check">
-          <%= f.check_box :request_upload_priv, :checked => current_user.can_upload == true, :disabled => current_user.can_upload == true %>
-          <%= f.label :request_upload_priv, current_user.can_upload == true ? "Authorized to upload files" : "I would like authorization to upload data files" %>
-      </div>
       <% if @user.projects%>
       <hr>
         <div class="row">
