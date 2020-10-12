@@ -24,7 +24,7 @@ class QueryController < ApplicationController
             @project = nil
         elsif !current_user.projects.find_by(name:import_hla_params[:project_name]).nil?
             @project = current_user.projects.find_by(name:import_hla_params[:project_name])
-            message += "User project #{import_hla_params[:project_name]} found, searching for subject. "
+            message += " User project #{import_hla_params[:project_name]} found, searching for subject. "
         end
         if @project
             @subject = @project.subjects.find_by(origin_identifier:import_hla_params[:origin_identifier])
@@ -47,12 +47,13 @@ class QueryController < ApplicationController
                 p[:subject_id] = @subject.id
                 h = Hla.new(p)
                 if h.save
-                    message += " Successfully inserted values #{p.except(:subject_id)}."
+                    message += " \nSuccessfully inserted values #{p.except(:subject_id)}\n."
                     sp = import_stats_params
                     sp[:hla_id] = h.id
                     i = Imputationstat.new(sp)
                     i.save
                     success = true
+                    message += "\nSuccessfully inserted values #{sp.except(:hla_id)}\n."
                 else
                     message += " There was a problem adding HLA for #{@subject[:origin_identifier]}. Error(s): #{h.errors.full_messages}"
                 end
@@ -119,7 +120,7 @@ class QueryController < ApplicationController
                     :typing_method_name, :typing_method_version, :gl_string, :novel_polymorphisms, :pop)
     end
     def import_stats_params
-        params.permit(:a_prob, :a_matching, :b_prob, :b_matching, :c_prob, :c_matching,
+        params.permit(:a_prob, :a_matching, :b_prob, :b_matching, :c_prob, :c_matching, :typing_method_name, :typing_method_version
         :drb1_prob, :drb1_matching, :dqa1_prob, :dqa1_matching, :dqb1_prob, :dqb1_matching, :dpb1_prob, :dpb1_matching)
     end
     def preflight_params
