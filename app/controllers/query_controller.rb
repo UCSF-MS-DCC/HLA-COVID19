@@ -120,7 +120,7 @@ class QueryController < ApplicationController
                     :typing_method_name, :typing_method_version, :gl_string, :novel_polymorphisms, :pop)
     end
     def import_stats_params
-        params.permit(:a_prob, :a_matching, :b_prob, :b_matching, :c_prob, :c_matching, :typing_method_name, :typing_method_version
+        params.permit(:a_prob, :a_matching, :b_prob, :b_matching, :c_prob, :c_matching, :typing_method_name, :typing_method_version,
         :drb1_prob, :drb1_matching, :dqa1_prob, :dqa1_matching, :dqb1_prob, :dqb1_matching, :dpb1_prob, :dpb1_matching)
     end
     def preflight_params
