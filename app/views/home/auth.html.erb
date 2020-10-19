@@ -60,7 +60,10 @@
                             <%= f.label :password_confirmation, :class => "col-10 col-form-label" %><br />
                             <%= f.password_field :password_confirmation, autocomplete: "new-password", :class => "form-control" %>
                         </div>
-                        <br>
+                        <div class="row form-group" style="margin-left:20px;margin-right:1px;">
+                            <%= f.check_box :email_opt_in, :class => "form-check-input", :required => true %>
+                            <%= f.label :email_opt_in, "I agree to receive emails from database-hlacovid19.org (required)", :class => "form-check-label"%>
+                        </div>
                         <div class="row justify-content-md-center"  style="margin-left:1px;margin-right:1px;"> 
                         <p style="font-size:10pt;"> <input type="checkbox" id="reg-chkbox"> I understand new account applications are reviewed and subject to approval of the HLA-COVID19 governing body.
                          Approved users shall be notified by email. I acknowledge my account will be inactive until I am otherwise notified. </p>
