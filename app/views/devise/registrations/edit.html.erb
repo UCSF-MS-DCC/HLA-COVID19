@@ -37,6 +37,11 @@
         <%= f.label :current_password, "Current password (we need your current password to confirm your changes)",:class => "col-12 col-form-label" %>
         <%= f.password_field :current_password, autocomplete: "current-password", :class => "form-control" %>
       </div>
+
+      <div class="row form-group" style="margin-left:20px;margin-right:1px;">
+        <%= f.check_box :email_opt_in, :class => "form-check-input", :checked => @user.email_opt_in %>
+        <%= f.label :email_opt_in, (@user.email_opt_in ? "You have opted into receiving email from the database portal. Click the box to opt out. Warning: opting out of email may render some website features unusable." : "You have opted out of receiving email. Click the box to opt in."), :class => "form-check-label"%>
+      </div>
       <br>
       <% if @user.projects%>
       <hr>
