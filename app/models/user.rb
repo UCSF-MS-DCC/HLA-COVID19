@@ -13,7 +13,7 @@ class User < ApplicationRecord
   after_create :make_projects
   after_update :make_projects
   after_create :send_welcome_email
-  after_create :send_new_user_notification
+  after_create :send_new_user_admin_notification
   has_paper_trail
 
   after_update :upload_filename_check
@@ -76,7 +76,7 @@ class User < ApplicationRecord
     AdminMailer.new_user_welcome_message(self).deliver
   end
 
-  def send_new_user_notification
-    AdminMailer.new_user_approved_notification(self).deliver
+  def send_new_user_admin_notification
+    AdminMailer.new_user_waiting_for_approval(user).deliver
   end
 end
