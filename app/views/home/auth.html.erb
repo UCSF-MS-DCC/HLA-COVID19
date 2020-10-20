@@ -31,6 +31,12 @@
                                 <%= f.submit "Log in", :class => "btn btn-primary" %>
                             </div>
                         </div>
+
+                          <div class="row justify-content-md-center">
+                            <div class="">
+                                <%= link_to "Forgot your password?", new_password_path(@user) %>
+                            </div>
+                        </div>
                     <% end %>
                 </div>
                 <div class="tab-pane container fade" id="registration-form">
