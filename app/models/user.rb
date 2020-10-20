@@ -12,6 +12,8 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :projects
   after_create :make_projects
   after_update :make_projects
+  after_create :send_welcome_email
+  after_create :send_new_user_notification
   has_paper_trail
 
   after_update :upload_filename_check
@@ -68,5 +70,13 @@ class User < ApplicationRecord
         system("pwd")
       end
     end
+  end
+
+  def send_welcome_email
+    AdminMailer.new_user_welcome_message(self).deliver
+  end
+
+  def send_new_user_notification
+    AdminMailer.new_user_approved_notification(self).deliver
   end
 end
