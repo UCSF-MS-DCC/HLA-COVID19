@@ -62,12 +62,11 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "hlacovid19_#{Rails.env}"
-  config.action_mailer.default_url_options = { :host => "database-hlacovid19.org"}
+  config.action_mailer.default_url_options = { :host => 'database-hlacovid19.org', from: 'no_reply@database-hlacovid19.org'}
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :sendmail
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_options = {from: 'no_reply@database-hlacovid19.org'}
   config.action_mailer.smtp_settings = {
     :address => "email-smtp.us-east-2.amazonaws.com",
     :user_name =>  ENV['AWS_SMTP_USER'], # Your SMTP user here.
