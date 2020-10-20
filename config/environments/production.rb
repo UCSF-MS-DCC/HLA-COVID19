@@ -62,12 +62,21 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "hlacovid19_#{Rails.env}"
-
+  config.action_mailer.default_url_options = { :host => "database-hlacovid19.org"}
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :sendmail
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_options = {from: 'no-reply@database-hlacovid19.org'}
+  config.action_mailer.default_options = {from: 'no_reply@database-hlacovid19.org'}
+  config.action_mailer.smtp_settings = {
+    :address => "email-smtp.us-east-2.amazonaws.com",
+    :user_name =>  ENV['AWS_SMTP_USER'], # Your SMTP user here.
+    :password => ENV['AWS_SMTP_PASSWORD'], # Your SMTP password here.
+    :authentication => :login,
+    :enable_starttls_auto => true,
+    :port => 25,
+    :domain => 'database-hlacovid19.org'
+}
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
