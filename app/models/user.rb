@@ -77,6 +77,6 @@ class User < ApplicationRecord
   end
 
   def send_new_user_admin_notification
-    AdminMailer.new_user_waiting_for_approval(user).deliver
+    AdminMailer.new_user_waiting_for_approval(self).deliver
   end
 end
