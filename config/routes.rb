@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   get 'home/auth'
   get 'home/project'
+  get 'home/subjects_csv'
   get 'home/hla_csv'
   get 'home/stats_csv'
   get 'home/age_data'
