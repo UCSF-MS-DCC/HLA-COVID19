@@ -6,38 +6,55 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-if User.count > 0
-    User.delete_all
-end
+# if User.count > 0
+#     User.delete_all
+# end
 
 # admin user account
-User.new(email:"dev@dev.org", password:"321321", password_confirmation:"321321", affiliation:"UCSF", can_upload:true, approved:true).save(validate:false)
-# create separate domains for different users
-domains = [Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name].uniq
-# create project owner accounts
-domains.each do |d|
-    @user = User.new(email:Faker::Internet.email, password:"321321", password_confirmation:"321321", can_upload:true, approved:true, project_owner:true, project_name:[d])
-    @user.save(validate:false)
-end
-# create general user accounts
-10.times do
-    User.new(email:"#{Faker::Internet.email}", password:"321321", password_confirmation:"321321", can_upload:true, approved:true,).save(validate:false)
-end
+# User.new(email:"dev@dev.org", password:"321321", password_confirmation:"321321", affiliation:"UCSF", can_upload:true, approved:true).save(validate:false)
+# # create separate domains for different users
+# domains = [Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name].uniq
+# # create project owner accounts
+# domains.each do |d|
+#     @user = User.new(email:Faker::Internet.email, password:"321321", password_confirmation:"321321", can_upload:true, approved:true, project_owner:true, project_name:[d])
+#     @user.save(validate:false)
+# end
+# # create general user accounts
+# 10.times do
+#     User.new(email:"#{Faker::Internet.email}", password:"321321", password_confirmation:"321321", can_upload:true, approved:true,).save(validate:false)
+# end
 # create Subjects for each project
+def get_value(val_type)
+    case val_type
+    when "integer"
+         Faker::Number.between(from:1, to: 20)
+    when "string"
+        Faker::Lorem.words(number: 1)[0]
+    when "boolean"
+        Faker::Boolean.boolean
+    when "text"
+        Faker::Lorem.sentence(word_count: 3)
+    when "date"
+        Faker::Date.between(from:3.years.ago, to:Date.today)
+    when "datetime"
+        Faker::Time.between_dates(from:1000.days.ago, to:2.days.ago, period: :all)
+    when "decimal"
+        Faker::Number.decimal(l_digits:1, r_digits:3)
+    else
+        nil
+    end
+end
 Project.all.each do |p|
-    25.times do |idx|
+    #p.subjects.destroy_all
+    2000.times do |idx|
         n = 3
-        sub = Subject.new(project_id:p.id, origin_identifier:"#{p.name}#{idx.to_s.rjust(n,'0')}", country_of_residence:Faker::Address.country, sex:["F","M"][Faker::Number.between(from:0, to:1)],
-                        gender:"", education:["Primary", "College", "n/a"][Faker::Number.between(from:0, to:2)], age:Faker::Number.between(from:18, to:80),
-                        ethnicity:["AA", "White", "Hispanic"][Faker::Number.between(from:0, to:2)], pregnant:false, ancestry:nil,
-                        height_cm:Faker::Number.between(from:100, to:180), weight_kg:Faker::Number.between(from:60, to:90), race:nil,
-                        project_name:p.name)
+        sjt_cols = Subject.column_names.reject{ |cn| ["id", "project_id", "created_at", "updated_at"].include? cn }
+        sjt_hash = {project_id:p.id}
+        sjt_cols.each do |cn|
+            sjt_hash[cn] = get_value(Subject.column_for_attribute(cn).type.to_s)
+        end
+        sub = Subject.new(sjt_hash)
         if sub.save 
-        C19Symptom.new(subject_id:sub.id, dry_cough:Faker::Boolean.boolean, mucus_cough:Faker::Boolean.boolean, days_cough:Faker::Number.between(from:1, to:10),
-                                difficulty_breathing:Faker::Boolean.boolean, fever:Faker::Boolean.boolean, days_fever:Faker::Number.between(from:1, to:10),
-                                fatigue:Faker::Boolean.boolean, pain_chest_heart:Faker::Boolean.boolean, pain_back:Faker::Boolean.boolean, runny_nose:Faker::Boolean.boolean,
-                                sore_throat:Faker::Boolean.boolean, loss_taste_smell:nil, diarrhea:Faker::Boolean.boolean, nausea:Faker::Boolean.boolean,
-                                c19_test_result_positive:Faker::Boolean.boolean, patient_self_reported_positive:Faker::Boolean.boolean).save
             Hla.new(subject_id:sub.id, drb1_1:"DRB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
                                         drb1_2:"DRB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
                                         dqb1_1:"DQB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
@@ -56,7 +73,48 @@ Project.all.each do |p|
                                         dqa1_2:"DQA*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
                                         drbo_1:"DRBo*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
                                         drbo_2:"DRBo*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}").save
-
+            #c19 symptoms
+            cs_cols = C19Symptom.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
+            cs_hash = {subject_id:sub.id}
+            cs_cols.each do |cn|
+                cs_hash[cn] = get_value(C19Symptom.column_for_attribute(cn).type.to_s)
+            end
+            C19Symptom.new(cs_hash).save
+            #comorbidities
+            comorb_cols = Comorbidity.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
+            comorb_hash = {subject_id:sub.id}
+            comorb_cols.each do |cn|
+                comorb_hash[cn] = get_value(Comorbidity.column_for_attribute(cn).type.to_s)
+            end
+            Comorbidity.new(comorb_hash).save
+            #hospitalizations
+            hosp_cols = Hospitalization.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
+            hosp_hash = {subject_id:sub.id}
+            hosp_cols.each do |cn|
+                hosp_hash[cn] = get_value(Hospitalization.column_for_attribute(cn).type.to_s)
+            end
+            Hospitalization.new(hosp_hash).save
+            #lab tests
+            lt_cols = LabTest.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
+            lt_hash = {subject_id:sub.id}
+            lt_cols.each do |cn|
+                lt_hash[cn] = get_value(LabTest.column_for_attribute(cn).type.to_s)
+            end
+            LabTest.new(lt_hash).save
+            #risk factors
+            rf_cols = RiskFactor.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
+            rf_hash = {subject_id:sub.id}
+            rf_cols.each do |cn|
+                rf_hash[cn] = get_value(RiskFactor.column_for_attribute(cn).type.to_s)
+            end
+            RiskFactor.new(rf_hash).save
+            #treatments
+            tmt_cols = Treatment.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
+            tmt_hash = {subject_id:sub.id}
+            tmt_cols.each do |cn|
+                tmt_hash[cn] = get_value(Treatment.column_for_attribute(cn).type.to_s)
+            end
+            Treatment.new(tmt_hash).save
         end
     end
 end

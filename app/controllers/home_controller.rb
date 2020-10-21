@@ -37,6 +37,12 @@ class HomeController < ApplicationController
             format.json { render json: {"user_status": status }, status: :ok}
         end
     end
+    def subjects_csv
+        @project = Project.find(params[:id])
+        respond_to do |format|
+            format.csv { send_data @project.get_subjects, :type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=#{@project.name}_subjects.csv" }
+        end
+    end
     def hla_csv
         @project = Project.find(params[:id])
         respond_to do |format|
@@ -46,7 +52,43 @@ class HomeController < ApplicationController
     def stats_csv
         @project = Project.find(params[:id])
         respond_to do |format|
-            format.csv { send_data @project.get_stats, :type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=#{@project.name}_Imputation_stats.csv" }
+            format.csv { send_data @project.get_stats, :type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=#{@project.name}_imputation_stats.csv" }
+        end
+    end
+    def comorbidities_csv
+        @project = Project.find(params[:id])
+        respond_to do |format|
+            format.csv { send_data @project.get_comorbidities, :type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=#{@project.name}_comorbidities.csv" }
+        end
+    end
+    def c19_symptoms_csv
+        @project = Project.find(params[:id])
+        respond_to do |format|
+            format.csv { send_data @project.get_symptoms, :type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=#{@project.name}_COVID-19_symptoms.csv" }
+        end
+    end
+    def hospitalizations_csv
+        @project = Project.find(params[:id])
+        respond_to do |format|
+            format.csv { send_data @project.get_hospitalizations, :type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=#{@project.name}_hospitalizations.csv" }
+        end
+    end
+    def lab_tests_csv
+        @project = Project.find(params[:id])
+        respond_to do |format|
+            format.csv { send_data @project.get_lab_tests, :type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=#{@project.name}_lab_tests.csv" }
+        end
+    end
+    def risk_factors_csv
+        @project = Project.find(params[:id])
+        respond_to do |format|
+            format.csv { send_data @project.get_risk_factors, :type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=#{@project.name}_risk_factors.csv" }
+        end
+    end
+    def treatments_csv
+        @project = Project.find(params[:id])
+        respond_to do |format|
+            format.csv { send_data @project.get_treatments, :type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=#{@project.name}_treatments.csv" }
         end
     end
 

@@ -1,22 +1,28 @@
 <br>
 <div class="row justify-content-md-center">
-    <h3>Download HLA from your projects</h3>
+    <h3>Download Data from your projects</h3>
 </div>
 <div class="row justify-content-md-center">
     <div class="col-12">
         <table class="table table-bordered">
             <% @user_owned_projects.each do |p| %>
                 <tr>
-                    <th colspan=5><%= p.name %></th>
+                    <th colspan=9><%= p.name %> - <%= p.subjects ? p.subjects.count : "0" %> subjects</th>
                 </tr>
-                <% unless Hla.where(subject_id:p.subjects.pluck(:id)).count < 1 %>
-                    <tr><td><%= link_to "#{p.subjects.count} Subjects", {controller:"home", action:"subjects_csv", id: p.id, format:"csv"} %></td>
-                        <td><%= link_to "#{Hla.where(subject_id:p.subjects.pluck(:id)).count} HLA", {controller:"home", action:"hla_csv", id: p.id, format:"csv"} %></td>
-                        <% if Hla.where(subject_id:p.subjects.pluck(:id)).where(imputed_using_hlacovid_platform:true).count > 0 %>
-                            <td><%= link_to "HLA Imputation Stats", {controller:"home", action:"stats_csv", id: p.id, format:"csv"} %></td>
-                        <% end %>                
-                    </tr>
-                <% end %>
+                <tr><td><%= link_to "Subjects", {controller:"home", action:"subjects_csv", id: p.id, format:"csv"} %></td>
+                    <td><%= link_to "COVID-19 Symptoms", {controller:"home", action:"c19_symptoms_csv", id: p.id, format:"csv"} %></td>
+                    <td><%= link_to "Comorbidities", {controller:"home", action:"comorbidities_csv", id: p.id, format:"csv"} %></td>
+                    <td><%= link_to "Hospitalizations", {controller:"home", action:"hospitalizations_csv", id: p.id, format:"csv"} %></td>
+                    <td><%= link_to "Lab Tests", {controller:"home", action:"lab_tests_csv", id: p.id, format:"csv"} %></td>
+                    <td><%= link_to "Risk Factors", {controller:"home", action:"risk_factors_csv", id: p.id, format:"csv"} %></td>
+                    <td><%= link_to "Treatments", {controller:"home", action:"treatments_csv", id: p.id, format:"csv"} %></td>
+                    <td><%= link_to "#{Hla.where(subject_id:p.subjects.pluck(:id)).count} HLA", {controller:"home", action:"hla_csv", id: p.id, format:"csv"} %></td>
+                    <% if Hla.where(subject_id:p.subjects.pluck(:id)).where(imputed_using_hlacovid_platform:true).count > 0 %>
+                        <td><%= link_to "HLA Imputation Stats", {controller:"home", action:"stats_csv", id: p.id, format:"csv"} %></td>
+                    <% else %>
+                        <td>-</td>
+                    <% end %>                
+                </tr>
             <% end %>
         </table>
     </div>
