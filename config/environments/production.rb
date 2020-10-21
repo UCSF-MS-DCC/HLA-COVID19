@@ -73,7 +73,7 @@ Rails.application.configure do
     :password => ENV['AWS_SMTP_PASSWORD'], # Your SMTP password here.
     :authentication => :login,
     :enable_starttls_auto => true,
-    :port => 25,
+    :port => 587,
     :domain => 'database-hlacovid19.org'
 }
 
