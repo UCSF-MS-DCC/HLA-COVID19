@@ -16,6 +16,10 @@ module UploadHelper
         headers_ok = bad_headers.size > 0 ? false : true
         { :form_ok => headers_ok, :bad_headers => bad_headers }
     end
+    # method to turn NA values - common substitute for null/nil - to a ActiveRecord/mysql-friendly null value
+    def coerce_na_values_to_nil(hsh)
+        hsh.each{ |k,v| (["NA","na","n/a","N/A","N/a","n/A"].include? v) ? hsh[k] = nil : next }
+    end
     # this separates the one long CSV row into smaller hashes aligned to each table's variables.
     def parse_row(row)
         {
@@ -46,48 +50,56 @@ module UploadHelper
     def parse_subject_fields(row)
         sub_params = row.select{ |k,v| Subject.column_names.include? k } 
         sub_params = Hash[sub_params.collect{ |arr| [arr[0], arr[1]] } ] 
+        sub_params = coerce_na_values_to_nil(sub_params)
         sub_params.values.reject{ |v| v == nil }.count > 0 ? sub_params : nil
     end
 
     def parse_c19symptom_fields(row)
         c19_params = row.select{ |k,v| C19Symptom.column_names.include? k } 
         c19_params = Hash[c19_params.collect{ |arr| [arr[0], arr[1]] } ] 
+        c19_params = coerce_na_values_to_nil(c19_params)
         c19_params.values.reject{ |v| v == nil }.count > 0 ? c19_params : nil
     end
 
     def parse_comorbidity_fields(row)
         com_params = row.select{ |k,v| Comorbidity.column_names.include? k } 
         com_params = Hash[com_params.collect{ |arr| [arr[0], arr[1]] } ] 
+        com_params = coerce_na_values_to_nil(com_params)
         com_params.values.reject{ |v| v == nil }.count > 0 ? com_params : nil
     end
 
     def parse_hla_fields(row)
         hla_params = row.select{ |k,v| Hla.column_names.include? k } 
         hla_params = Hash[hla_params.collect{ |arr| [arr[0], arr[1]] } ] 
+        hla_params = coerce_na_values_to_nil(hla_params)
         hla_params.values.reject{ |v| v == nil }.count > 0 ? hla_params : nil
     end
 
     def parse_hospitalization_fields(row)
         hzn_params = row.select{ |k,v| Hospitalization.column_names.include? k } 
         hzn_params = Hash[hzn_params.collect{ |arr| [arr[0], arr[1]] } ] 
+        hzn_params = coerce_na_values_to_nil(hzn_params)
         hzn_params.values.reject{ |v| v == nil }.count > 0 ? hzn_params : nil
     end
 
     def parse_labtest_fields(row)
         lab_params = row.select{ |k,v| LabTest.column_names.include? k } 
         lab_params = Hash[lab_params.collect{ |arr| [arr[0], arr[1]] } ] 
+        lab_params = coerce_na_values_to_nil(lab_params)
         lab_params.values.reject{ |v| v == nil }.count > 0 ? lab_params : nil
     end
 
     def parse_riskfactor_fields(row)
         rkf_params = row.select{ |k,v| RiskFactor.column_names.include? k } 
         rkf_params = Hash[rkf_params.collect{ |arr| [arr[0], arr[1]] } ] 
+        rkf_params = coerce_na_values_to_nil(rkf_params)
         rkf_params.values.reject{ |v| v == nil }.count > 0 ? rkf_params : nil
     end
 
     def parse_treatment_fields(row)
         tmt_params = row.select{ |k,v| Treatment.column_names.include? k } 
         tmt_params = Hash[tmt_params.collect{ |arr| [arr[0], arr[1]] } ] 
+        tmt_params = coerce_na_values_to_nil(tmt_params)
         tmt_params.values.reject{ |v| v == nil }.count > 0 ? tmt_params : nil
     end
     # this builds and saves subject-related models 
