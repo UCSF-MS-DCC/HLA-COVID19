@@ -1,6 +1,5 @@
 class AdminMailer < ApplicationMailer
-    default from: 'no_reply@database-hlacovid19.org'
-    # layout 'mailer'
+    default from: 'admin@database-hlacovid19.org'
 
     def new_user_waiting_for_approval(user)
         @email = user.email
