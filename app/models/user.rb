@@ -12,6 +12,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :projects
   after_create :make_projects
   after_update :make_projects
+  after_update :complete_account_approval, if: :approved_and_not_notified?
   after_create :send_welcome_email
   after_create :send_new_user_admin_notification
   has_paper_trail
@@ -21,6 +22,13 @@ class User < ApplicationRecord
   serialize :approved_access, Array
   serialize :project_name, Array
   
+  def approved_and_not_notified?
+    self.approved && !self.notified_of_approval
+  end
+  def complete_account_approval
+    AdminMailer.user_approved_notification(self).deliver
+    self.update_attributes(notified_of_approval:true)
+  end
   def make_projects
     if self.project_owner == true && self.project_name.count > 0
       self.project_name.each do |pname|

@@ -10,5 +10,8 @@ class AdminMailer < ApplicationMailer
         @email = user.email
         mail(to:@email, subject:"Thank you for registering for the HLA COVID19 database. The data governing team is evalutating your application and may contact you for additional information.")
     end
-
+    def user_approved_notification(user)
+        @email = user.email
+        mail(to:@email, subject:"Your account on the HLA | COVID19 database has been approved")
+    end
 end
