@@ -9,6 +9,9 @@
         <li class="nav-item">
             <%= link_to "HLACOVID19.org", "http://hlacovid19.org", :class => "nav-link", target: :blank %>
         </li>
+        <li class="nav-item">
+          <%= link_to "Download Database Manual", home_download_manual_path, :class => "nav-link", target: :blank %>
+        </li>
         <% if !current_user %>
             <li class="nav-item"><%= link_to "Log In / Register Account", home_auth_path, :class => "nav-link"%></li>
         <% else %>

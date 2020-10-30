@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'home/stats_csv'
   get 'home/age_data'
   get 'home/sex_data'
+  get 'home/download_manual'
   get 'upload/index'
   get 'upload/get_report'
   patch 'upload/import_data'

@@ -107,6 +107,10 @@ class HomeController < ApplicationController
         end
     end
 
+    def download_manual
+        send_file "public/UploadResources/HCDB_Database_Manual_v1.pdf", type: 'application/pdf'
+    end
+
     private
 
     def approved_users_params
