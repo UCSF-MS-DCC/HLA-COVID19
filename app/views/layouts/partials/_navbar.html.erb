@@ -12,6 +12,11 @@
         <li class="nav-item">
           <%= link_to "Download Database Manual", home_download_manual_path, :class => "nav-link", target: :blank %>
         </li>
+        <% if current_user && current_user.admin? %>
+          <li class="nav-item">
+            <%= link_to "Rails Admin", rails_admin_path, :class => "nav-link", target: :blank %>
+          </li>
+        <% end %>
         <% if !current_user %>
             <li class="nav-item"><%= link_to "Log In / Register Account", home_auth_path, :class => "nav-link"%></li>
         <% else %>

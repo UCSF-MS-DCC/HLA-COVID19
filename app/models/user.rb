@@ -41,6 +41,9 @@ class User < ApplicationRecord
       end
     end
   end
+  def admin?
+    self.admin_access == true
+  end
 
   def make_additional_project
   end
