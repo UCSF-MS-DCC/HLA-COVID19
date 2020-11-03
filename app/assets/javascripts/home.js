@@ -16,6 +16,7 @@ $(document).on('turbolinks:load',function(){
           console.log(response)
           if (response["accepted"] === "OK") {
             $('.approve-new-user-button[data-index="'+idx+'"]').html("Approved")
+            $('.remove-new-user-button[data-index="'+idx+'"]').html("-")
             $('.approve-new-user-button[data-index="'+idx+'"]').prop('disabled', true)
             $('tr[data-index="'+idx+'"]').css('background-color', "green");
             } else {
@@ -40,7 +41,8 @@ $(document).on('turbolinks:load',function(){
         success: function(response){
           console.log(response)
           if (response["accepted"] === "OK") {
-            $('.approve-new-user-button[data-index="'+idx+'"]').html("Not Approved")
+            $('.approve-new-user-button[data-index="'+idx+'"]').html("Rejected")
+            $('.remove-new-user-button[data-index="'+idx+'"]').html("Removed")
             $('.remove-new-user-button[data-index="'+idx+'"]').prop('disabled', true)
             $('tr[data-index="'+idx+'"]').css('background-color', "red");
             } else {
