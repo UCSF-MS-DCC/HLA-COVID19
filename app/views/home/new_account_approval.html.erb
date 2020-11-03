@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="row justify-content-md-center">
+        <h1>User accounts awaiting approval</h1>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-10">
+            <table class="table table-bordered table-striped" style="width:100%">
+                <tr>
+                    <th>Email</th>
+                    <th>Affiliation</th>
+                    <th>Registered</th>
+                    <th>Approve</th>
+                    <th>Remove from Consideration</th>
+                <% @new_accounts.each_with_index do |na, idx| %>
+                    <tr data-index=<%= idx %>>
+                        <td><%= na.email %></td>
+                        <td><%= na.affiliation %></td>
+                        <td><%= na.created_at.strftime("%m-%d-%Y") %>
+                        <td><button data-index=<%= idx %> data-email=<%= na.email %> class="approve-new-user-button btn btn-primary">Approve</button></td>
+                        <td><button data-index=<%= idx %> data-email=<%= na.email %> class="remove-new-user-button btn btn-primary">Remove</button></td>
+                    </tr>
+                <% end %>
+            </table>
+        </div>
+    </div>
+
+</div>

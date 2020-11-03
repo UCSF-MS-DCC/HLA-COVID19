@@ -12,9 +12,17 @@
         <li class="nav-item">
           <%= link_to "Download Database Manual", home_download_manual_path, :class => "nav-link", target: :blank %>
         </li>
-        <% if current_user && current_user.admin? %>
-          <li class="nav-item">
-            <%= link_to "Rails Admin", rails_admin_path, :class => "nav-link", target: :blank %>
+        <% if current_user && (current_user.admin? || current_user.can_approve_new_user) %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+              Administration
+            </a>
+            <div class="dropdown-menu">
+              <% if current_user.admin? %>
+                <%= link_to "Rails Admin", rails_admin_path, :class => "nav-link", target: :blank %>
+              <% end %>
+              <%= link_to "New Users", home_new_account_approval_path, :class => "nav-link", target: :blank %>
+            </div>
           </li>
         <% end %>
         <% if !current_user %>

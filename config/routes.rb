@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get 'home/age_data'
   get 'home/sex_data'
   get 'home/download_manual'
+  get 'home/new_account_approval'
+  post 'home/new_account_approval_handler'
   get 'upload/index'
   get 'upload/get_report'
   patch 'upload/import_data'

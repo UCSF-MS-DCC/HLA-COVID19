@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_02_234650) do
+ActiveRecord::Schema.define(version: 2020_11_03_191417) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -340,6 +340,8 @@ ActiveRecord::Schema.define(version: 2020_11_02_234650) do
     t.boolean "email_opt_in"
     t.boolean "notified_of_approval", default: false, null: false
     t.boolean "admin_access", default: false
+    t.boolean "can_approve_new_user", default: false
+    t.boolean "suppress_from_approval_view", default: false
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

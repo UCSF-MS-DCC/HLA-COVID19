@@ -37,6 +37,25 @@ class HomeController < ApplicationController
             format.json { render json: {"user_status": status }, status: :ok}
         end
     end
+    def new_account_approval
+        unless current_user && (current_user.can_approve_new_user || current_user.admin?)
+            redirect_to root_path
+        end
+        @new_accounts = User.where(approved:false).where(suppress_from_approval_view:false)
+
+    end
+    def new_account_approval_handler
+        puts account_approval_params
+        @user = User.find_by(email:account_approval_params[:email])
+        if @user && @user.update_attributes(account_approval_params)
+            @status = "OK"
+        else
+            @status = "ERROR"
+        end
+        respond_to do |format|
+            format.json { render json: {"accepted": @status }, status: :accepted }
+        end
+    end
     def subjects_csv
         @project = Project.find(params[:id])
         respond_to do |format|
@@ -115,5 +134,9 @@ class HomeController < ApplicationController
 
     def approved_users_params
         params.permit(:user, :project, :approved)
+    end
+
+    def account_approval_params
+        params.permit(:email, :approved, :suppress_from_approval_view)
     end
 end
