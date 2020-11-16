@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_03_191417) do
+ActiveRecord::Schema.define(version: 2020_11_16_185730) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -318,18 +318,16 @@ ActiveRecord::Schema.define(version: 2020_11_03_191417) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "rstudio", default: false
+    t.boolean "rstudio", default: true
     t.boolean "approved", default: false
     t.text "affiliation"
     t.integer "upload_count", default: 0
-    t.boolean "can_upload", default: false
+    t.boolean "can_upload", default: true
     t.string "rstudio_username"
     t.string "rstudio_password"
-    t.boolean "request_rstudio_priv", default: false
-    t.boolean "request_upload_priv", default: false
     t.string "authentication_token", limit: 30
     t.string "approved_access"
-    t.boolean "project_owner"
+    t.boolean "project_owner", default: true
     t.string "project_name"
     t.boolean "system_user", default: false, null: false
     t.integer "sign_in_count", default: 0, null: false
