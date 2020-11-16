@@ -27,6 +27,7 @@ class User < ApplicationRecord
   end
   def complete_account_approval
     AdminMailer.user_approved_notification(self).deliver
+    AdminMailer.notify_admin_of_new_user_approval(self).deliver
     self.update_attributes(notified_of_approval:true)
   end
   def make_projects

@@ -14,4 +14,8 @@ class AdminMailer < ApplicationMailer
         @email = user.email
         mail(to:@email, subject:"Your account on the HLA | COVID19 database has been approved")
     end
+    def notify_admin_of_new_user_approval
+        @email = user.email
+        mail(to:"adam.renschen@ucsf.edu", subject:"New user account has been approved.")
+    end
 end
