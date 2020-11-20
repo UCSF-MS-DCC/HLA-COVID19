@@ -18,4 +18,8 @@ class AdminMailer < ApplicationMailer
         @email = user.email
         mail(to:"adam.renschen@ucsf.edu", subject:"New user account has been approved.")
     end
+    def notify_admin_of_server_account_creation(user, created)
+        @user_account = user.email
+        @created = created
+        mail(to:"adam.renschen@ucsf.edu", subject:"New user server account attempted")
 end

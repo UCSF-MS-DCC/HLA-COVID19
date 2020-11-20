@@ -28,7 +28,16 @@ class User < ApplicationRecord
   def complete_account_approval
     AdminMailer.user_approved_notification(self).deliver
     AdminMailer.notify_admin_of_new_user_approval(self).deliver
-    self.update_attributes(notified_of_approval:true)
+    rstudio_u = self.email.split("@")[0]
+    rstudio_p = SecureRandom.alphanumeric(12)
+    if self.update_attributes(notified_of_approval:true, project_owner:true, can_upload:true, rstudio:true, rstudio_username:rstudio_u, rstudio_password:rstudio_p)
+      # use the system() command to create a server account with home dir and password. Email the admin 
+      if system("sudo useradd -m -p $(openssl passwd -1 #{rstudio_p}) #{rstudio_u}") #<- create user with password and home directory
+        AdminMailer.notify_admin_of_server_account_creation(self, true)
+      else
+        AdminMailer.notify_admin_of_server_account_creation(self, false)
+      end
+    end
   end
   def make_projects
     if self.project_owner == true && self.project_name.count > 0
@@ -38,6 +47,7 @@ class User < ApplicationRecord
           @project = Project.new(user_id:self.id, name:pname)
           @project.save
           self.update_attributes(approved_access:self.approved_access.concat([@project.id]))
+
         end
       end
     end

@@ -13,7 +13,6 @@ $(document).on('turbolinks:load',function(){
         data: {"email":email, "approved":true, "suppress_from_approval_view":true},
         dataType: "json",
         success: function(response){
-          console.log(response)
           if (response["accepted"] === "OK") {
             $('.approve-new-user-button[data-index="'+idx+'"]').html("Approved")
             $('.remove-new-user-button[data-index="'+idx+'"]').html("-")
@@ -39,7 +38,6 @@ $(document).on('turbolinks:load',function(){
         data: {"email":email, "approved":false, "suppress_from_approval_view":true},
         dataType: "json",
         success: function(response){
-          console.log(response)
           if (response["accepted"] === "OK") {
             $('.approve-new-user-button[data-index="'+idx+'"]').html("Rejected")
             $('.remove-new-user-button[data-index="'+idx+'"]').html("Removed")
