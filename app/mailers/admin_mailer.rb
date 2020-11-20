@@ -22,4 +22,5 @@ class AdminMailer < ApplicationMailer
         @user_account = user.email
         @created = created
         mail(to:"adam.renschen@ucsf.edu", subject:"New user server account attempted")
+    end
 end
