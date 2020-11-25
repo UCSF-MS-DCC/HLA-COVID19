@@ -44,6 +44,16 @@
                     <h2>Register New Account</h2>
                     
                     <%= form_for(@user, url: registration_path(@user)) do |f| %>
+                        <div class="row form-group" style="margin-left:1px; margin-right:1px;">
+                            <%= f.label :firstname, "First name", :class => "col-4 col-form-label" %><br />
+                            <%= f.text_field :firstname, :class => "form-control", :required => true %>
+                        </div>
+
+                        <div class="row form-group" style="margin-left:1px; margin-right:1px;">
+                            <%= f.label :lastname, "Last name", :class => "col-4 col-form-label" %><br />
+                            <%= f.text_field :lastname, :class => "form-control", :required => true %>
+                        </div>
+
                         <div class="row form-group" style="margin-left:1px;margin-right:1px;">
                             <%= f.label :email, :class => "col-4 col-form-label" %><br />
                             <%= f.email_field :email, autofocus: true, autocomplete: "email", :class => "form-control", :required => true %>
