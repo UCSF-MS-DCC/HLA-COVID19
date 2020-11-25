@@ -3,6 +3,7 @@ class AdminMailer < ApplicationMailer
 
     def new_user_waiting_for_approval(user)
         @email = user.email
+        @username = "#{user.firstname} #{user.lastname}"
         @affiliation = user.affiliation
         mail(to:'adam.renschen@ucsf.edu, covid.hla@gmail.com', subject: 'New HLA COVID19 registration awaiting approval')
     end
