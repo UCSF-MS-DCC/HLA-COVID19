@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'home/stats_csv'
   get 'home/age_data'
   get 'home/sex_data'
+  get 'home/allele_freq_data'
   get 'home/download_manual'
   get 'home/new_account_approval'
   post 'home/new_account_approval_handler'
