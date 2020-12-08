@@ -126,57 +126,57 @@ class HomeController < ApplicationController
         end
     end
     def allele_freq_data
-        # col_names = Hla.column_names.reject{ |cn| ["id", "subject_id", "updated_at", "created_at", "reference_database", "reference_database_version", "typing_method_name", "typing_method_version", "gl_string", "novel_polymorphisms", "pop", "imputed_using_hlacovid_platform"].include? cn }
-        # puts "COLUMN NAMES: #{col_names}"
-        # sub_query = "SELECT"
-        # main_query = "SELECT"
-        # col_names.each_with_index do |cn, idx|
-        #     if idx == 0
-        #         sub_query += " SUBSTRING_INDEX(#{cn},'/',1) as #{cn}"
-        #         main_query += " SUBSTRING_INDEX(s.#{cn},'\*',2) as #{cn}"
-        #     else
-        #         sub_query += ", SUBSTRING_INDEX(#{cn},'/',1) as #{cn}"
-        #         main_query += ", SUBSTRING_INDEX(s.#{cn},'\*',2) as #{cn}"
-        #     end
-        # end
-        # sub_query += " from hlas"
-        # main_query += " from (#{sub_query}) s"
-        # puts sub_query
-        # puts main_query
-        # results = ActiveRecord::Base.connection.exec_query(main_query, name = "SQL", binds = [], prepare: false)
-        # #puts results.to_json
-        # freq_hash = {}
+        col_names = Hla.column_names.reject{ |cn| ["id", "subject_id", "updated_at", "created_at", "reference_database", "reference_database_version", "typing_method_name", "typing_method_version", "gl_string", "novel_polymorphisms", "pop", "imputed_using_hlacovid_platform"].include? cn }
+        puts "COLUMN NAMES: #{col_names}"
+        sub_query = "SELECT"
+        main_query = "SELECT"
+        col_names.each_with_index do |cn, idx|
+            if idx == 0
+                sub_query += " SUBSTRING_INDEX(#{cn},'/',1) as #{cn}"
+                main_query += " SUBSTRING_INDEX(s.#{cn},'\*',2) as #{cn}"
+            else
+                sub_query += ", SUBSTRING_INDEX(#{cn},'/',1) as #{cn}"
+                main_query += ", SUBSTRING_INDEX(s.#{cn},'\*',2) as #{cn}"
+            end
+        end
+        sub_query += " from hlas"
+        main_query += " from (#{sub_query}) s"
+        puts sub_query
+        puts main_query
+        results = ActiveRecord::Base.connection.exec_query(main_query, name = "SQL", binds = [], prepare: false)
+        #puts results.to_json
+        freq_hash = {}
 
-        # results.each do |r|
-        #     r.each do |k,v|
-        #         key = k.split("_").first
-        #         # NORMALIZE ALLELE STRINGS: STRIP OFF GENE PREFIX, REMOVE AMBIGUOUS CALLS, CONDENSE GL STRINGS TO 2 FIELDS, AND INSERT LEADING ZEROES WHERE NEEDED
-        #         val = (!v.nil? && (v.include? "*")) ? v.split("*")[1] : v # STRIP GENE NAMES
-        #         val = (!val.nil? && (val.include? "/")) ? val.split("/")[0] : val # REMOVE AMBIGUOUS CALLS
-        #         val = (!val.nil? && (val.count(":") > 1) ) ? "#{val.split(':').first}:#{val.split(':').second}"# CONDENSE GL STRINGS TO TWO FIELDS
-        #         val = (!val.nil? && (val.split(":").first.count < 2)) ? "#{val.split(':').first.rjust(2, "0")}:#{val.split(':').second}" # ADD LEADING ZEROES IF FIRST FIELD IS ONLY ONE DIGIT
-        #         unless freq_hash[key]
-        #             freq_hash[key] ={}
-        #         end
-        #         if freq_hash[key][val]
-        #             freq_hash[key][val] += 1
-        #         else
-        #             freq_hash[key][val] = 1
-        #         end
-        #     end
-        # end
-        # dataMatrix = []
-        # freq_hash.each do |gene, alleles|
-        #     h = {gene.to_sym => [] }
-        #     puts h
-        #     alleles.each do |a, f|
-        #         h[gene.to_sym].push([a,f])
-        #     end
-        #     dataMatrix.push(h)
-        # end
-        # respond_to do |format|
-        #     format.json { render json: { :data => dataMatrix }, status: :ok }
-        # end
+        results.each do |r|
+            r.each do |k,v|
+                key = k.split("_").first
+                # NORMALIZE ALLELE STRINGS: STRIP OFF GENE PREFIX, REMOVE AMBIGUOUS CALLS, CONDENSE GL STRINGS TO 2 FIELDS, AND INSERT LEADING ZEROES WHERE NEEDED
+                val = (!v.nil? && (v.include? "*")) ? v.split("*")[1] : v # STRIP GENE NAMES
+                val = (!val.nil? && (val.include? "/")) ? val.split("/")[0] : val # REMOVE AMBIGUOUS CALLS
+                val = (!val.nil? && (val.count(":") > 1) ) ? "#{val.split(':').first}:#{val.split(':').second}" : val # CONDENSE GL STRINGS TO TWO FIELDS
+                val = (!val.nil? && (val.split(":").first.count < 2)) ? "#{val.split(':').first.rjust(2, "0")}:#{val.split(':').second}" : val # ADD LEADING ZEROES IF FIRST FIELD IS ONLY ONE DIGIT
+                unless freq_hash[key]
+                    freq_hash[key] ={}
+                end
+                if freq_hash[key][val]
+                    freq_hash[key][val] += 1
+                else
+                    freq_hash[key][val] = 1
+                end
+            end
+        end
+        dataMatrix = []
+        freq_hash.each do |gene, alleles|
+            h = {gene.to_sym => [] }
+            puts h
+            alleles.each do |a, f|
+                h[gene.to_sym].push([a,f])
+            end
+            dataMatrix.push(h)
+        end
+        respond_to do |format|
+            format.json { render json: { :data => dataMatrix }, status: :ok }
+        end
     end
 
     def download_manual
