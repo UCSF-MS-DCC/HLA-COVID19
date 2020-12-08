@@ -150,8 +150,11 @@ class HomeController < ApplicationController
         results.each do |r|
             r.each do |k,v|
                 key = k.split("_").first
-                val = (!v.nil? && (v.include? "*")) ? v.split("*")[1] : v #clean allele values here
-                val = (!val.nil? && (val.include? "/")) ? val.split("/")[0] : val
+                # NORMALIZE ALLELE STRINGS: STRIP OFF GENE PREFIX, REMOVE AMBIGUOUS CALLS, CONDENSE GL STRINGS TO 2 FIELDS, AND INSERT LEADING ZEROES WHERE NEEDED
+                val = (!v.nil? && (v.include? "*")) ? v.split("*")[1] : v # STRIP GENE NAMES
+                val = (!val.nil? && (val.include? "/")) ? val.split("/")[0] : val # REMOVE AMBIGUOUS CALLS
+                val = (!val.nil? && (val.count(":") > 1) ) ? "#{val.split(':').first}:#{val.split(':').second}"# CONDENSE GL STRINGS TO TWO FIELDS
+                val = (!val.nil? && (val.split(":").first.count < 2)) ? "#{val.split(':').first.rjust(2, "0")}:#{val.split(':').second}" # ADD LEADING ZEROES IF FIRST FIELD IS ONLY ONE DIGIT
                 unless freq_hash[key]
                     freq_hash[key] ={}
                 end
