@@ -130,9 +130,10 @@ $(document).on('turbolinks:load',function(){
           numberFormat.format(data, 1);
           var view = new google.visualization.DataView(data);
           var options = {
-            title: "Allele Frequencies",
+            title: "HLA*"+gene.toUpperCase(),
             height: 400,
-            // bar: { groupWidth: "61.8%"},
+            backgroundColor: "transparent",
+            bar: { groupWidth: "61.8%"},
             legend: { position: "none" },
             vAxis: { logScale: true }
           };
