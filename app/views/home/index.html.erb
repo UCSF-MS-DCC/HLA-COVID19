@@ -41,23 +41,6 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-md-center"  style="border:1px solid red">
-        <div class="col-md-12">
-            <ul class="nav nav-tabs">
-                <% @hla_genes.each_with_index do |g, idx| %>
-                    <li class="nav-item">
-                        <a class=<%= idx == 0 ? "nav-link active" : "nav-link"%> data-toggle="tab" href=<%= "##{g}-chart-container" %>><%= "HLA-#{g.upcase}"%></a>
-                    </li>
-                <% end %>
-            </ul>
-            <div class="tab-content">
-                <% @hla_genes.each_with_index do |g, idx| %>
-                    <div class="tab-pane container<%= idx == 0 ? " active" : "" %>" id="<%= g %>-chart-container" style="border:1px dotted orange;min-width:100%">
-                        <div class="allele-freq-chart" data-gene="<%= g %>" id="<%= g %>-chart" style="border:1px dotted purple"></div>
-                    </div>
-                <% end %>
-            </div>
-        </div>
-    </div>
+
 </div>
 
