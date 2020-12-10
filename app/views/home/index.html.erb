@@ -41,27 +41,24 @@
             </div>
         </div>
     </div>
-
+    <hr>
+    <div class="row justify-content-md-center">
+        <h4>Allele Frequencies</h4>
+    </div>
     <% @hla_genes.each_with_index do |g, idx| %>
-        <% if idx == 0 || idx == 5 %>
+        <% if idx == 0 || idx == 4 %>
             <div class="row justify-content-md-center">
-                <div class="col-md-4" id="<%= g %>-chart-container">
+                <div class="col-md-3" id="<%= g %>-chart-container">
                     <div class="allele-freq-chart" data-gene="<%= @hla_genes[idx] %>" id="<%= @hla_genes[idx] %>-chart"></div>
                 </div>
-                <div class="col-md-4" id="<%= g %>-chart-container">
+                <div class="col-md-3" id="<%= g %>-chart-container">
                     <div class="allele-freq-chart" data-gene="<%= @hla_genes[idx + 1] %>" id="<%= @hla_genes[idx + 1] %>-chart"></div>
                 </div>
-                <div class="col-md-4" id="<%= g %>-chart-container">
+                <div class="col-md-3" id="<%= g %>-chart-container">
                     <div class="allele-freq-chart" data-gene="<%= @hla_genes[idx + 2] %>" id="<%= @hla_genes[idx + 2] %>-chart"></div>
                 </div>
-            </div>
-        <% elsif idx == 3 %>
-            <div class="row justify-content-md-center">
-                <div class="col-md-4" id="<%= g %>-chart-container">
-                    <div class="allele-freq-chart" data-gene="<%= @hla_genes[idx] %>" id="<%= @hla_genes[idx] %>-chart"></div>
-                </div>
-                <div class="col-md-4" id="<%= g %>-chart-container">
-                    <div class="allele-freq-chart" data-gene="<%= @hla_genes[idx + 1] %>" id="<%= @hla_genes[idx + 1] %>-chart"></div>
+                <div class="col-md-3" id="<%= g %>-chart-container">
+                    <div class="allele-freq-chart" data-gene="<%= @hla_genes[idx + 3] %>" id="<%= @hla_genes[idx + 3] %>-chart"></div>
                 </div>
             </div>
         <% else %>
