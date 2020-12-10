@@ -148,7 +148,10 @@ class HomeController < ApplicationController
                     gls = (gls.scan(':').size > 1) ? "#{gls.split(':').first}:#{gls.split(':').second}" : gls # CONDENSE GL STRINGS TO TWO FIELDS 
                     gls = (/^\d{1}:/.match(gls)) ? "#{gls.split(':').first.rjust(2, '0')}:#{gls.split(':').second}" : gls # ADD LEADING ZEROES IF FIRST FIELD IS ONLY ONE DIGIT
                     gls = (/^\d{1}$/.match(gls)) ? "#{gls.rjust(2, '0')}" : gls
-
+                    # BEFORE ADDING TO THE FREQUENCY HASH CHECK TO SEE THAT THE GENE NAME ISN'T 'NA' OR 'INSERTION' OR ANYTHING THAT ISN'T A VALID GL STRING. IF IT IS, SKIP TO THE NEXT ALLELE
+                    unless /^[0-9]/.match? gls.to_s
+                        next
+                    end
                     if freq_hash[gls]
                         freq_hash[gls] += h["n"]
                     else
