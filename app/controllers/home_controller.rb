@@ -3,6 +3,9 @@ class HomeController < ApplicationController
         @subjects_n = Subject.where(project_id:[1,10,11]).count
         subject_ids = Project.where(id:[1,10,11]).map{ |p| p.subjects.pluck(:id) }.flatten
         @all_hlas_n = Hla.where(subject_id:subject_ids).count
+        @hla_genes = Hla.column_names.reject{ |cn| ["id", "subject_id", "updated_at", "created_at", "reference_database", "reference_database_version", "typing_method_name", "typing_method_version", "gl_string", "novel_polymorphisms", "pop", "imputed_using_hlacovid_platform", "drbo_1", "drbo_2", "drb345_1", "drb345_2"].include? cn }
+        @hla_genes = @hla_genes.map{ |g| g.split("_").first}.uniq
+        puts @hla_genes
         @imputed_hlas_n = Hla.where(subject_id:subject_ids).where(imputed_using_hlacovid_platform:true).count
         if current_user
             @user = current_user
@@ -126,61 +129,51 @@ class HomeController < ApplicationController
         end
     end
     def allele_freq_data
-        col_names = Hla.column_names.reject{ |cn| ["id", "subject_id", "updated_at", "created_at", "reference_database", "reference_database_version", "typing_method_name", "typing_method_version", "gl_string", "novel_polymorphisms", "pop", "imputed_using_hlacovid_platform"].include? cn }
-        puts "COLUMN NAMES: #{col_names}"
-        sub_query = "SELECT"
-        main_query = "SELECT"
-        col_names.each_with_index do |cn, idx|
-            if idx == 0
-                sub_query += " SUBSTRING_INDEX(#{cn},'/',1) as #{cn}"
-                main_query += " SUBSTRING_INDEX(s.#{cn},'\*',2) as #{cn}"
-            else
-                sub_query += ", SUBSTRING_INDEX(#{cn},'/',1) as #{cn}"
-                main_query += ", SUBSTRING_INDEX(s.#{cn},'\*',2) as #{cn}"
-            end
-        end
-        sub_query += " from hlas"
-        main_query += " from (#{sub_query}) s"
-        puts sub_query
-        puts main_query
-        results = ActiveRecord::Base.connection.exec_query(main_query, name = "SQL", binds = [], prepare: false)
-        #puts results.to_json
-        freq_hash = {}
+        gp1 = "#{allele_freq_data_params[:gene]}_1"
+        gp2 = "#{allele_freq_data_params[:gene]}_2"
+        query_1 = "SELECT #{gp1} as allele, count(*) as n from hlas group by #{gp1} "
+        query_2 = "SELECT #{gp2} as allele, count(*) as n from hlas group by #{gp2} "
+        result_1 = ActiveRecord::Base.connection.exec_query(query_1)
+        result_2 = ActiveRecord::Base.connection.exec_query(query_2)
 
-        results.each do |r|
-            r.each do |k,v|
-                key = k.split("_").first
+        freq_hash = {}
+        # AGGREGATE THE TOTALS FROM THE SINGLE GENE COUNT QUERIES INTO ONE HASH
+        [result_1, result_2].each do |r|
+            r.each do |h|
+                gls = h["allele"]
                 # NORMALIZE ALLELE STRINGS: STRIP OFF GENE PREFIX, REMOVE AMBIGUOUS CALLS, CONDENSE GL STRINGS TO 2 FIELDS, AND INSERT LEADING ZEROES WHERE NEEDED
-                unless v.nil?
-                    val = (v.include? "*") ? v.split("*")[1] : v # STRIP GENE NAMES
-                    val = (val.include? "/") ? val.split("/")[0] : val # REMOVE AMBIGUOUS CALLS
-                    puts "STRING SCAN: #{val.scan(':')}"
-                    val = (val.scan(':').size > 1) ? "#{val.split(':').first}:#{val.split(':').second}" : val # CONDENSE GL STRINGS TO TWO FIELDS 
-                    val = (/^\d{1}:/.match(val)) ? "#{val.split(':').first.rjust(2, '0')}:#{val.split(':').second}" : val # ADD LEADING ZEROES IF FIRST FIELD IS ONLY ONE DIGIT
-                    val = (/^\d{1}$/.match(val)) ? "#{val.rjust(2, '0')}" : val
-                    unless freq_hash[key]
-                        freq_hash[key] ={}
-                    end
-                    if freq_hash[key][val]
-                        freq_hash[key][val] += 1
+                unless gls.nil?
+                    gls = (gls.include? "*") ? gls.split("*")[1] : gls # STRIP GENE NAMES
+                    gls = (gls.include? "/") ? gls.split("/")[0] : gls # REMOVE AMBIGUOUS CALLS
+                    gls = (gls.scan(':').size > 1) ? "#{gls.split(':').first}:#{gls.split(':').second}" : gls # CONDENSE GL STRINGS TO TWO FIELDS 
+                    gls = (/^\d{1}:/.match(gls)) ? "#{gls.split(':').first.rjust(2, '0')}:#{gls.split(':').second}" : gls # ADD LEADING ZEROES IF FIRST FIELD IS ONLY ONE DIGIT
+                    gls = (/^\d{1}$/.match(gls)) ? "#{gls.rjust(2, '0')}" : gls
+
+                    if freq_hash[gls]
+                        freq_hash[gls] += h["n"]
                     else
-                        freq_hash[key][val] = 1
+                        freq_hash[gls] = h["n"]
                     end
                 end
             end
         end
+        # DETERMINE EACH GENOTYPE'S FREQUENCY BY DIVIDING EACH GENOTYPE'S COUNT BY 2X THE TOTAL HLA
+        sample_n = (Hla.where("#{gp1} IS NOT NULL").where("#{gp2} IS NOT NULL").size) * 2
+
         dataMatrix = []
-        freq_hash.each do |gene, alleles|
-            h = {gene.to_sym => [] }
-            puts h
-            alleles.each do |a, f|
-                h[gene.to_sym].push([a,f])
+        #puts freq_hash
+        freq_hash.each do |al, n|
+            unless sample_n == 0
+                dataMatrix.push([al, ((n.to_f)/sample_n.to_f).round(5)])
             end
-            dataMatrix.push(h)
         end
+
+        dataMatrix = dataMatrix.sort_by{ |tup| tup[0] }
+        dataMatrix.unshift(["Allele", "Frequency"])
         respond_to do |format|
             format.json { render json: { :data => dataMatrix }, status: :ok }
         end
+
     end
 
     def download_manual
@@ -195,5 +188,9 @@ class HomeController < ApplicationController
 
     def account_approval_params
         params.permit(:email, :approved, :suppress_from_approval_view)
+    end
+
+    def allele_freq_data_params
+        params.permit(:gene)
     end
 end

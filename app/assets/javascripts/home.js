@@ -53,99 +53,96 @@ $(document).on('turbolinks:load',function(){
     });
   }
 
+  /* JQUERY API CALLS TO GET DASHBOARD DATA AND DRAW CHARTS. ONLY RUN THESE FOR HOME#INDEX */
+  if (window.location.pathname === "/") {
     $.get('/home/age_data.json', function(response){
 
-        adMatrix = response['data'];
-        adMatrix.forEach(function(arr){
-            arr.push('stroke-color: black; stroke-width: 2');
-        });
-        adMatrix.unshift(['Age', 'N', { role: 'style' } ]);
+      adMatrix = response['data'];
+      adMatrix.forEach(function(arr){
+          arr.push('stroke-color: black; stroke-width: 2');
+      });
+      adMatrix.unshift(['Age', 'N', { role: 'style' } ]);
 
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawAgeChart);
-    
-        function drawAgeChart() {
-    
-          var data = google.visualization.arrayToDataTable(adMatrix);
-    
-          var options = {
-            title: 'Age',
-            fontName: 'Josefin Sans',
-            fontSize: '16',
-            bar: {groupWidth: "61.8%"},
-            legend: { position: "none" },
-            width: "100%",
-            height: 400,
-            backgroundColor: { fill:'transparent' }
-          };
-    
-          var chart = new google.visualization.ColumnChart(document.getElementById('age-chart'));
-          chart.draw(data, options);
-        }
-
-
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawAgeChart);
+  
+      function drawAgeChart() {
+  
+        var data = google.visualization.arrayToDataTable(adMatrix);
+  
+        var options = {
+          title: 'Age',
+          fontName: 'Josefin Sans',
+          fontSize: '16',
+          bar: {groupWidth: "61.8%"},
+          legend: { position: "none" },
+          width: "100%",
+          height: 400,
+          backgroundColor: { fill:'transparent' }
+        };
+  
+        var chart = new google.visualization.ColumnChart(document.getElementById('age-chart'));
+        chart.draw(data, options);
+      }
     });
 
     $.get('/home/sex_data.json', function(response){
+      sdMatrix = response['data'];
+      sdMatrix.unshift(['Sex', 'N']);
 
-        sdMatrix = response['data'];
-        sdMatrix.unshift(['Sex', 'N']);
-
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawSexChart);
-    
-        function drawSexChart() {
-    
-          var data = google.visualization.arrayToDataTable(sdMatrix);
-    
-          var options = {
-            fontName: 'Josefin Sans',
-            fontSize: '16',
-            title: 'Sex',
-            bar: {groupWidth: "95%"},
-            legend: { position: "bottom" },
-            width: "95%",
-            height: 400,
-            backgroundColor: { fill:'transparent' }
-          };
-    
-          var chart = new google.visualization.PieChart(document.getElementById('sex-chart'));
-          chart.draw(data, options);
-        }
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawSexChart);
+  
+      function drawSexChart() {
+  
+        var data = google.visualization.arrayToDataTable(sdMatrix);
+  
+        var options = {
+          fontName: 'Josefin Sans',
+          fontSize: '16',
+          title: 'Sex',
+          bar: {groupWidth: "95%"},
+          legend: { position: "bottom" },
+          width: "95%",
+          height: 400,
+          backgroundColor: { fill:'transparent' }
+        };
+  
+        var chart = new google.visualization.PieChart(document.getElementById('sex-chart'));
+        chart.draw(data, options);
+      }
     });
 
-    $.get('/home/allele_freq_data.json', function(response){
+    $('.allele-freq-chart').each(function(){
+      var gene = $(this).data("gene");
+      var element_id = $(this).prop("id")
+
+      $.get('/home/allele_freq_data.json?gene='+gene, function(response){
         console.log(response["data"])
-    //   google.charts.load("current", {packages:['corechart']});
-    //   google.charts.setOnLoadCallback(drawChart);
-    //   function drawChart() {
-    //     var data = google.visualization.arrayToDataTable([
-    //       ["Element", "Density", { role: "style" } ],
-    //       ["Copper", 8.94, "#b87333"],
-    //       ["Silver", 10.49, "silver"],
-    //       ["Gold", 19.30, "gold"],
-    //       ["Platinum", 21.45, "color: #e5e4e2"]
-    //     ]);
-  
-    //     var view = new google.visualization.DataView(data);
-    //     view.setColumns([0, 1,
-    //                      { calc: "stringify",
-    //                        sourceColumn: 1,
-    //                        type: "string",
-    //                        role: "annotation" },
-    //                      2]);
-  
-    //     var options = {
-    //       title: "Density of Precious Metals, in g/cm^3",
-    //       width: 600,
-    //       height: 400,
-    //       bar: {groupWidth: "95%"},
-    //       legend: { position: "none" },
-    //     };
-    //     var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
-    //     chart.draw(view, options);
-    // }
-  });
+        google.charts.load("current", {packages:['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+          var data = google.visualization.arrayToDataTable(response["data"]);
+          var numberFormat = new google.visualization.NumberFormat(
+            {pattern:'#.#####'}
+          );
+          numberFormat.format(data, 1);
+          var view = new google.visualization.DataView(data);
+          var options = {
+            title: "Allele Frequencies",
+            height: 400,
+            // bar: { groupWidth: "61.8%"},
+            legend: { position: "none" },
+            vAxis: { logScale: true }
+          };
+
+          var chart = new google.visualization.ColumnChart(document.getElementById(element_id));
+          chart.draw(view, options);
+        }
+      });
+    });
+  }
 
     $('#reg-chkbox').on('change', function() {
       if ($(this).prop('checked') == true) {
