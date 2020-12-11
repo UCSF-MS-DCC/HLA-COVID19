@@ -5,7 +5,6 @@ class HomeController < ApplicationController
         @all_hlas_n = Hla.where(subject_id:subject_ids).count
         @hla_genes = Hla.column_names.reject{ |cn| ["id", "subject_id", "updated_at", "created_at", "reference_database", "reference_database_version", "typing_method_name", "typing_method_version", "gl_string", "novel_polymorphisms", "pop", "imputed_using_hlacovid_platform", "drbo_1", "drbo_2", "drb345_1", "drb345_2"].include? cn }
         @hla_genes = @hla_genes.map{ |g| g.split("_").first}.uniq
-        puts @hla_genes
         @imputed_hlas_n = Hla.where(subject_id:subject_ids).where(imputed_using_hlacovid_platform:true).count
         if current_user
             @user = current_user
@@ -161,7 +160,7 @@ class HomeController < ApplicationController
             end
         end
         # DETERMINE EACH GENOTYPE'S FREQUENCY BY DIVIDING EACH GENOTYPE'S COUNT BY 2X THE TOTAL HLA
-        sample_n = (Hla.where("#{gp1} IS NOT NULL").where("#{gp2} IS NOT NULL").size) * 2
+        sample_n = (Hla.where("#{gp1} IS NOT NULL").where("#{gp2} IS NOT NULL").where("#{gp1} <> 'NA'").where("#{gp2} <> 'NA'").where("#{gp1} <> 'insertion/deletion'").where("#{gp2} <> 'insertion/deletion'").size) * 2
 
         dataMatrix = []
         #puts freq_hash

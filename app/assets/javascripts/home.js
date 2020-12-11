@@ -118,7 +118,6 @@ $(document).on('turbolinks:load',function(){
       var element_id = $(this).prop("id")
 
       $.get('/home/allele_freq_data.json?gene='+gene, function(response){
-        console.log(response["data"])
         google.charts.load("current", {packages:['corechart']});
         google.charts.setOnLoadCallback(drawChart);
 
