@@ -129,7 +129,7 @@ $(document).on('turbolinks:load',function(){
           numberFormat.format(data, 1);
           var view = new google.visualization.DataView(data);
           var options = {
-            title: "HLA*"+gene.toUpperCase(),
+            title: "HLA-"+gene.toUpperCase(),
             height: 400,
             backgroundColor: "transparent",
             bar: { groupWidth: "61.8%"},
