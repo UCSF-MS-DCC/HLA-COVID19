@@ -130,8 +130,8 @@ class HomeController < ApplicationController
     def allele_freq_data
         gp1 = "#{allele_freq_data_params[:gene]}_1"
         gp2 = "#{allele_freq_data_params[:gene]}_2"
-        query_1 = "SELECT #{gp1} as allele, count(*) as n from hlas group by #{gp1} "
-        query_2 = "SELECT #{gp2} as allele, count(*) as n from hlas group by #{gp2} "
+        query_1 = "SELECT h.#{gp1} as allele, count(h.id) as n from hlas h join subjects s on h.subject_id = s.id where s.project_id in (1, 10, 11, 17, 19) group by h.#{gp1}"
+        query_2 = "SELECT h.#{gp2} as allele, count(h.id) as n from hlas h join subjects s on h.subject_id = s.id where s.project_id in (1, 10, 11, 17, 19) group by h.#{gp2}"
         result_1 = ActiveRecord::Base.connection.exec_query(query_1)
         result_2 = ActiveRecord::Base.connection.exec_query(query_2)
 
@@ -162,8 +162,8 @@ class HomeController < ApplicationController
         end
         # DETERMINE EACH GENOTYPE'S FREQUENCY BY DIVIDING EACH GENOTYPE'S COUNT BY 2X THE TOTAL HLA
         #sample_n = (Hla.where("#{gp1} IS NOT NULL").where("#{gp2} IS NOT NULL").where("#{gp1} <> 'NA'").where("#{gp2} <> 'NA'").where("#{gp1} <> 'insertion/deletion'").where("#{gp2} <> 'insertion/deletion'").size) * 2
-        gp1_count = ActiveRecord::Base.connection.execute("SELECT count(*) from hlas where #{gp1} is not null and #{gp1} <> 'NA' and #{gp1} <> 'insertion/deletion'")
-        gp2_count = ActiveRecord::Base.connection.execute("SELECT count(*) from hlas where #{gp2} is not null and #{gp2} <> 'NA' and #{gp2} <> 'insertion/deletion'")
+        gp1_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from hlas h join subjects s on h.subject_id = s.id where h.#{gp1} is not null and h.#{gp1} <> 'NA' and h.#{gp1} <> 'insertion/deletion' and s.project_id in (1, 10, 11, 17, 19)")
+        gp2_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from hlas h join subjects s on h.subject_id = s.id where h.#{gp2} is not null and h.#{gp2} <> 'NA' and h.#{gp2} <> 'insertion/deletion' and project_id in (1, 10, 11, 17, 19)")
         # puts gp1_count.to_a.first
         # puts gp2_count.to_a.first
         sample_n = gp1_count.to_a.first.first + gp2_count.to_a.first.first
