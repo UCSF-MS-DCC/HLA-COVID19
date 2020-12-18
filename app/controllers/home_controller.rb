@@ -139,6 +139,7 @@ class HomeController < ApplicationController
         # AGGREGATE THE TOTALS FROM THE SINGLE GENE COUNT QUERIES INTO ONE HASH
         [result_1, result_2].each do |r|
             r.each do |h|
+                puts h
                 gls = h["allele"]
                 # NORMALIZE ALLELE STRINGS: STRIP OFF GENE PREFIX, REMOVE AMBIGUOUS CALLS, CONDENSE GL STRINGS TO 2 FIELDS, AND INSERT LEADING ZEROES WHERE NEEDED
                 unless gls.nil?
@@ -160,11 +161,17 @@ class HomeController < ApplicationController
             end
         end
         # DETERMINE EACH GENOTYPE'S FREQUENCY BY DIVIDING EACH GENOTYPE'S COUNT BY 2X THE TOTAL HLA
-        sample_n = (Hla.where("#{gp1} IS NOT NULL").where("#{gp2} IS NOT NULL").where("#{gp1} <> 'NA'").where("#{gp2} <> 'NA'").where("#{gp1} <> 'insertion/deletion'").where("#{gp2} <> 'insertion/deletion'").size) * 2
-
+        #sample_n = (Hla.where("#{gp1} IS NOT NULL").where("#{gp2} IS NOT NULL").where("#{gp1} <> 'NA'").where("#{gp2} <> 'NA'").where("#{gp1} <> 'insertion/deletion'").where("#{gp2} <> 'insertion/deletion'").size) * 2
+        gp1_count = ActiveRecord::Base.connection.execute("SELECT count(*) from hlas where #{gp1} is not null and #{gp1} <> 'NA' and #{gp1} <> 'insertion/deletion'")
+        gp2_count = ActiveRecord::Base.connection.execute("SELECT count(*) from hlas where #{gp2} is not null and #{gp2} <> 'NA' and #{gp2} <> 'insertion/deletion'")
+        # puts gp1_count.to_a.first
+        # puts gp2_count.to_a.first
+        sample_n = gp1_count.to_a.first.first + gp2_count.to_a.first.first
+        # puts sample_n
         dataMatrix = []
         #puts freq_hash
         freq_hash.each do |al, n|
+           # puts "#{al} #{n}"
             unless sample_n == 0
                 dataMatrix.push([al, ((n.to_f)/sample_n.to_f).round(5)])
             end
