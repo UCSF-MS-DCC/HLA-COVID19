@@ -6,6 +6,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :timeoutable
   #after_create :send_new_account_notification
   validates_uniqueness_of :email
+  validates_uniqueness_of :rstudio_username, allow_nil: :true
   has_many_attached :uploads
   has_many :projects, :dependent => :delete_all
   validates :uploads, blob: { content_type: 'text/csv' }
@@ -26,19 +27,21 @@ class User < ApplicationRecord
     self.approved && !self.notified_of_approval
   end
   def complete_account_approval
-    AdminMailer.user_approved_notification(self).deliver
-    AdminMailer.notify_admin_of_new_user_approval(self).deliver
     rstudio_u = self.email.split("@")[0]
     rstudio_p = SecureRandom.alphanumeric(12)
     if self.update_attributes(notified_of_approval:true, project_owner:true, can_upload:true, rstudio:true, rstudio_username:rstudio_u, rstudio_password:rstudio_p)
       # use the system() command to create a server account with home dir and password. Email the admin 
       if system("sudo useradd -m -p $(openssl passwd -1 #{rstudio_p}) #{rstudio_u}") #<- create user with password and home directory
         AdminMailer.notify_admin_of_server_account_creation(self, true)
+        AdminMailer.user_approved_notification(self)
       else
         AdminMailer.notify_admin_of_server_account_creation(self, false)
       end
+    else 
+      AdminMailer.notify_admin_of_server_account_creation(self, false)
     end
   end
+
   def make_projects
     if self.project_owner == true && self.project_name.count > 0
       self.project_name.each do |pname|

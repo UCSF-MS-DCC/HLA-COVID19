@@ -141,10 +141,10 @@ class HomeController < ApplicationController
             r.each do |h|
                 puts h
                 gls = h["allele"]
-                # NORMALIZE ALLELE STRINGS: STRIP OFF GENE PREFIX, REMOVE AMBIGUOUS CALLS, CONDENSE GL STRINGS TO 2 FIELDS, AND INSERT LEADING ZEROES WHERE NEEDED
+                # NORMALIZE ALLELE STRINGS: STRIP OFF GENE PREFIX, SHORTEN AMBIGUOUS CALLS, CONDENSE GL STRINGS TO 2 FIELDS, AND INSERT LEADING ZEROES WHERE NEEDED
                 unless gls.nil?
                     gls = (gls.include? "*") ? gls.split("*")[1] : gls # STRIP GENE NAMES
-                    gls = (gls.include? "/") ? gls.split("/")[0] : gls # REMOVE AMBIGUOUS CALLS
+                    gls = (gls.include? "/") ? gls.split("/")[0] : gls # SHORTEN AMBIGUOUS CALLS
                     gls = (gls.scan(':').size > 1) ? "#{gls.split(':').first}:#{gls.split(':').second}" : gls # CONDENSE GL STRINGS TO TWO FIELDS 
                     gls = (/^\d{1}:/.match(gls)) ? "#{gls.split(':').first.rjust(2, '0')}:#{gls.split(':').second}" : gls # ADD LEADING ZEROES IF FIRST FIELD IS ONLY ONE DIGIT
                     gls = (/^\d{1}$/.match(gls)) ? "#{gls.rjust(2, '0')}" : gls
