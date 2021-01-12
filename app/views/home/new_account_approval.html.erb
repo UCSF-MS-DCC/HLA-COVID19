@@ -6,6 +6,8 @@
         <div class="col-10">
             <table class="table table-bordered table-striped" style="width:100%">
                 <tr>
+                    <th>First name</th>
+                    <th>Last name</th>
                     <th>Email</th>
                     <th>Affiliation</th>
                     <th>Registered</th>
@@ -13,6 +15,8 @@
                     <th>Remove from Consideration</th>
                 <% @new_accounts.each_with_index do |na, idx| %>
                     <tr data-index=<%= idx %>>
+                        <td><%= na.firstname %></td>
+                        <td><%= na.lastname %></td>
                         <td><%= na.email %></td>
                         <td><%= na.affiliation %></td>
                         <td><%= na.created_at.strftime("%m-%d-%Y") %>
