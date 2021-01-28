@@ -191,7 +191,7 @@ class HomeController < ApplicationController
         data_hash = {:colnames => ["Project Name", "Affiliation", "Subjects"], :members => {} }
         @projects.each do |p|
             puts "NAME: #{p.name}"
-            data_hash[:members][p.name] = { :n => p.subjects.count, :affiliation => p.user.affiliation }
+            data_hash[:members][p.name] = { :n => p.subjects.count }
         end
         puts "PROJECTS: #{data_hash}"
         respond_to do |format|

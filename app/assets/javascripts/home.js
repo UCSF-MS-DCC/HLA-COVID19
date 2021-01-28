@@ -124,7 +124,7 @@ $(document).on('turbolinks:load',function(){
           dt.addColumn('string', column);
          });
         for(member in response["data"]["members"]) {
-          dt.addRow([member, response["data"]["members"][member]["affiliation"], response["data"]["members"][member]["n"].toString()])
+          dt.addRow([member, response["data"]["members"][member]["n"].toString()])
         };
         
 
