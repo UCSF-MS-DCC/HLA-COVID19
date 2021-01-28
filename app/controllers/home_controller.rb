@@ -188,7 +188,7 @@ class HomeController < ApplicationController
 
     def contributor_table_data
         @projects = Project.where(is_test:false)
-        data_hash = {:colnames => ["Project Name", "Affiliation", "Subjects"], :members => {} }
+        data_hash = {:colnames => ["Project Name", "Subjects"], :members => {} }
         @projects.each do |p|
             puts "NAME: #{p.name}"
             data_hash[:members][p.name] = { :n => p.subjects.count }
