@@ -1,7 +1,8 @@
 class HomeController < ApplicationController
     def index
-        @subjects_n = Subject.where(project_id:[1,10,11]).count
-        subject_ids = Project.where(id:[1,10,11]).map{ |p| p.subjects.pluck(:id) }.flatten
+        test_pids = Project.where(is_test:true).pluck(:id)
+        @subjects_n = Subject.where.not(project_id:test_pids).count
+        subject_ids = Project.where.not(id:test_pids).map{ |p| p.subjects.pluck(:id) }.flatten
         @all_hlas_n = Hla.where(subject_id:subject_ids).count
         @hla_genes = Hla.column_names.reject{ |cn| ["id", "subject_id", "updated_at", "created_at", "reference_database", "reference_database_version", "typing_method_name", "typing_method_version", "gl_string", "novel_polymorphisms", "pop", "imputed_using_hlacovid_platform", "drbo_1", "drbo_2", "drb345_1", "drb345_2"].include? cn }
         @hla_genes = @hla_genes.map{ |g| g.split("_").first}.uniq
@@ -183,6 +184,19 @@ class HomeController < ApplicationController
             format.json { render json: { :data => dataMatrix }, status: :ok }
         end
 
+    end
+
+    def contributor_table_data
+        @projects = Project.where(is_test:false)
+        data_hash = {:colnames => ["Project Name", "Affiliation", "Subjects"], :members => {} }
+        @projects.each do |p|
+            puts "NAME: #{p.name}"
+            data_hash[:members][p.name] = { :n => p.subjects.count, :affiliation => p.user.affiliation }
+        end
+        puts "PROJECTS: #{data_hash}"
+        respond_to do |format|
+            format.json { render json: { :data => data_hash }, status: :ok }
+        end
     end
 
     def download_manual

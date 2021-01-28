@@ -113,6 +113,34 @@ $(document).on('turbolinks:load',function(){
       }
     });
 
+    $.get('/home/contributor_table_data.json', function(response){
+      console.log(response)
+      google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawContributorTable);
+
+      function drawContributorTable() {
+        var dt = new google.visualization.DataTable();
+        response["data"]["colnames"].forEach(function(column){
+          dt.addColumn('string', column);
+         });
+        for(member in response["data"]["members"]) {
+          dt.addRow([member, response["data"]["members"][member]["affiliation"], response["data"]["members"][member]["n"].toString()])
+        };
+        
+
+        // data.addRows([
+        //   ['Mike',  {v: 10000, f: '$10,000'}, true],
+        //   ['Jim',   {v:8000,   f: '$8,000'},  false],
+        //   ['Alice', {v: 12500, f: '$12,500'}, true],
+        //   ['Bob',   {v: 7000,  f: '$7,000'},  true]
+        // ]);
+
+        var table = new google.visualization.Table(document.getElementById('contributor-chart'));
+
+        table.draw(dt, {showRowNumber: true, width: '100%', height: '100%'});
+      }
+    });
+
     $('.allele-freq-chart').each(function(){
       var gene = $(this).data("gene");
       var element_id = $(this).prop("id")
