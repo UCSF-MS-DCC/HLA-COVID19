@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_28_190655) do
+ActiveRecord::Schema.define(version: 2021_02_17_223804) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -188,6 +188,25 @@ ActiveRecord::Schema.define(version: 2021_01_28_190655) do
     t.string "typing_method_version"
     t.string "population"
     t.index ["hla_id"], name: "index_imputationstats_on_hla_id"
+  end
+
+  create_table "kirs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "subject_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "k2dl4_1"
+    t.string "k2dl4_2"
+    t.string "k2dl23_1"
+    t.string "k2dl23_2"
+    t.string "k3dl1s1_1"
+    t.string "k3dl1s1_2"
+    t.string "k3dl2_1"
+    t.string "k3dl2_2"
+    t.string "k3dl3_1"
+    t.string "k3dl3_2"
+    t.string "k2dl1_1"
+    t.string "k2dl1_2"
+    t.index ["subject_id"], name: "index_kirs_on_subject_id"
   end
 
   create_table "lab_tests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -382,6 +401,7 @@ ActiveRecord::Schema.define(version: 2021_01_28_190655) do
   add_foreign_key "hlas", "subjects", on_delete: :cascade
   add_foreign_key "hospitalizations", "subjects", on_delete: :cascade
   add_foreign_key "imputationstats", "hlas"
+  add_foreign_key "kirs", "subjects"
   add_foreign_key "projects", "users", on_delete: :cascade
   add_foreign_key "read_counts", "hlas"
   add_foreign_key "risk_factors", "subjects", on_delete: :cascade

@@ -140,7 +140,7 @@ class HomeController < ApplicationController
         # AGGREGATE THE TOTALS FROM THE SINGLE GENE COUNT QUERIES INTO ONE HASH
         [result_1, result_2].each do |r|
             r.each do |h|
-                puts h
+                #puts h
                 gls = h["allele"]
                 # NORMALIZE ALLELE STRINGS: STRIP OFF GENE PREFIX, SHORTEN AMBIGUOUS CALLS, CONDENSE GL STRINGS TO 2 FIELDS, AND INSERT LEADING ZEROES WHERE NEEDED
                 unless gls.nil?
@@ -162,17 +162,12 @@ class HomeController < ApplicationController
             end
         end
         # DETERMINE EACH GENOTYPE'S FREQUENCY BY DIVIDING EACH GENOTYPE'S COUNT BY 2X THE TOTAL HLA
-        #sample_n = (Hla.where("#{gp1} IS NOT NULL").where("#{gp2} IS NOT NULL").where("#{gp1} <> 'NA'").where("#{gp2} <> 'NA'").where("#{gp1} <> 'insertion/deletion'").where("#{gp2} <> 'insertion/deletion'").size) * 2
         gp1_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from hlas h join subjects s on h.subject_id = s.id where h.#{gp1} is not null and h.#{gp1} <> 'NA' and h.#{gp1} <> 'insertion/deletion' and s.project_id in (1, 10, 11, 17, 19)")
         gp2_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from hlas h join subjects s on h.subject_id = s.id where h.#{gp2} is not null and h.#{gp2} <> 'NA' and h.#{gp2} <> 'insertion/deletion' and project_id in (1, 10, 11, 17, 19)")
-        # puts gp1_count.to_a.first
-        # puts gp2_count.to_a.first
         sample_n = gp1_count.to_a.first.first + gp2_count.to_a.first.first
-        # puts sample_n
         dataMatrix = []
-        #puts freq_hash
+        
         freq_hash.each do |al, n|
-           # puts "#{al} #{n}"
             unless sample_n == 0
                 dataMatrix.push([al, ((n.to_f)/sample_n.to_f).round(5)])
             end
@@ -190,10 +185,8 @@ class HomeController < ApplicationController
         @projects = Project.where(is_test:false)
         data_hash = {:colnames => ["Project Owner", "Subjects"], :members => {} }
         @projects.each do |p|
-            puts "NAME: #{p.name}"
             data_hash[:members][p.name] = { :n => p.subjects.count }
         end
-        puts "PROJECTS: #{data_hash}"
         respond_to do |format|
             format.json { render json: { :data => data_hash }, status: :ok }
         end
