@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_17_223804) do
+ActiveRecord::Schema.define(version: 2021_02_24_230540) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -306,6 +306,8 @@ ActiveRecord::Schema.define(version: 2021_02_17_223804) do
     t.string "project_name"
     t.text "race"
     t.bigint "project_id"
+    t.boolean "vaccinated"
+    t.text "vaccine_type"
     t.index ["project_id"], name: "index_subjects_on_project_id"
   end
 
