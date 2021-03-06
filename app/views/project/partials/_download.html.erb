@@ -3,17 +3,20 @@
     <h3>Download Data from your projects</h3>
 </div>
 <div class="row justify-content-md-center">
-    <div class="col-12">
-        <table class="table table-bordered">
-            <% @user_owned_projects.each do |p| %>
-                <tr>
-                    <th colspan=10><%= p.name %> - <%= p.subjects ? p.subjects.count : "0" %> subjects</th>
-                </tr>
-
-            <% end %>
-        </table>
-    </div>
+    <!-- if user has more than one project they can access, include a drop down select control to choose another project, otherwise leave select control out -->
+    <% if current_user.projects.count == 1 %>
+        <div class="col-12">
+            <h1><%= @current_project.name%></h1>
+        </div>
+    <% else %>
+        <div class="col-10">
+            <h1><%= @current_project.name%></h1>
+        </div>
+        <div class="col-2">
+        <div>
+    <% end %>
 </div>
+<br>
 <div class="row justify-content-md-center">
     <div class="col-12">
         <ul class="nav nav-tabs">
@@ -51,15 +54,15 @@
 <div class="row justify-content-md-center">
     <div class="col-12">
         <div class="tab-content">
-            <%= render 'home/partials/subjects_datatable' %>
-            <%= render 'home/partials/c19_symptoms_datatable' %>
-            <%= render 'home/partials/hla_datatable' %>
-            <%= render 'home/partials/kir_datatable' %>
-            <%= render 'home/partials/comorbidity_datatable' %>
-            <%= render 'home/partials/hospitalization_datatable' %>
-            <%= render 'home/partials/riskfactor_datatable' %>
-            <%= render 'home/partials/labtest_datatable' %>
-            <%= render 'home/partials/treatment_datatable' %>
+            <%= render 'project/partials/subjects_datatable' %>
+            <%= render 'project/partials/c19_symptoms_datatable' %>
+            <%= render 'project/partials/hla_datatable' %>
+            <%= render 'project/partials/kir_datatable' %>
+            <%= render 'project/partials/comorbidity_datatable' %>
+            <%= render 'project/partials/hospitalization_datatable' %>
+            <%= render 'project/partials/riskfactor_datatable' %>
+            <%= render 'project/partials/labtest_datatable' %>
+            <%= render 'project/partials/treatment_datatable' %>
         </div>
     </div>
 </div>

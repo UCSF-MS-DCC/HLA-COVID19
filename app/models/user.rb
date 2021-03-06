@@ -13,7 +13,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :projects
   after_create :make_projects
   after_update :make_projects
-  after_update :complete_account_approval, if: :approved_and_not_notified?
+  #after_update :complete_account_approval, if: :approved_and_not_notified?
   after_create :send_welcome_email
   after_create :send_new_user_admin_notification
   has_paper_trail

@@ -1,0 +1,40 @@
+<div class="tab-pane container" id="hospitalization-table-pane">
+    <table id="hospitalization-datatable" class="table table-bordered" data-source="<%= datatables_hospitalization_path(format: :json, :project_id => @current_project.id) %>">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>HLAC19_ID</th>
+                <th>Origin Identifier</th> 
+                <th>Icu admit</th>
+                <th>Icu duration days</th>
+                <th>Reason hosp ended</th>
+                <th>Septic shock</th>
+                <th>Days after c19 septic shock</th>
+                <th>Organ failure</th>
+                <th>resp failure</th>
+                <th>resp rate intake</th>
+                <th>resp breath per min</th>
+                <th>blood o2 sat</th>
+                <th>highest resp support</th>
+                <th>days ventilator</th>
+                <th>pa02 min</th>
+                <th>fio2 max</th>
+                <th>lung infiltrates</th>
+                <th>pneumonia</th>
+                <th>pneumonia days after c19 symptoms</th>
+                <th>ef echo</th>
+                <th>hepatitis</th>
+                <th>pancreatitis</th>
+                <th>pleural effusion</th>
+                <th>acute kidney failure</th>
+                <th>acute kidney chronic</th>
+                <th>ascites</th>
+                <th>dyspnea</th>
+                <th>hospitalization duration days</th>
+                <th>hospitalization admit</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>

@@ -172,12 +172,119 @@ $(document).on('turbolinks:load',function(){
     });
   }
 
-    $('#reg-chkbox').on('change', function() {
-      if ($(this).prop('checked') == true) {
-        $('#new_registration_submit').prop('disabled',false);
-      } else {
-        $('#new_registration_submit').prop('disabled',true);
-      }
-    })
+  $('#reg-chkbox').on('change', function() {
+    if ($(this).prop('checked') == true) {
+      $('#new_registration_submit').prop('disabled',false);
+    } else {
+      $('#new_registration_submit').prop('disabled',true);
+    }
+  });
+
+  // $('#subjects-datatable').dataTable({
+  //   "processing": true,
+  //   "serverSide": true,
+  //   "ajax": {
+  //     "url": $('#subjects-datatable').data('source')
+  //   },
+  //   //"dom":"lBfrtip",
+  //   "dom": "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+  //   "buttons": ['csv', 'pdf'],
+  //   "pagingType": "full_numbers",
+  //   "columns": [
+  //     {"data": "hlac19_id"},
+  //     {"data": "origin_identifier"},
+  //     {"data": "sex"},
+  //     {"data": "age"},
+  //     {"data": "height_cm"},
+  //     {"data": "weight_kg"}
+  //   ]
+  //   // pagingType is optional, if you want full pagination controls.
+  //   // Check dataTables documentation to learn more about
+  //   // available options.
+  // });
+  // $('#c19-symptoms-datatable').dataTable({
+  //   "processing": true,
+  //   "serverSide": true,
+  //   "scrollX":true,
+  //   "ajax": {
+  //     "url": $('#c19-symptoms-datatable').data('source')
+  //   },
+  //   "dom": "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+  //   "buttons": ['csv', 'pdf'],
+  //   "pagingType": "full_numbers",
+  //   "columns": [
+  //     {"data": "hlac19_id"},
+  //     {"data": "origin_identifier"},
+  //     {"data": "dry_cough"},
+  //     {"data": "mucus_cough"},
+  //     {"data": "days_cough"},
+  //     {"data": "difficulty_breathing"},
+  //     {"data": "fever"},
+  //     {"data": "highest_temp"},
+  //     {"data": "days_fever"},
+  //     {"data": "fatigue"},
+  //     {"data": "pain_chest_heart"},
+  //     {"data": "pain_back"},
+  //     {"data": "runny_nose"},
+  //     {"data": "sore_throat"},
+  //     {"data": "loss_taste_smell"},
+  //     {"data": "diarrhea"},
+  //     {"data": "nausea"},
+  //     {"data": "other_symptoms"},
+  //     {"data": "c19_test_result_positive"},
+  //     {"data": "type_of_c19_test"}
+  //   ]
+  //   // pagingType is optional, if you want full pagination controls.
+  //   // Check dataTables documentation to learn more about
+  //   // available options.
+  // });
+  // $('#hla-datatable').dataTable({
+  //   "processing": true,
+  //   "serverSide": true,
+  //   //"scrollX":true,
+  //   "initComplete": function (settings, json) {  
+  //     $("#hla-datatable").wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");            
+  //   },
+  //   "ajax": {
+  //     "url": $('#hla-datatable').data('source')
+  //   },
+  //   "dom": "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+  //   "buttons": ['csv', 'pdf'],
+  //   "pagingType": "full_numbers",
+  //   "columns": [
+  //     {"data": "drb1_1"},
+  //     {"data": "drb1_2"},
+  //     {"data": "dqb1_1"},
+  //     {"data": "dqb1_2"},
+  //     {"data": "dpb1_1"},
+  //     {"data": "dpb1_2"},
+  //     {"data": "a_1"},
+  //     {"data": "a_2"},
+  //     {"data": "b_1"},
+  //     {"data": "b_2"},
+  //     {"data": "c_1"},
+  //     {"data": "c_2"},
+  //     {"data": "dpa1_1"},
+  //     {"data": "dpa1_2"},
+  //     {"data": "dqa1_1"},
+  //     {"data": "dqa1_2"},
+  //     {"data": "drbo_1"},
+  //     {"data": "drbo_2"},
+  //     {"data": "drb345_1"},
+  //     {"data": "drb345_2"},
+  //     {"data": "reference_database"},
+  //     {"data": "reference_database_version"},
+  //     {"data": "typing_method_name"},
+  //     {"data": "typing_method_version"},
+  //     {"data": "gl_string"},
+  //     {"data": "novel_polymorphisms"},
+  //     {"data": "pop"}
+  //   ]
+  //   // pagingType is optional, if you want full pagination controls.
+  //   // Check dataTables documentation to learn more about
+  //   // available options.
+  // });
+
+  // $('.dt-button').addClass('btn btn-primary');
 
 });

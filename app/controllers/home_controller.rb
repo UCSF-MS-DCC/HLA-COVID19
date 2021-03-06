@@ -24,12 +24,11 @@ class HomeController < ApplicationController
         @projects = current_user.projects
     end
     def project
+        # 02-26-2021 removed a broken method to show projects that a user doesn't own, but has access to. 
+        # This will now only serve current_user's projects.
+        # Will add a method to serve up other projects if there is a need for it
         authenticate_user!
         @user_owned_projects = current_user.projects
-        user_access_project_ids = current_user.approved_access.reject!{ |aa| current_user.projects.pluck(:id).include? aa }.map{ |aa| aa.to_i }
-        puts "IDS: #{user_access_project_ids}"
-        @user_access_projects = Project.where(id:user_access_project_ids)
-        puts "PROJECTS#{@user_access_projects.pluck(:name)}"
     end
     def approve_users
         @user = User.find(approved_users_params[:user].to_i)
@@ -69,6 +68,12 @@ class HomeController < ApplicationController
         @project = Project.find(params[:id])
         respond_to do |format|
             format.csv { send_data @project.get_hla, :type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=#{@project.name}_HLA.csv" }
+        end
+    end
+    def kir_csv
+        @project = Project.find(params[:id])
+        respond_to do |format|
+            format.csv { send_data @project.get_kir, :type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=#{@project.name}_KIR.csv" }
         end
     end
     def stats_csv
@@ -140,7 +145,6 @@ class HomeController < ApplicationController
         # AGGREGATE THE TOTALS FROM THE SINGLE GENE COUNT QUERIES INTO ONE HASH
         [result_1, result_2].each do |r|
             r.each do |h|
-                #puts h
                 gls = h["allele"]
                 # NORMALIZE ALLELE STRINGS: STRIP OFF GENE PREFIX, SHORTEN AMBIGUOUS CALLS, CONDENSE GL STRINGS TO 2 FIELDS, AND INSERT LEADING ZEROES WHERE NEEDED
                 unless gls.nil?

@@ -6,27 +6,27 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-if User.count > 0
-    User.delete_all
-end
-if Project.count > 0
-    Project.delete_all
-end
-if Subject.count > 0
-    Subject.delete_all
-end
+# if User.count > 0
+#     User.delete_all
+# end
+# if Project.count > 0
+#     Project.delete_all
+# end
+# if Subject.count > 0
+#     Subject.delete_all
+# end
 
-# admin user account
-User.new(email:"dev@dev.org", password:"321321", password_confirmation:"321321", affiliation:"UCSF", can_upload:true, approved:true, firstname:"Admin", lastname:"User").save(validate:false)
-# # create separate domains for different users
-domains = [Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name].uniq
-# create project owner accounts
-domains.each do |d|
-    @user = User.new(email:Faker::Internet.email, password:"321321", password_confirmation:"321321", can_upload:true, approved:true, project_owner:true ,firstname:Faker::Name.first_name, lastname:Faker::Name.last_name)
-    @user.save(validate:false)
-    project = Project.new(user_id:@user.id, name:d)
-    project.save
-end
+# # admin user account
+# User.new(email:"dev@dev.org", password:"321321", password_confirmation:"321321", affiliation:"UCSF", can_upload:true, approved:true, firstname:"Admin", lastname:"User").save(validate:false)
+# # # create separate domains for different users
+# domains = [Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name].uniq
+# # create project owner accounts
+# domains.each do |d|
+#     @user = User.new(email:Faker::Internet.email, password:"321321", password_confirmation:"321321", can_upload:true, approved:true, project_owner:true ,firstname:Faker::Name.first_name, lastname:Faker::Name.last_name)
+#     @user.save(validate:false)
+#     project = Project.new(user_id:@user.id, name:d)
+#     project.save
+# end
 # create general user accounts
 # 4.times do
 #     user = User.new(email:"#{Faker::Internet.email}", password:"321321", password_confirmation:"321321", can_upload:true, approved:true)
@@ -54,79 +54,109 @@ def get_value(val_type)
     end
 end
 
-Project.all.each do |p|
+# Project.all.each do |p|
     # create Subjects for each project
-    p.subjects.destroy_all
-    100.times do |idx|
-        n = 3
-        spi = "#{p.name}#{idx.to_s.rjust(3,'0')}" # Subject's Project ID S.P.I.
-        sjt_cols = Subject.column_names.reject{ |cn| ["id", "project_id", "created_at", "updated_at", "origin_identifier"].include? cn }
-        sjt_hash = {project_id:p.id, origin_identifier:spi}
-        sjt_cols.each do |cn|
-            sjt_hash[cn] = get_value(Subject.column_for_attribute(cn).type.to_s)
-        end
-        sub = Subject.new(sjt_hash)
-        if sub.save 
-            # Hla.new(subject_id:sub.id, drb1_1:"DRB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             drb1_2:"DRB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             dqb1_1:"DQB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             dqb1_2:"DQB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             dpb1_1:"DPB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             dpb1_2:"DPB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}", 
-            #                             a_1:"A*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             a_2:"A*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}", 
-            #                             b_1:"B*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             b_2:"B*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             c_1:"C*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             c_2:"C*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             dpa1_1:"DPA*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             dpa1_2:"DPA*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             dqa1_1:"DQA*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             dqa1_2:"DQA*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             drbo_1:"DRBo*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
-            #                             drbo_2:"DRBo*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}").save
+    # p.subjects.destroy_all
+    # 100.times do |idx|
+        # n = 3
+        # spi = "#{p.name}#{idx.to_s.rjust(3,'0')}" # Subject's Project ID S.P.I.
+        # sjt_cols = Subject.column_names.reject{ |cn| ["id", "project_id", "created_at", "updated_at", "origin_identifier"].include? cn }
+        # sjt_hash = {project_id:p.id, origin_identifier:spi}
+        # sjt_cols.each do |cn|
+        #     sjt_hash[cn] = get_value(Subject.column_for_attribute(cn).type.to_s)
+        # end
+        # sub = Subject.new(sjt_hash)
+        # if sub.save 
+        Subject.all.each do |sub|
+            unless sub.hla
+                Hla.new(subject_id:sub.id, drb1_1:"DRB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            drb1_2:"DRB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            dqb1_1:"DQB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            dqb1_2:"DQB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            dpb1_1:"DPB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            dpb1_2:"DPB*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}", 
+                                            a_1:"A*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            a_2:"A*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}", 
+                                            b_1:"B*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            b_2:"B*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            c_1:"C*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            c_2:"C*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            dpa1_1:"DPA*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            dpa1_2:"DPA*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            dqa1_1:"DQA*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            dqa1_2:"DQA*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            drbo_1:"DRBo*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}",
+                                            drbo_2:"DRBo*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}").save
+            end
             #c19 symptoms
-            cs_cols = C19Symptom.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
-            cs_hash = {subject_id:sub.id}
-            cs_cols.each do |cn|
-                cs_hash[cn] = get_value(C19Symptom.column_for_attribute(cn).type.to_s)
+            unless sub.c19_symptom
+                cs_cols = C19Symptom.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
+                cs_hash = {subject_id:sub.id}
+                cs_cols.each do |cn|
+                    cs_hash[cn] = get_value(C19Symptom.column_for_attribute(cn).type.to_s)
+                end
+                C19Symptom.new(cs_hash).save
             end
-            C19Symptom.new(cs_hash).save
             #comorbidities
-            comorb_cols = Comorbidity.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
-            comorb_hash = {subject_id:sub.id}
-            comorb_cols.each do |cn|
-                comorb_hash[cn] = get_value(Comorbidity.column_for_attribute(cn).type.to_s)
+            unless sub.comorbidity
+                comorb_cols = Comorbidity.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
+                comorb_hash = {subject_id:sub.id}
+                comorb_cols.each do |cn|
+                    comorb_hash[cn] = get_value(Comorbidity.column_for_attribute(cn).type.to_s)
+                end
+                Comorbidity.new(comorb_hash).save
             end
-            Comorbidity.new(comorb_hash).save
             #hospitalizations
-            hosp_cols = Hospitalization.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
-            hosp_hash = {subject_id:sub.id}
-            hosp_cols.each do |cn|
-                hosp_hash[cn] = get_value(Hospitalization.column_for_attribute(cn).type.to_s)
+            unless sub.hospitalization
+                hosp_cols = Hospitalization.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
+                hosp_hash = {subject_id:sub.id}
+                hosp_cols.each do |cn|
+                    hosp_hash[cn] = get_value(Hospitalization.column_for_attribute(cn).type.to_s)
+                end
+                Hospitalization.new(hosp_hash).save
             end
-            Hospitalization.new(hosp_hash).save
             #lab tests
-            lt_cols = LabTest.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
-            lt_hash = {subject_id:sub.id}
-            lt_cols.each do |cn|
-                lt_hash[cn] = get_value(LabTest.column_for_attribute(cn).type.to_s)
+            unless sub.lab_test
+                lt_cols = LabTest.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
+                lt_hash = {subject_id:sub.id}
+                lt_cols.each do |cn|
+                    lt_hash[cn] = get_value(LabTest.column_for_attribute(cn).type.to_s)
+                end
+                LabTest.new(lt_hash).save
             end
-            LabTest.new(lt_hash).save
             #risk factors
-            rf_cols = RiskFactor.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
-            rf_hash = {subject_id:sub.id}
-            rf_cols.each do |cn|
-                rf_hash[cn] = get_value(RiskFactor.column_for_attribute(cn).type.to_s)
+            unless sub.risk_factor
+                rf_cols = RiskFactor.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
+                rf_hash = {subject_id:sub.id}
+                rf_cols.each do |cn|
+                    rf_hash[cn] = get_value(RiskFactor.column_for_attribute(cn).type.to_s)
+                end
+                RiskFactor.new(rf_hash).save
             end
-            RiskFactor.new(rf_hash).save
             #treatments
-            tmt_cols = Treatment.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
-            tmt_hash = {subject_id:sub.id}
-            tmt_cols.each do |cn|
-                tmt_hash[cn] = get_value(Treatment.column_for_attribute(cn).type.to_s)
+            unless sub.treatment
+                tmt_cols = Treatment.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
+                tmt_hash = {subject_id:sub.id}
+                tmt_cols.each do |cn|
+                    tmt_hash[cn] = get_value(Treatment.column_for_attribute(cn).type.to_s)
+                end
+                Treatment.new(tmt_hash).save
             end
-            Treatment.new(tmt_hash).save
+
+            Kir.new(subject_id:sub.id, k2dl4_1:"k2dl4*#{Faker::Number.between(from:1, to:20).to_s.rjust(3,'0')}",
+            k2dl4_2:"k2dl4*#{Faker::Number.between(from:1, to:20).to_s.rjust(3,'0')}",
+            k2dl23_1:"k2dl23*#{Faker::Number.between(from:1, to:20).to_s.rjust(3,'0')}",
+            k2dl23_2:"k2dl23*#{Faker::Number.between(from:1, to:20).to_s.rjust(3,'0')}",
+            k3dl1s1_1:"k3dl1s1*#{Faker::Number.between(from:1, to:20).to_s.rjust(3,'0')}",
+            k3dl1s1_2:"k3dl1s1*#{Faker::Number.between(from:1, to:20).to_s.rjust(3,'0')}", 
+            k3dl2_1:"k3dl2*#{Faker::Number.between(from:1, to:20).to_s.rjust(3,'0')}",
+            k3dl2_2:"k3dl2*#{Faker::Number.between(from:1, to:20).to_s.rjust(3,'0')}", 
+            k3dl3_1:"k3dl3*#{Faker::Number.between(from:1, to:20).to_s.rjust(3,'0')}",
+            k3dl3_2:"k3dl3*#{Faker::Number.between(from:1, to:20).to_s.rjust(3,'0')}",
+            k2dl1_1:"k2dl1*#{Faker::Number.between(from:1, to:20).to_s.rjust(3,'0')}",
+            k2dl1_2:"k2dl1*#{Faker::Number.between(from:1, to:20).to_s.rjust(3,'0')}").save
+
         end
-    end
-end
+        # end
+    # end
+# end

@@ -8,17 +8,19 @@ module UploadHelper
         Hospitalization.column_names.reject{ |cn| ["created_at", "updated_at", "id", "subject_id"].include? cn }).concat(
         LabTest.column_names.reject{ |cn| ["created_at", "updated_at", "id", "subject_id"].include? cn }).concat(
         RiskFactor.column_names.reject{ |cn| ["created_at", "updated_at", "id", "subject_id"].include? cn }).concat( 
-        Treatment.column_names.reject{ |cn| ["created_at", "updated_at", "id", "subject_id"].include? cn })
+        Treatment.column_names.reject{ |cn| ["created_at", "updated_at", "id", "subject_id"].include? cn }).concat(
+        Kir.column_names.reject{ |cn| ["created_at", "updated_at", "id", "subject_id"].include? cn})
     end
     # this checks the headers in an uploaded CSV file against the schema table headers and returns headers not found in the schema
     def check_headers(csvHeaders)
         bad_headers = csvHeaders.reject{ |h| valid_colnames.include? h }
         headers_ok = bad_headers.size > 0 ? false : true
+        puts "HEADER CHECK: #{headers_ok}"
         { :form_ok => headers_ok, :bad_headers => bad_headers }
     end
     # method to turn NA values - common substitute for null/nil - to a ActiveRecord/mysql-friendly null value
     def coerce_na_values_to_nil(hsh)
-        hsh.each{ |k,v| (["NA","na","n/a","N/A","N/a","n/A"].include? v) ? hsh[k] = nil : next }
+        hsh.each{ |k,v| !v.nil? && (["na","n/a","-"].include? v.downcase) ? hsh[k] = nil : next }
     end
     # this separates the one long CSV row into smaller hashes aligned to each table's variables.
     def parse_row(row)
@@ -30,7 +32,8 @@ module UploadHelper
             :hospitalization => parse_hospitalization_fields(row),
             :labtest => parse_labtest_fields(row),
             :riskfactor => parse_riskfactor_fields(row),
-            :treatment => parse_treatment_fields(row)
+            :treatment => parse_treatment_fields(row),
+            :kir => parse_kir_fields(row)
         }
     end
     def parse_row_longitudinal(row)
@@ -42,7 +45,8 @@ module UploadHelper
             :hospitalization => parse_hospitalization_fields(row),
             :labtest => parse_labtest_fields(row),
             :riskfactor => nil,
-            :treatment => parse_treatment_fields(row)
+            :treatment => parse_treatment_fields(row),
+            :kir => parse_kir_fields(row)
         }
     end
     # these methods extract values from the csv row that match variable names in the table the methods are named after.
@@ -102,6 +106,13 @@ module UploadHelper
         tmt_params = coerce_na_values_to_nil(tmt_params)
         tmt_params.values.reject{ |v| v == nil }.count > 0 ? tmt_params : nil
     end
+
+    def parse_kir_fields(row)
+        kir_params = row.select{ |k,v| Kir.column_names.include? k } 
+        kir_params = Hash[kir_params.collect{ |arr| [arr[0], arr[1]] } ] 
+        kir_params = coerce_na_values_to_nil(kir_params)
+        kir_params.values.reject{ |v| v == nil }.count > 0 ? kir_params : nil
+    end
     # this builds and saves subject-related models 
     def build_relations(sub, data)
         unless !data[:c19_symptom]
@@ -144,6 +155,12 @@ module UploadHelper
             @tmt = Treatment.new(data[:treatment])
             @tmt[:subject_id] = sub.id
             @tmt.save
+        end
+        unless !data[:kir]
+            #sub.build_hla(data[:hla]).save
+            @kir = Kir.new(data[:kir])
+            @kir[:subject_id] = sub.id
+            @kir.save
         end
     end
 

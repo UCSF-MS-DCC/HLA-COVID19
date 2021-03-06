@@ -22,7 +22,7 @@ class UploadController < ApplicationController
     end
     # new method to replace 'store' - this will parse the csv, check for errors, and insert the contents into the database
     def import_data
-        # for purposes of reporting errors, make these flags, writable to the upload_record table
+        # for purposes of reporting errors make these flags writable to the upload_record table
         unless upload_params[:irb_sharing_approved] == false
             unless !current_user.uploads.attach(upload_params[:attachment]) 
                 begin
@@ -48,6 +48,7 @@ class UploadController < ApplicationController
                                 # if no project_name in csv, add to the user's project specified in the upload form 
                                 if !row["project_name"] || !csv.headers.include?("project_name") || !current_user.projects.find_by(name:row["project_name"])
                                     @project = current_user.projects.find_by(name:upload_project_name)
+                                    puts "PROJECT LINE 50#{@project.name}"
                                 else
                                     @project = current_user.projects.find_by(name:row["project_name"])
                                 end

@@ -1,0 +1,17 @@
+<div class="tab-pane container" id="riskfactor-table-pane">
+    <table id="riskfactor-datatable" class="table table-bordered" data-source="<%= datatables_riskfactor_path(format: :json, :project_id => @current_project.id) %>">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>HLAC19 ID</th>
+                <th>Origin Identifier</th> 
+                <th>Smoke freq</th>
+                <th>Alcohol freq</th>
+                <th>Substances freq</th>
+                <th>Smoke</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>

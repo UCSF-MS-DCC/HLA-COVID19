@@ -7,6 +7,7 @@ class Subject < ApplicationRecord
     has_many :hospitalization, dependent: :delete_all
     has_many :treatment, dependent: :delete_all
     has_many :comorbidity, dependent: :destroy
+    has_one :kir, dependent: :destroy
     has_paper_trail
 
     after_create :assign_hla_covid_db_id
@@ -23,7 +24,7 @@ class Subject < ApplicationRecord
             self.c19_symptoms.destroy_all
         end
         if self.comorbidity
-            self.comorbidity.destroy
+            self.comorbidity.destroy_destroy_all
         end
         if self.hla
             self.hla.destroy
@@ -39,6 +40,9 @@ class Subject < ApplicationRecord
         end
         if self.treatment
             self.treatments.destroy_all
+        end
+        if self.kir
+            self.kir.destroy
         end
     end
 

@@ -13,6 +13,10 @@ class Project < ApplicationRecord
     new_list = self.user.project_name - [self.name]
     self.user.update_attributes(project_name:new_list)
   end
+  # The method for generating these csv files is: 
+  # 1) Generate a list of the table's column names, stripping out unneeded columns such as id, created_at, etc.
+  # 2) For tables that are related to (aka "owned by") the Subjects table, also generate a list of subject identifiers and concatenate the two column header lists
+  # 3) Pull the information for the combined column header list and write to a csv file
   def get_subjects
     CSV.generate do |csv|
         sub_col_heads = Subject.column_names.reject{ |cn| ["id", "project_id", "created_at", "updated_at"].include? cn }.map{ |cn| cn.to_s }
@@ -37,6 +41,22 @@ class Project < ApplicationRecord
             sub_vals = Subject.find(sid).attributes.values_at(*["hlac19_id", "origin_identifier"])
             hla_vals = Hla.find_by(subject_id:sid) ? Hla.find_by(subject_id:sid).attributes.values_at(*hla_col_heads) : nil
             row = (hla_vals.nil?) ? sub_vals : sub_vals.concat(hla_vals)
+            csv << row
+        end
+    end
+  end
+  def get_kir
+    CSV.generate do |csv|
+        sub_col_heads = ["hlac19_id", "origin_identifier"]
+        kir_col_heads = Kir.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }.map{ |cn| cn.to_s }
+        full_col_heads = sub_col_heads.concat(kir_col_heads)
+        subjects_ids = self.subjects.pluck(:id)
+        kirs = Kir.where(subject_id:subjects_ids)
+        csv << full_col_heads
+        subjects_ids.each do |sid|
+            sub_vals = Subject.find(sid).attributes.values_at(*["hlac19_id", "origin_identifier"])
+            kir_vals = Kir.find_by(subject_id:sid) ? Kir.find_by(subject_id:sid).attributes.values_at(*kir_col_heads) : nil
+            row = (kir_vals.nil?) ? sub_vals : sub_vals.concat(kir_vals)
             csv << row
         end
     end

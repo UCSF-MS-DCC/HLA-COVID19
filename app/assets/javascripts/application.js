@@ -17,6 +17,7 @@
 //= require bootstrap-sprockets
 //= require activestorage
 //= require turbolinks
+//= require datatables
 //= require clipboard
 //= require gritter
 //= require jquery_nested_form

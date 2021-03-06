@@ -22,6 +22,8 @@ gem 'nested_form'
 gem 'paper_trail'
 gem 'aws-sdk-rails'
 gem 'rails_admin', '~> 2.0'
+gem 'ajax-datatables-rails'
+gem 'jquery-datatables'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets

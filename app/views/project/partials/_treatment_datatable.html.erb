@@ -1,0 +1,30 @@
+<div class="tab-pane container" id="treatment-table-pane">
+    <table id="treatment-datatable" class="table table-bordered" data-source="<%= datatables_treatment_path(format: :json, :project_id => @current_project.id) %>">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>HLAC19 ID</th>
+                <th>Origin Identifier</th> 
+                <th>Ace inhib</th>
+                <th>Angio blocker</th>
+                <th>Antibiotics</th>
+                <th>Antiviral med</th>
+                <th>Allergy med</th>
+                <th>Androgen med</th>
+                <th>Asthma med</th>
+                <th>Immunosuppressor light</th>
+                <th>Immunosuppressor strong</th>
+                <th>Biologics mabs</th>
+                <th>NSAID</th>
+                <th>Antipytetics</th>
+                <th>Blood thinner</th>
+                <th>Vitamin D med</th>
+                <th>Vitamin C med</th>
+                <th>Med UCDA</th>
+                <th>Treatment duration days</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>

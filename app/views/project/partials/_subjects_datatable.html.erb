@@ -1,0 +1,25 @@
+<div class="tab-pane container active" id="subjects-table-pane">
+    <table id="subjects-datatable" class="table table-bordered" data-source="<%= datatables_subjects_path(format: :json, :project_id => @current_project.id) %>">
+        <thead>
+            <tr>
+                <th>HLAC19 ID</th>
+                <th>Origin ID</th>
+                <th>Sex</th>
+                <th>Gender</th>
+                <th>Education</th>
+                <th>Age</th>
+                <th>Ethnicity</th>
+                <th>Pregnant</th>
+                <th>Ancestry</th>
+                <th>Height (cm)</th>
+                <th>Weight (kg)</th>
+                <th>Race</th>
+                <th>Country of Residence</th>
+                <th>Vaccinated</th>
+                <th>Vaccine Type</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
