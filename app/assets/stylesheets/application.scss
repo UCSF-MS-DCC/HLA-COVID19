@@ -171,11 +171,19 @@ ul {
     text-decoration: underline;
   }
   .btn-download {
-    background-color:#add8e6;
+    background-color:#0b6c8d;
     border:1px solid grey;
+    color:white;
 
   }
   .dt-button span{
     padding-left:10px;
     padding-right:10px;
+  }
+  .data-table-container{
+    border-left: 1px solid lightgrey;
+    border-right:1px solid lightgrey;
+    border-bottom:1px solid lightgrey;
+    padding-top:20px;
+    padding-bottom:30px;
   }

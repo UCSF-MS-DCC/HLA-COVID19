@@ -13,7 +13,7 @@
                 <% end %>
             </thead>
             <tbody>
-                <% User.where(approved:true).each do |u| %>
+                <% User.where(approved:true).reject{ |u| u.id == current_user.id }.each do |u| %>
                     <tr>
                         <td><%= u.email %></td>
                         <% current_user.projects.reject{ |p| current_user.approved_access.include? p.id }.each do |p| %>
