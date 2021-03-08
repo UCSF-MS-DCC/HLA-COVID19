@@ -290,7 +290,11 @@ $('#subjects-datatable').dataTable({
       $("#labtest-datatable").wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");            
     },
     "ajax": {
-      "url": $('#labtest-datatable').data('source')
+      "beforeSend": function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      "type":"POST",
+      "url": $('#labtest-datatable').data('source'),
+      "data": {"project_id":$('#labtest-datatable').data("project")},
+      "dataType":"json"
     },
     "dom": "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
     "buttons": [{ 'extend':'csv', 'text': 'Download CSV' }],

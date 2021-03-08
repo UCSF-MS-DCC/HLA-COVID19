@@ -22,7 +22,6 @@ class DatatablesController < ApplicationController
     end
 
     def kir 
-        puts "KIR CONTROLLER METHOD CALLED"
         respond_to do |format|
             format.html
             format.json { render json: KirDatatable.new(params, :project_id => params[:project_id]) }

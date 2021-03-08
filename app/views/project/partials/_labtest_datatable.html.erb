@@ -1,5 +1,5 @@
 <div class="tab-pane container" id="labtest-table-pane">
-    <table id="labtest-datatable" class="table table-bordered" data-source="<%= datatables_labtest_path(format: :json, :project_id => @current_project.id) %>">
+    <table id="labtest-datatable" class="table table-bordered" data-project="<%= @current_project.id %>" data-source="<%= datatables_labtest_path %>">
         <thead>
             <tr>
                 <th>ID</th>
