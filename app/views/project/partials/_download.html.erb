@@ -4,7 +4,7 @@
 </div>
 <div class="row justify-content-md-center">
     <!-- if user has more than one project they can access, include a drop down select control to choose another project, otherwise leave select control out -->
-    <% if current_user.projects.count == 1 %>
+    <% if @projects.count == 1 %>
         <div class="col-12">
             <h1><%= @current_project.name%></h1>
         </div>
@@ -13,7 +13,8 @@
             <h1><%= @current_project.name%></h1>
         </div>
         <div class="col-2">
-        <div>
+            <%= select_tag "projects", options_for_select(@projects.collect{ |p| [p.name, p.id]}, :selected => @current_project.id), :class => "form-control", :id => "project-select-control" %>
+        </div>
     <% end %>
 </div>
 <br>

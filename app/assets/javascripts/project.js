@@ -1,5 +1,11 @@
 $(document).on('turbolinks:load',function(){
 
+$('#project-select-control').change(function(e){
+    console.log($(this).val())
+    let project_id = $(this).val();
+    window.location.href = '/project/index/' + project_id;
+})
+
 $('#subjects-datatable').dataTable({
     "processing": true,
     "serverSide": true,

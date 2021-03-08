@@ -8,7 +8,7 @@
         <table class="table">
             <thead>
                 <th>User email</th>
-                <% @user_owned_projects.each do |p| %>
+                <% current_user.projects.reject{ |p| current_user.approved_access.include? p.id }.each do |p| %>
                     <th><%= p.name %></th>
                 <% end %>
             </thead>
@@ -16,7 +16,7 @@
                 <% User.where(approved:true).each do |u| %>
                     <tr>
                         <td><%= u.email %></td>
-                        <% @user_owned_projects.each do |p| %>
+                        <% current_user.projects.reject{ |p| current_user.approved_access.include? p.id }.each do |p| %>
                             <td>
                                 <input type='checkbox' class="user-list" data-userid="<%= u.id %>" data-projectid="<%= p.id %>" data-appstatus = <%= (u.approved_access.include? p.id ) ? "yes" : "no" %> ><span id="status-<%=p.id%>">
                             </td>
