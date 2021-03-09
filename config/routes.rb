@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   get 'datatables/kir'
   get 'datatables/comorbidity'
   get 'datatables/hospitalization'
-  get 'datatables/labtest'
+  post 'datatables/labtest'
   get 'datatables/riskfactor'
   get 'datatables/treatment'
   post 'query/data'
