@@ -293,10 +293,11 @@ $('#subjects-datatable').dataTable({
       "beforeSend": function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
       "type":"POST",
       "url": $('#labtest-datatable').data('source'),
-      "data": {"project_id":$('#labtest-datatable').data("project")},
+      "data": function(d) { d.project_id = $('#labtest-datatable').data('project')},
       "contentType":"application/json",
       "dataType":"json"
     },
+    // "ajax":{"url":'/project/labtest.json', "data": function(d) { d.disease = superindex_disease } }
     "dom": "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
     "buttons": [{ 'extend':'csv', 'text': 'Download CSV' }],
     "pagingType": "full_numbers",
