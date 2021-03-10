@@ -8,7 +8,7 @@
         <table class="table">
             <thead>
                 <th>User email</th>
-                <% current_user.projects.reject{ |p| current_user.approved_access.include? p.id }.each do |p| %>
+                <% current_user.projects.each do |p| %>
                     <th><%= p.name %></th>
                 <% end %>
             </thead>
