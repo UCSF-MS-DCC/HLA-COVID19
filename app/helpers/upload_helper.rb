@@ -15,7 +15,6 @@ module UploadHelper
     def check_headers(csvHeaders)
         bad_headers = csvHeaders.reject{ |h| valid_colnames.include? h }
         headers_ok = bad_headers.size > 0 ? false : true
-        puts "HEADER CHECK: #{headers_ok}"
         { :form_ok => headers_ok, :bad_headers => bad_headers }
     end
     # method to turn NA values - common substitute for null/nil - to a ActiveRecord/mysql-friendly null value
