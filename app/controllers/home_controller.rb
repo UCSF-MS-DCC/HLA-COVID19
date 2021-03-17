@@ -136,8 +136,8 @@ class HomeController < ApplicationController
     def allele_freq_data
         gp1 = "#{allele_freq_data_params[:gene]}_1"
         gp2 = "#{allele_freq_data_params[:gene]}_2"
-        query_1 = "SELECT h.#{gp1} as allele, count(h.id) as n from hlas h join subjects s on h.subject_id = s.id where s.project_id in (1, 10, 11, 17, 19) group by h.#{gp1}"
-        query_2 = "SELECT h.#{gp2} as allele, count(h.id) as n from hlas h join subjects s on h.subject_id = s.id where s.project_id in (1, 10, 11, 17, 19) group by h.#{gp2}"
+        query_1 = "SELECT h.#{gp1} as allele, count(h.id) as n from hlas h join subjects s on h.subject_id = s.id where s.project_id in (1, 10, 11, 17, 19, 22) group by h.#{gp1}"
+        query_2 = "SELECT h.#{gp2} as allele, count(h.id) as n from hlas h join subjects s on h.subject_id = s.id where s.project_id in (1, 10, 11, 17, 19, 22) group by h.#{gp2}"
         result_1 = ActiveRecord::Base.connection.exec_query(query_1)
         result_2 = ActiveRecord::Base.connection.exec_query(query_2)
 
