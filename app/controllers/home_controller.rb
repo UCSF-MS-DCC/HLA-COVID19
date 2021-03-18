@@ -120,14 +120,14 @@ class HomeController < ApplicationController
     end
 
     def age_data
-        results = ActiveRecord::Base.connection.execute("select age, count(*) from subjects s join projects p on s.project_id = p.id where p.id in (1,10,11) group by s.age")
+        results = ActiveRecord::Base.connection.execute("select age, count(s.id) from subjects s join projects p on s.project_id = p.id where p.is_test = false group by s.age")
         respond_to do |format|
             format.html
             format.json { render json: { :data => results }, status: :ok }
         end
     end
     def sex_data
-        results = ActiveRecord::Base.connection.execute("select sex, count(*) from subjects s join projects p on s.project_id = p.id where p.id in (1,10,11) group by s.sex")
+        results = ActiveRecord::Base.connection.execute("select sex, count(s.id) from subjects s join projects p on s.project_id = p.id where p.is_test group by s.sex")
         respond_to do |format|
             format.html
             format.json { render json: { :data => results }, status: :ok }
@@ -166,8 +166,8 @@ class HomeController < ApplicationController
             end
         end
         # DETERMINE EACH GENOTYPE'S FREQUENCY BY DIVIDING EACH GENOTYPE'S COUNT BY 2X THE TOTAL HLA
-        gp1_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from hlas h join subjects s on h.subject_id = s.id where h.#{gp1} is not null and h.#{gp1} <> 'NA' and h.#{gp1} <> 'insertion/deletion' and s.project_id in (1, 10, 11, 17, 19)")
-        gp2_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from hlas h join subjects s on h.subject_id = s.id where h.#{gp2} is not null and h.#{gp2} <> 'NA' and h.#{gp2} <> 'insertion/deletion' and project_id in (1, 10, 11, 17, 19)")
+        gp1_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from hlas h join subjects s on h.subject_id = s.id where h.#{gp1} is not null and h.#{gp1} <> 'NA' and h.#{gp1} <> 'insertion/deletion' and s.project_id in (1, 10, 11, 17, 19, 22)")
+        gp2_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from hlas h join subjects s on h.subject_id = s.id where h.#{gp2} is not null and h.#{gp2} <> 'NA' and h.#{gp2} <> 'insertion/deletion' and project_id in (1, 10, 11, 17, 19, 22)")
         sample_n = gp1_count.to_a.first.first + gp2_count.to_a.first.first
         dataMatrix = []
         

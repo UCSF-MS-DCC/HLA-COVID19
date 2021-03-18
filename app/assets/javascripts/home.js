@@ -55,6 +55,54 @@ $(document).on('turbolinks:load',function(){
 
   /* JQUERY API CALLS TO GET DASHBOARD DATA AND DRAW CHARTS. ONLY RUN THESE FOR HOME#INDEX */
   if (window.location.pathname === "/") {
+    /* CONTRIBUTORS TABLE */
+    $.get('/home/contributor_table_data.json', function(response){
+      console.log(response)
+      google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawContributorTable);
+
+      function drawContributorTable() {
+        var dt = new google.visualization.DataTable();
+        response["data"]["colnames"].forEach(function(column){
+          dt.addColumn('string', column);
+         });
+        for(member in response["data"]["members"]) {
+          dt.addRow([member, response["data"]["members"][member]["n"].toString()])
+        };
+
+        var table = new google.visualization.Table(document.getElementById('contributor-chart'));
+
+        table.draw(dt, {showRowNumber: true, width: '100%', height: '100%'});
+      }
+    });
+    /* SEX PIE CHART */
+    $.get('/home/sex_data.json', function(response){
+      sdMatrix = response['data'];
+      sdMatrix.unshift(['Sex', 'N']);
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawSexChart);
+  
+      function drawSexChart() {
+  
+        var data = google.visualization.arrayToDataTable(sdMatrix);
+  
+        var options = {
+          fontName: 'Josefin Sans',
+          fontSize: '16',
+          title: 'Sex',
+          bar: {groupWidth: "95%"},
+          legend: { position: "bottom" },
+          width: "95%",
+          height: 400,
+          backgroundColor: { fill:'transparent' }
+        };
+  
+        var chart = new google.visualization.PieChart(document.getElementById('sex-chart'));
+        chart.draw(data, options);
+      }
+    });
+    /* AGE HISTOGRAM */
     $.get('/home/age_data.json', function(response){
 
       adMatrix = response['data'];
@@ -86,61 +134,7 @@ $(document).on('turbolinks:load',function(){
       }
     });
 
-    $.get('/home/sex_data.json', function(response){
-      sdMatrix = response['data'];
-      sdMatrix.unshift(['Sex', 'N']);
-
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawSexChart);
-  
-      function drawSexChart() {
-  
-        var data = google.visualization.arrayToDataTable(sdMatrix);
-  
-        var options = {
-          fontName: 'Josefin Sans',
-          fontSize: '16',
-          title: 'Sex',
-          bar: {groupWidth: "95%"},
-          legend: { position: "bottom" },
-          width: "95%",
-          height: 400,
-          backgroundColor: { fill:'transparent' }
-        };
-  
-        var chart = new google.visualization.PieChart(document.getElementById('sex-chart'));
-        chart.draw(data, options);
-      }
-    });
-
-    $.get('/home/contributor_table_data.json', function(response){
-      console.log(response)
-      google.charts.load('current', {'packages':['table']});
-      google.charts.setOnLoadCallback(drawContributorTable);
-
-      function drawContributorTable() {
-        var dt = new google.visualization.DataTable();
-        response["data"]["colnames"].forEach(function(column){
-          dt.addColumn('string', column);
-         });
-        for(member in response["data"]["members"]) {
-          dt.addRow([member, response["data"]["members"][member]["n"].toString()])
-        };
-        
-
-        // data.addRows([
-        //   ['Mike',  {v: 10000, f: '$10,000'}, true],
-        //   ['Jim',   {v:8000,   f: '$8,000'},  false],
-        //   ['Alice', {v: 12500, f: '$12,500'}, true],
-        //   ['Bob',   {v: 7000,  f: '$7,000'},  true]
-        // ]);
-
-        var table = new google.visualization.Table(document.getElementById('contributor-chart'));
-
-        table.draw(dt, {showRowNumber: true, width: '100%', height: '100%'});
-      }
-    });
-
+    /* ALLELE FREQUENCY HISTOGRAMS */
     $('.allele-freq-chart').each(function(){
       var gene = $(this).data("gene");
       var element_id = $(this).prop("id")
