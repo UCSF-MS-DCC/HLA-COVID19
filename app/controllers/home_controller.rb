@@ -165,9 +165,11 @@ class HomeController < ApplicationController
                 end
             end
         end
-        # DETERMINE EACH GENOTYPE'S FREQUENCY BY DIVIDING EACH GENOTYPE'S COUNT BY 2X THE TOTAL HLA
-        gp1_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from hlas h join subjects s on h.subject_id = s.id where h.#{gp1} is not null and h.#{gp1} <> 'NA' and h.#{gp1} <> 'insertion/deletion' and s.project_id in (1, 10, 11, 17, 19, 22)")
-        gp2_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from hlas h join subjects s on h.subject_id = s.id where h.#{gp2} is not null and h.#{gp2} <> 'NA' and h.#{gp2} <> 'insertion/deletion' and project_id in (1, 10, 11, 17, 19, 22)")
+        # DETERMINE EACH GENOTYPE'S FREQUENCY BY DIVIDING EACH GENOTYPE'S COUNT BY 2X THE TOTAL HLA (BY THE NUMBER OF NON-NULL VALID GENOTYPES FOR THAT GENE)
+        #gp1_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from hlas h join subjects s on h.subject_id = s.id where h.#{gp1} is not null and h.#{gp1} <> 'NA' and h.#{gp1} <> 'insertion/deletion' and s.project_id in (1, 10, 11, 17, 19, 22)")
+        gp1_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from projects p join subjects s on p.id = s.project_id join hlas h on h.subject_id = s.id where h.#{gp1} is not null and h.#{gp1} <> 'NA' and h.#{gp1} <> 'insertion/deletion' and p.is_test = false")
+        #gp2_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from hlas h join subjects s on h.subject_id = s.id where h.#{gp2} is not null and h.#{gp2} <> 'NA' and h.#{gp2} <> 'insertion/deletion' and project_id in (1, 10, 11, 17, 19, 22)")
+        gp2_count = ActiveRecord::Base.connection.execute("SELECT count(h.id) from projects p join subjects s on p.id = s.project_id join hlas h on h.subject_id = s.id where h.#{gp2} is not null and h.#{gp2} <> 'NA' and h.#{gp2} <> 'insertion/deletion' and p.is_test = false")
         sample_n = gp1_count.to_a.first.first + gp2_count.to_a.first.first
         dataMatrix = []
         
