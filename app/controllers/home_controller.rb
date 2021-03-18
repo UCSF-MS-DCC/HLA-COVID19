@@ -127,7 +127,7 @@ class HomeController < ApplicationController
         end
     end
     def sex_data
-        results = ActiveRecord::Base.connection.execute("select sex, count(s.id) from subjects s join projects p on s.project_id = p.id where p.is_test group by s.sex")
+        results = ActiveRecord::Base.connection.execute("select sex, count(s.id) from subjects s join projects p on s.project_id = p.id where p.is_test = false group by s.sex")
         respond_to do |format|
             format.html
             format.json { render json: { :data => results }, status: :ok }
