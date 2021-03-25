@@ -22,6 +22,7 @@ class User < ApplicationRecord
 
   serialize :approved_access, Array
   serialize :project_name, Array
+  serialize :grant_project_access_to, Array 
   
   def approved_and_not_notified?
     self.approved && !self.notified_of_approval

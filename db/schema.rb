@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_18_172449) do
+ActiveRecord::Schema.define(version: 2021_03_25_182309) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -382,6 +382,7 @@ ActiveRecord::Schema.define(version: 2021_03_18_172449) do
     t.boolean "suppress_from_approval_view", default: false
     t.string "firstname", null: false
     t.string "lastname", null: false
+    t.string "grant_project_access_to"
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
