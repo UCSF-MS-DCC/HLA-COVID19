@@ -134,7 +134,7 @@ class UploadController < ApplicationController
     end
 
     def download_template
-        send_file "public/UploadResources/UploadTemplate_03262021.csv", type: 'text/csv'
+        send_file "public/UploadResources/upload_template_03262021.csv", type: 'text/csv'
     end
 
     def download_dictionary
