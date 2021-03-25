@@ -60,12 +60,12 @@ class User < ApplicationRecord
         unless self.projects.where(name:pname).count >= 1
           @project = Project.new(user_id:self.id, name:pname)
           @project.save
-          self.update_attributes(approved_access:self.approved_access.concat([@project.id]))
-
+          self.update_attributes(approved_access:self.approved_access.concat([@project.id]), grant_project_access_to:self.grant_project_access_to.concat([@project.id]))
         end
       end
     end
   end
+  
   def admin?
     self.admin_access == true
   end
