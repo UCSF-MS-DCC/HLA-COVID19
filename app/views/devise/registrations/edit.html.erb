@@ -71,6 +71,9 @@
           <br><br>
           Rstudio password: <span id="rpassword"" style="margin-right:150px;"><b><%= current_user.rstudio_password %></b></span>
           <button class="clipboard-btn btn btn-primary btn-sm" data-clipboard-action="copy" data-clipboard-target="#rpassword">Copy to clipboard</button>
+          <br><br>
+          API Token: <span id="api_token" style="margin-right:150px;"><b><%= current_user.authentication_token %></b></span>
+          <button class="clipboard-btn btn btn-primary btn-sm" data-clipboard-action="copy" data-clipboard-target="#api_token">Copy to clipboard</button>
         </div>
       <% end %>
   </div>
