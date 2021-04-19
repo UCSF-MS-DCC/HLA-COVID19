@@ -1,12 +1,16 @@
 class SubjectSerializer < ActiveModel::Serializer
-  has_one :hla
-  has_many :c19_symptom
-  has_one :comorbidity
-  has_many :hospitalization
-  has_many :lab_test
-  has_one :risk_factor
-  has_many :treatment
+
   attributes Subject.column_names.reject{ |c| ["id", "created_at", "updated_at"].include? c }
+  attribute :project
+
+  def project
+    Subject.find(object.id).project.name
+  end
+
+  def include_hla?
+    puts @instance_options
+    false
+  end
   def hla
     if @instance_options[:hla] == true
       @atts = object.hla.attributes.reject{ |c| ["id", "subject_id", "created_at", "updated_at"].include? c }
