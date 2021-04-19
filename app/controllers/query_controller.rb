@@ -7,12 +7,11 @@ class QueryController < ApplicationController
             @user = User.find_by(email:params["user_email"])
         else
         end
-        puts "QUERY PARAMS DATA: #{params[:data]}"
         table = nil
-        if params[:data].include? "_"
-            table = params[:data].split("_").map{ |w| w.capitalize }.map{ |w| w.singularize }.join.safe_constantize
+        if query_params[:data].include? "_"
+            table = query_params[:data].split("_").map{ |w| w.capitalize }.map{ |w| w.singularize }.join.safe_constantize
         else
-            table = params[:data].capitalize.singularize.safe_constantize
+            table = query_params[:data].capitalize.singularize.safe_constantize
         end
         # Explicitly limit access to Subjects and associatied tables. No one should be able to get Users table through this endpoint.
         servable_tables = ["C19Symptom", "Comorbidity", "Hla", "Hospitalization", "Kir", "LabTest", "RiskFactor", "Subject", "Treatment"]
@@ -28,7 +27,6 @@ class QueryController < ApplicationController
                     format.json {render json: '{ "message" : "No records available for this query."}', status: :no_content }
                 end
             else
-                puts "TABLE NAME: #{table}"
                 format.json { render json: '{ "message" : "Could not complete your query"}', status: :unprocessable_entity }
             end
         end
