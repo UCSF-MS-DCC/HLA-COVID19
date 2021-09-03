@@ -52,6 +52,10 @@ class User < ApplicationRecord
       AdminMailer.notify_admin_of_server_account_creation(self, false)
     end
   end
+
+  def create_server_account
+    puts "Inside create_server_account #{self.email.split("@")[0]}"
+  end
   
   def make_projects
     if self.project_owner == true && self.project_name.count > 0
@@ -65,7 +69,7 @@ class User < ApplicationRecord
       end
     end
   end
-  
+
   def admin?
     self.admin_access == true
   end

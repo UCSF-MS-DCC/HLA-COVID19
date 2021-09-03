@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_25_182309) do
+ActiveRecord::Schema.define(version: 2021_09_03_223657) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -259,6 +259,20 @@ ActiveRecord::Schema.define(version: 2021_03_25_182309) do
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
+  create_table "publication_subjects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "publication_id"
+    t.bigint "subject_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["publication_id"], name: "index_publication_subjects_on_publication_id"
+    t.index ["subject_id"], name: "index_publication_subjects_on_subject_id"
+  end
+
+  create_table "publications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "read_counts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "hla_id"
     t.datetime "created_at", null: false
@@ -406,6 +420,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_182309) do
   add_foreign_key "imputationstats", "hlas"
   add_foreign_key "kirs", "subjects"
   add_foreign_key "projects", "users", on_delete: :cascade
+  add_foreign_key "publication_subjects", "publications"
+  add_foreign_key "publication_subjects", "subjects"
   add_foreign_key "read_counts", "hlas"
   add_foreign_key "risk_factors", "subjects", on_delete: :cascade
   add_foreign_key "subjects", "projects", on_delete: :cascade

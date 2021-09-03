@@ -8,6 +8,8 @@ class Subject < ApplicationRecord
     has_many :treatment, dependent: :delete_all
     has_many :comorbidity, dependent: :destroy
     has_one :kir, dependent: :destroy
+    has_many :publication_subjects
+    has_many :publications, through: :publication_subjects
     has_paper_trail
 
     after_create :assign_hla_covid_db_id
