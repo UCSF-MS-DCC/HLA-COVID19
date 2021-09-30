@@ -189,9 +189,11 @@ class HomeController < ApplicationController
 
     def contributor_table_data
         @projects = Project.where(is_test:false)
-        data_hash = {:colnames => ["Project Owner", "Subjects"], :members => {} }
+        data_hash = {:colnames => ["Project Owner", "Subjects", "Publication"], :members => {} }
         @projects.each do |p|
-            data_hash[:members][p.name] = { :n => p.subjects.count }
+            sub_pubs = PublicationSubject.where(subject_id:p.subjects.pluck(:id)).pluck(:publication_id).uniq
+            pubs = Publication.where(id:sub_pubs).pluck(:url).uniq.join(", ")
+            data_hash[:members][p.name] = { :n => p.subjects.count, :pub_url =>  pubs }
         end
         respond_to do |format|
             format.json { render json: { :data => data_hash }, status: :ok }

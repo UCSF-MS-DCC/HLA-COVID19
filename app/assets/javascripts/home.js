@@ -67,12 +67,12 @@ $(document).on('turbolinks:load',function(){
           dt.addColumn('string', column);
          });
         for(member in response["data"]["members"]) {
-          dt.addRow([member, response["data"]["members"][member]["n"].toString()])
+          dt.addRow([member, response["data"]["members"][member]["n"].toString(), '<a href='+response["data"]["members"][member]["pub_url"]+'>Link</a>'])
         };
 
         var table = new google.visualization.Table(document.getElementById('contributor-chart'));
 
-        table.draw(dt, {showRowNumber: true, width: '100%', height: '100%'});
+        table.draw(dt, {showRowNumber: true, width: '100%', height: '100%', allowHtml: true});
       }
     });
     /* SEX PIE CHART */
