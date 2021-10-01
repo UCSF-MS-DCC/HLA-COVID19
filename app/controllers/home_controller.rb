@@ -192,7 +192,7 @@ class HomeController < ApplicationController
         data_hash = {:colnames => ["Project Owner", "Subjects", "Publication"], :members => {} }
         @projects.each do |p|
             sub_pubs = PublicationSubject.where(subject_id:p.subjects.pluck(:id)).pluck(:publication_id).uniq
-            pubs = Publication.where(id:sub_pubs).pluck(:url).uniq.join(", ")
+            pubs = Publication.where(id:sub_pubs).count > 0 ? Publication.where(id:sub_pubs).pluck(:url).uniq.join(", ") : nil
             data_hash[:members][p.name] = { :n => p.subjects.count, :pub_url =>  pubs }
         end
         respond_to do |format|
