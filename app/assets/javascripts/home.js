@@ -57,7 +57,6 @@ $(document).on('turbolinks:load',function(){
   if (window.location.pathname === "/") {
     /* CONTRIBUTORS TABLE */
     $.get('/home/contributor_table_data.json', function(response){
-      console.log(response)
       google.charts.load('current', {'packages':['table']});
       google.charts.setOnLoadCallback(drawContributorTable);
 
@@ -67,7 +66,7 @@ $(document).on('turbolinks:load',function(){
           dt.addColumn('string', column);
          });
         for(member in response["data"]["members"]) {
-            var url = response["data"]["members"][member]["pub_url"] ? '<a href='+response["data"]["members"][member]["pub_url"]+'>Link</a>' : '-'
+            var url = response["data"]["members"][member]["pub_url"] ? '<a href='+response["data"]["members"][member]["pub_url"]+' target="_blank" rel="noopener noreferrer">Link</a>' : '-'
           dt.addRow([member, response["data"]["members"][member]["n"].toString(), url])
         };
 
