@@ -57,7 +57,6 @@ $(document).on('turbolinks:load',function(){
   if (window.location.pathname === "/") {
     /* CONTRIBUTORS TABLE */
     $.get('/home/contributor_table_data.json', function(response){
-        console.log(response)
       google.charts.load('current', {'packages':['table']});
       google.charts.setOnLoadCallback(drawContributorTable);
 
