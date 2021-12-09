@@ -2,9 +2,10 @@ class AdminMailer < ApplicationMailer
     default from: 'admin@database-hlacovid19.org'
 
     def new_user_waiting_for_approval(user)
-        @email = user.email
-        @username = "#{user.firstname} #{user.lastname}"
-        @affiliation = user.affiliation
+        @user = User.find_by(email:user)
+        @email = @user.email
+        @username = "#{@user.firstname} #{@user.lastname}"
+        @affiliation = @user.affiliation
         mail(to:'adam.renschen@ucsf.edu, covid.hla@gmail.com', subject: 'New HLA COVID19 registration awaiting approval')
     end
     def new_user_welcome_message(user)
