@@ -25,4 +25,3 @@ class AdminMailer < ApplicationMailer
         mail(to:"adam.renschen@ucsf.edu", subject:"New user server account attempted")
     end
 end
-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
