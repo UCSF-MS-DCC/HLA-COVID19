@@ -79,8 +79,8 @@ class User < ApplicationRecord
 
 
   def send_new_account_notification
-    AdminMailer.new_user_waiting_for_approval(email).deliver
-    AdminMailer.new_user_welcome_message(email).deliver
+    AdminMailer.new_user_waiting_for_approval(self.email).deliver
+    AdminMailer.new_user_welcome_message(self.email).deliver
   end
 
   def self.send_reset_password_instructions(attributes={})
