@@ -4,18 +4,20 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :trackable,
          :recoverable, :rememberable, :timeoutable
-  after_create :send_new_account_notification
+  # after_create :send_new_account_notification
+  after_create :send_welcome_email
+  after_create :send_new_user_admin_notification
+  after_create :make_projects
   validates_uniqueness_of :email
   validates_uniqueness_of :rstudio_username, allow_nil: :true
   has_many_attached :uploads
   has_many :projects, :dependent => :delete_all
   validates :uploads, blob: { content_type: 'text/csv' }
   accepts_nested_attributes_for :projects
-  after_create :make_projects
+
   after_update :make_projects
   after_update :complete_account_approval, if: :approved_and_not_notified?
-  after_create :send_welcome_email
-  after_create :send_new_user_admin_notification
+
   has_paper_trail
 
   after_update :upload_filename_check
