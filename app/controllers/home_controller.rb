@@ -127,7 +127,7 @@ class HomeController < ApplicationController
         end
     end
     def sex_data
-        results = ActiveRecord::Base.connection.execute("select sex, count(s.id) from subjects s join projects p on s.project_id = p.id where p.is_test = false group by s.sex")
+        results = ActiveRecord::Base.connection.execute("select sex, count(s.id) from subjects s join projects p on s.project_id = p.id where p.is_test = false and sex in ('M','F') group by s.sex")
         respond_to do |format|
             format.html
             format.json { render json: { :data => results }, status: :ok }
@@ -188,7 +188,7 @@ class HomeController < ApplicationController
     end
 
     def contributor_table_data
-        @projects = Project.where(is_test:false)
+        @projects = Project.where(is_test: false)
         data_hash = {:colnames => ["Project Owner", "Subjects", "Publication"], :members => {} }
         @projects.each do |p|
             sub_pubs = PublicationSubject.where(subject_id:p.subjects.pluck(:id)).pluck(:publication_id).uniq
