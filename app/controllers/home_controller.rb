@@ -201,7 +201,7 @@ class HomeController < ApplicationController
     end
 
     def download_manual
-        send_file "public/UploadResources/HCDB_Database_Manual_v2.pdf", type: 'application/pdf'
+        send_file "public/UploadResources/HCDB_Database_Manual_v2.1.pdf", type: 'application/pdf'
     end
 
     private

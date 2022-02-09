@@ -134,11 +134,11 @@ class UploadController < ApplicationController
     end
 
     def download_template
-        send_file "public/UploadResources/upload_template_03262021.csv", type: 'text/csv'
+        send_file "public/UploadResources/upload_template_09072021.csv", type: 'text/csv'
     end
 
     def download_dictionary
-        send_file "public/UploadResources/HLA_COVID19_data_dictionary_03262021.xlsx", type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        send_file "public/UploadResources/HLA_COVID19_data_dictionary_09072021.xlsx", type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     end
 
     private
