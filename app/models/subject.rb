@@ -1,12 +1,12 @@
 class Subject < ApplicationRecord
     belongs_to :project
     has_one :risk_factor, dependent: :destroy
-    has_many :lab_test, dependent: :delete_all
-    has_many :c19_symptom, dependent: :delete_all
+    has_many :lab_tests, dependent: :delete_all
+    has_many :c19_symptoms, dependent: :delete_all
     has_one :hla, dependent: :destroy
-    has_many :hospitalization, dependent: :delete_all
-    has_many :treatment, dependent: :delete_all
-    has_many :comorbidity, dependent: :destroy
+    has_many :hospitalizations, dependent: :delete_all
+    has_many :treatments, dependent: :delete_all
+    has_many :comorbidities, dependent: :destroy
     has_one :kir, dependent: :destroy
     has_many :publication_subjects
     has_many :publications, through: :publication_subjects
@@ -18,7 +18,7 @@ class Subject < ApplicationRecord
     def assign_hla_covid_db_id
         id = self.id + 300
         newid = "HCC#{id.to_s.rjust(6,'0')}"
-        self.update_attributes(hlac19_id:newid)
+        self.update(hlac19_id:newid)
     end
 
     def delete_related_rows

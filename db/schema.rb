@@ -2,17 +2,17 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_09_233258) do
+ActiveRecord::Schema.define(version: 2022_12_27_192609) do
 
-  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "active_storage_blobs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -30,10 +30,17 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "c19_symptoms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "active_storage_variant_records", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "c19_symptoms", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -42,7 +49,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.integer "days_cough"
     t.boolean "difficulty_breathing"
     t.boolean "fever"
-    t.integer "highest_temp"
+    t.decimal "highest_temp", precision: 10
     t.integer "days_fever"
     t.boolean "fatigue"
     t.boolean "pain_chest_heart"
@@ -59,7 +66,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["subject_id"], name: "index_c19_symptoms_on_subject_id"
   end
 
-  create_table "comorbidities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "comorbidities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -75,7 +82,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.boolean "diabetes_type_2"
     t.boolean "asthma"
     t.boolean "copd"
-    t.boolean "cycstic_fib"
+    t.boolean "cystic_fib"
     t.boolean "liver_disease"
     t.boolean "gallbladder_disease"
     t.boolean "pancreas_disease"
@@ -96,7 +103,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["subject_id"], name: "index_comorbidities_on_subject_id"
   end
 
-  create_table "hlas", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "hlas", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -131,7 +138,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["subject_id"], name: "index_hlas_on_subject_id"
   end
 
-  create_table "hospitalizations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "hospitalizations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -165,7 +172,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["subject_id"], name: "index_hospitalizations_on_subject_id"
   end
 
-  create_table "imputationstats", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "imputationstats", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "hla_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -191,7 +198,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["hla_id"], name: "index_imputationstats_on_hla_id"
   end
 
-  create_table "kirs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "kirs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -210,7 +217,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["subject_id"], name: "index_kirs_on_subject_id"
   end
 
-  create_table "lab_tests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "lab_tests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "blood_type"
@@ -251,7 +258,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["subject_id"], name: "index_lab_tests_on_subject_id"
   end
 
-  create_table "projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "projects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name"
     t.datetime "created_at", null: false
@@ -261,7 +268,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
-  create_table "publication_subjects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "publication_subjects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "publication_id"
     t.bigint "subject_id"
     t.datetime "created_at", null: false
@@ -270,7 +277,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["subject_id"], name: "index_publication_subjects_on_subject_id"
   end
 
-  create_table "publications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "publications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "title"
@@ -279,7 +286,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.date "pub_date"
   end
 
-  create_table "read_counts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "read_counts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "hla_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -297,7 +304,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["hla_id"], name: "index_read_counts_on_hla_id"
   end
 
-  create_table "risk_factors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "risk_factors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -308,7 +315,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["subject_id"], name: "index_risk_factors_on_subject_id"
   end
 
-  create_table "subjects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "subjects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "hlac19_id"
@@ -331,7 +338,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["project_id"], name: "index_subjects_on_project_id"
   end
 
-  create_table "treatments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "treatments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -355,7 +362,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["subject_id"], name: "index_treatments_on_subject_id"
   end
 
-  create_table "upload_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "upload_records", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "active_storage_attachment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -370,7 +377,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["active_storage_attachment_id"], name: "index_upload_records_on_active_storage_attachment_id"
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -408,17 +415,19 @@ ActiveRecord::Schema.define(version: 2022_02_09_233258) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", force: :cascade do |t|
-    t.string "item_type", limit: 191, null: false
+  create_table "versions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "item_type"
+    t.string "{:null=>false, :limit=>191}"
     t.bigint "item_id", null: false
     t.string "event", null: false
     t.string "whodunnit"
-    t.text "object", limit: 4294967295
+    t.text "object", size: :long
     t.datetime "created_at"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "c19_symptoms", "subjects", on_delete: :cascade
   add_foreign_key "comorbidities", "subjects", on_delete: :cascade
   add_foreign_key "hlas", "subjects", on_delete: :cascade

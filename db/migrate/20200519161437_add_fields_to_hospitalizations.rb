@@ -26,7 +26,7 @@ class AddFieldsToHospitalizations < ActiveRecord::Migration[5.2]
     add_column :hospitalizations, :acute_kidney_failure, :boolean
     add_column :hospitalizations, :acute_kidney_chronic, :boolean
     add_column :hospitalizations, :ascites, :boolean
-    add_column :hospitalizations, :dyspnea, :booleanz
+    add_column :hospitalizations, :dyspnea, :boolean
   
   end
 end

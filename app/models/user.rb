@@ -47,7 +47,7 @@ class User < ApplicationRecord
   # end
     rstudio_u = self.email.split("@")[0]
     rstudio_p = SecureRandom.alphanumeric(12)
-    if self.update_attributes(notified_of_approval:true, project_owner:true, can_upload:true, rstudio:true, rstudio_username:rstudio_u, rstudio_password:rstudio_p)
+    if self.update(notified_of_approval:true, project_owner:true, can_upload:true, rstudio:true, rstudio_username:rstudio_u, rstudio_password:rstudio_p)
       AdminMailer.notify_admin_of_server_account_creation(self, true)
       AdminMailer.user_approved_notification(self)
     else 
@@ -66,7 +66,7 @@ class User < ApplicationRecord
         unless self.projects.where(name:pname).count >= 1
           @project = Project.new(user_id:self.id, name:pname)
           @project.save
-          self.update_attributes(approved_access:self.approved_access.concat([@project.id]), grant_project_access_to:self.grant_project_access_to.concat([@project.id]))
+          self.update(approved_access:self.approved_access.concat([@project.id]), grant_project_access_to:self.grant_project_access_to.concat([@project.id]))
         end
       end
     end

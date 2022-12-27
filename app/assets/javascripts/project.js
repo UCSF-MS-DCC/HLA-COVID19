@@ -170,7 +170,7 @@ $('#subjects-datatable').dataTable({
       {"data": "diabetes_type_2"},
       {"data": "asthma"},
       {"data": "copd"},
-      {"data": "cycstic_fib"},
+      {"data": "cystic_fib"},
       {"data": "liver_disease"},
       {"data": "gallbladder_disease"},
       {"data": "pancreas_disease"},

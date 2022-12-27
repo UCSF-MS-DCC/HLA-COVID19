@@ -13,6 +13,8 @@
 #     Project.delete_all
 # end
 if Subject.count > 0
+    PublicationSubject.delete_all
+    Publication.delete_all
     Imputationstat.delete_all
     Hospitalization.delete_all
     ReadCount.delete_all
@@ -29,21 +31,21 @@ end
 # # admin user account
 # User.new(email:"dev@dev.org", password:"321321", password_confirmation:"321321", affiliation:"UCSF", can_upload:true, approved:true, firstname:"Admin", lastname:"User").save(validate:false)
 # # # create separate domains for different users
-# domains = [Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name].uniq
-# # create project owner accounts
-# domains.each do |d|
-#     @user = User.new(email:Faker::Internet.email, password:"321321", password_confirmation:"321321", can_upload:true, approved:true, project_owner:true ,firstname:Faker::Name.first_name, lastname:Faker::Name.last_name)
-#     @user.save(validate:false)
-#     project = Project.new(user_id:@user.id, name:d)
-#     project.save
-# end
+domains = [Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name].uniq
+# create project owner accounts
+domains.each do |d|
+    @user = User.new(email:Faker::Internet.email, password:"321321", password_confirmation:"321321", can_upload:true, approved:true, project_owner:true ,firstname:Faker::Name.first_name, lastname:Faker::Name.last_name)
+    @user.save(validate:false)
+    project = Project.new(user_id:@user.id, name:d)
+    project.save
+end
 # create general user accounts
-# 4.times do
-#     user = User.new(email:"#{Faker::Internet.email}", password:"321321", password_confirmation:"321321", can_upload:true, approved:true)
-#     user.save(validate:false)
-# end
+4.times do
+    user = User.new(email:"#{Faker::Internet.email}", password:"321321", password_confirmation:"321321", can_upload:true, approved:true,firstname:Faker::Name.first_name, lastname:Faker::Name.last_name)
+    user.save(validate:false)
+end
 
-def get_value(val_type)
+def get_random_value(val_type)
   case val_type
   when "integer"
     Faker::Number.between(from:1, to: 20)
@@ -73,14 +75,14 @@ Project.all.each do |p|
     )
     pub.save
     # create subjects
-    Faker::Number.between(from:100, to: 300).times do |idx|
+    Faker::Number.between(from:25, to: 50).times do |idx|
         n = 3
         spi = "#{p.name}#{idx.to_s.rjust(4,'0')}" # Subject's Project ID S.P.I.
         # TODO: need to put parameters on sex column
         sjt_cols = Subject.column_names.reject{ |cn| ["id", "project_id", "created_at", "updated_at", "origin_identifier"].include? cn }
         sjt_hash = {project_id:p.id, origin_identifier:spi}
         sjt_cols.each do |cn|
-            sjt_hash[cn] = get_value(Subject.column_for_attribute(cn).type.to_s)
+            sjt_hash[cn] = get_random_value(Subject.column_for_attribute(cn).type.to_s)
         end
         sub = Subject.new(sjt_hash)
         sub.save
@@ -110,38 +112,39 @@ Project.all.each do |p|
                     drbo_2:"DRBo*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}").save
         end
         #c19 symptoms
-        unless sub.c19_symptom
+        puts "C!9:#{sub.c19_symptoms.count}"
+        unless sub.c19_symptoms.count >= 1
             cs_cols = C19Symptom.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
             cs_hash = {subject_id:sub.id}
             cs_cols.each do |cn|
-                cs_hash[cn] = get_value(C19Symptom.column_for_attribute(cn).type.to_s)
+                cs_hash[cn] = get_random_value(C19Symptom.column_for_attribute(cn).type.to_s)
             end
             C19Symptom.new(cs_hash).save
         end
         #comorbidities
-        unless sub.comorbidity
+        unless sub.comorbidities.count >= 1
             comorb_cols = Comorbidity.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
             comorb_hash = {subject_id:sub.id}
             comorb_cols.each do |cn|
-                comorb_hash[cn] = get_value(Comorbidity.column_for_attribute(cn).type.to_s)
+                comorb_hash[cn] = get_random_value(Comorbidity.column_for_attribute(cn).type.to_s)
             end
             Comorbidity.new(comorb_hash).save
         end
         #hospitalizations
-        unless sub.hospitalization
+        unless sub.hospitalizations.count >= 1
             hosp_cols = Hospitalization.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
             hosp_hash = {subject_id:sub.id}
             hosp_cols.each do |cn|
-                hosp_hash[cn] = get_value(Hospitalization.column_for_attribute(cn).type.to_s)
+                hosp_hash[cn] = get_random_value(Hospitalization.column_for_attribute(cn).type.to_s)
             end
             Hospitalization.new(hosp_hash).save
         end
         #lab tests
-        unless sub.lab_test
+        unless sub.lab_tests.count >= 1
             lt_cols = LabTest.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
             lt_hash = {subject_id:sub.id}
             lt_cols.each do |cn|
-                lt_hash[cn] = get_value(LabTest.column_for_attribute(cn).type.to_s)
+                lt_hash[cn] = get_random_value(LabTest.column_for_attribute(cn).type.to_s)
             end
             LabTest.new(lt_hash).save
         end
@@ -150,16 +153,16 @@ Project.all.each do |p|
             rf_cols = RiskFactor.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
             rf_hash = {subject_id:sub.id}
             rf_cols.each do |cn|
-                rf_hash[cn] = get_value(RiskFactor.column_for_attribute(cn).type.to_s)
+                rf_hash[cn] = get_random_value(RiskFactor.column_for_attribute(cn).type.to_s)
             end
             RiskFactor.new(rf_hash).save
         end
         #treatments
-        unless sub.treatment
+        unless sub.treatments.count >= 1
             tmt_cols = Treatment.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
             tmt_hash = {subject_id:sub.id}
             tmt_cols.each do |cn|
-                tmt_hash[cn] = get_value(Treatment.column_for_attribute(cn).type.to_s)
+                tmt_hash[cn] = get_random_value(Treatment.column_for_attribute(cn).type.to_s)
             end
             Treatment.new(tmt_hash).save
         end
