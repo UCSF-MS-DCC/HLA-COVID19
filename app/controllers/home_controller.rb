@@ -47,7 +47,6 @@ class HomeController < ApplicationController
 
     end
     def new_account_approval_handler
-        puts account_approval_params
         @user = User.find_by(email:account_approval_params[:email])
         if @user && @user.update_attributes(account_approval_params)
             @status = "OK"
