@@ -67,7 +67,14 @@ namespace :deploy do
         end
       end
   end
-
+  namespace :bundle do
+    desc "run bundle install and ensure all gem requirements are met"
+    task :install do
+      on roles(:app) do
+        execute "cd #{release_path} && RAILS_ENV=#{fetch(:stage)} bundle install", raise_on_non_zero_exit: false
+      end
+    end
+  end
   desc 'Initial Deploy'
   task :initial do
     on roles(:app) do
