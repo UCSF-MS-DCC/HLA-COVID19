@@ -27,7 +27,7 @@ gem 'rails_admin', '~> 2.0'
 gem 'ajax-datatables-rails'
 gem 'jquery-datatables'
 # Use Puma as the app server
-gem 'puma', '>= 3.12.6'
+gem 'puma', '>= 6.0.2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
