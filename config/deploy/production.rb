@@ -1,4 +1,3 @@
-
 set :application, "database-hlacovid19"
 set :repo_url, "https://github.com/UCSF-MS-DCC/HLA-COVID19"
 set :branch,        :master
@@ -15,7 +14,7 @@ set :stage,           :production
 set :deploy_via,      :remote_cache
 #set :deploy_to,       "/var/www/html/rails/#{fetch(:application)}"
 set :deploy_to,       "/var/www/html/#{fetch(:application)}"
-set :puma_bind,       "unix://#{shared_path}/tmp/sockets/hlacovid19.sock"
+set :puma_bind,       "unix://#{shared_path}/tmp/sockets/puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
 set :puma_access_log, "#{release_path}/log/puma.access.log"
@@ -67,14 +66,7 @@ namespace :deploy do
         end
       end
   end
-  namespace :bundle do
-    desc "run bundle install and ensure all gem requirements are met"
-    task :install do
-      on roles(:app) do
-        execute "cd #{release_path} && RAILS_ENV=#{fetch(:stage)} bundle install", raise_on_non_zero_exit: false
-      end
-    end
-  end
+
   desc 'Initial Deploy'
   task :initial do
     on roles(:app) do
