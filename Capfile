@@ -6,7 +6,7 @@ require "capistrano/deploy"
 require "capistrano/rails"
 require "capistrano/rbenv"
 require "capistrano/puma"
-require "capistrano/yarn"
+#require "capistrano/yarn"
 install_plugin Capistrano::Puma
 install_plugin Capistrano::Puma::Systemd
 # Load the SCM plugin appropriate to your project:
