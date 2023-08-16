@@ -26,6 +26,7 @@ gem 'aws-sdk-rails'
 gem 'rails_admin', '~> 2.0'
 gem 'ajax-datatables-rails'
 gem 'jquery-datatables'
+gem 'sprockets-rails'
 # Use Puma as the app server
 gem 'puma', '>= 6.0.2'
 # Use SCSS for stylesheets
