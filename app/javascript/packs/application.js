@@ -15,4 +15,10 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-console.log('Hello World from Webpacker')
+//console.log('Hello World from Webpacker')
+require("@rails/ujs").start()
+require("@rails/activestorage").start()
+require("channels")
+
+import 'src/stylesheets/application'
+const images = require.context('../images', true)
