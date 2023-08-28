@@ -5,9 +5,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :trackable,
          :recoverable, :rememberable, :timeoutable
   # after_create :send_new_account_notification
-  after_create :send_welcome_email
-  after_create :send_new_user_admin_notification
-  after_create :make_projects
+  # after_create :send_welcome_email
+  # after_create :send_new_user_admin_notification
+  # after_create :make_projects
   validates_uniqueness_of :email
   validates_uniqueness_of :rstudio_username, allow_nil: :true
   has_many_attached :uploads

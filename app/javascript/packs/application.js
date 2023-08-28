@@ -18,7 +18,18 @@
 //console.log('Hello World from Webpacker')
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
-require("channels")
+//require("channels")
+require("datatables.net-bs4")
 
 import 'src/stylesheets/application'
 const images = require.context('../images', true)
+
+import 'bootstrap'
+
+var $  = require( 'jquery' );
+var dt = require('datatables.net-bs4');
+
+$(document).ready(() => {
+    console.log($.fn.DataTable)
+    //
+})

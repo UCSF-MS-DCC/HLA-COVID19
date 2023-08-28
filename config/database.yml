@@ -18,12 +18,16 @@ development:
 # Do not set this db to the same as development or production.
 test:
   database: db/test.sqlite3
-  
+
 production:
   adapter: mysql2
-  database: <%= ENV.fetch("HLA_COVID19_PROD_DATABASE") %>
-  username: <%= ENV.fetch("HLA_COVID19_PROD_USER") %>
-  password: <%= ENV.fetch("HLA_COVID19_PROD_PASS") %>
+  #production parameters
+  #host: 127.0.0.1
+  #port: 3306
+
+  #Running prod-on-dev-machine parameters
+  database: hlacovid_dev
+  username: development
+  password: dev123
   host: 127.0.0.1
   port: 3306
-

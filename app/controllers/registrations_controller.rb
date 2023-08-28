@@ -1,16 +1,20 @@
 class RegistrationsController < Devise::RegistrationsController
   def create
+    puts "CUSTOM CONTROLLER"
     if !verify_recaptcha
+      puts "RECAPTCHA FAILED"
       flash.delete :recaptcha_error
       build_resource(sign_up_params)
       resource.valid?
       resource.errors.add(:base, "There was an error with the recaptcha code below. Please re-enter the code.")
+      gflash :error => "Recaptcha failed. Please resubmit your account registration."
       clean_up_passwords(resource)
       respond_with_navigational(resource) { render_with_scope :new }
-      puts "RECAPTCHA FAILED"
+
     else
-      flash.delete :recaptcha_error
       puts "RECAPTCHA SUCCESS"
+      flash.delete :recaptcha_error
+      gflash :success => "Thanks for your signup"
       super
     end
   end

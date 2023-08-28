@@ -12,6 +12,7 @@
 # if Project.count > 0
 #     Project.delete_all
 # end
+=begin
 if Subject.count > 0
     PublicationSubject.delete_all
     Publication.delete_all
@@ -27,10 +28,11 @@ if Subject.count > 0
     Kir.delete_all
     Subject.delete_all
 end
-
+=end
 # # admin user account
-# User.new(email:"dev@dev.org", password:"321321", password_confirmation:"321321", affiliation:"UCSF", can_upload:true, approved:true, firstname:"Admin", lastname:"User").save(validate:false)
+User.new(email:"dev@dev.org", password:"321321", password_confirmation:"321321", affiliation:"UCSF", can_upload:true, approved:true, firstname:"Admin", lastname:"User").save(validate:false)
 # # # create separate domains for different users
+=begin
 domains = [Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name].uniq
 # create project owner accounts
 domains.each do |d|
@@ -184,4 +186,5 @@ Project.all.each do |p|
     end
 end
 
+=end
 

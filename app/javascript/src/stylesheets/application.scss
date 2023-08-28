@@ -11,10 +11,11 @@
  * It is generally better to create a new file per style scope.
  */
  @import "bootstrap";
- @import "gritter";
- @import "datatables";
+ //@import "gritter";
+ //@import "datatables";
  @import '_datatables';
  @import '_home';
+ @import "datatables.net-bs4/css/dataTables.bootstrap4.min.css";
  
  //site color variables
 $body-color: #fff;
@@ -36,7 +37,7 @@ $secondary-font: 'Montserrat', sans-serif;
 html { height: 100%;}
 body {
   height:100%;
-  background-image: image_url("largefadedcovid_square.png");
+  background-image: image_url("../../images/largefadedcovid_square.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 750px auto;
@@ -62,7 +63,7 @@ ul {
   min-height:100%;
 }
  #home-page-card {
-    background-image: image_url("coronavirus-banner2.png");
+    background-image: image_url("../../images/coronavirus-banner2.png");
     min-height:350px;
     height:auto;
     background-repeat: no-repeat;
@@ -118,7 +119,7 @@ ul {
   .robot {
     min-width: 50%;
     min-height: 300px;
-    background-image: image_url("error_404-broken-robot-2.png");
+    background-image: image_url("../../images/error_404-broken-robot-2.png");
     background-repeat: no-repeat;
     background-position: center;
     margin-top:150px;
