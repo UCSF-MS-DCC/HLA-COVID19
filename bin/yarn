@@ -13,6 +13,7 @@ Dir.chdir(APP_ROOT) do
   elsif File.executable?("/usr/bin/yarn")
     yarn = "/usr/bin/yarn"
     exec yarn, *ARGV
+    puts "YARN: #{yarn}"
   else
     $stderr.puts "Yarn executable was not detected in the system."
     $stderr.puts "Download Yarn at https://yarnpkg.com/en/docs/install"
