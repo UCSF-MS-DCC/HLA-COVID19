@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 APP_ROOT = File.expand_path('..', __dir__)
-puts "IN YARN BINSTUB"
+puts "IN YARN BINSTUB, PATH: #{ENV['PATH']}"
 Dir.chdir(APP_ROOT) do
   yarn = ENV["PATH"].split(File::PATH_SEPARATOR).
     select { |dir| File.expand_path(dir) != __dir__ }.
