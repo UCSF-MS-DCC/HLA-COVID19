@@ -7,7 +7,7 @@ Dir.chdir(APP_ROOT) do
     product(["yarn", "yarn.cmd", "yarn.ps1"]).
     map { |dir, file| File.expand_path(file, dir) }.
     find { |file| File.executable?(file) }
-  puts "10 - YARN : #{}"
+  puts "10 - YARN : #{yarn}"
   if yarn
     exec yarn, *ARGV
     puts "FOUND YARN"
