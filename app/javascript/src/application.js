@@ -12,12 +12,12 @@
 //
 
 //= require rails-ujs
-//= require jquery3
+//= require ../../../../../../.rbenv/versions/3.0.4/lib/ruby/gems/3.0.0/gems/jquery-rails-4.6.0/vendor/assets/javascripts/jquery3
 //= require popper
 //= require bootstrap-sprockets
 //= require activestorage
 //= require turbolinks
-//= require datatables
+//= require datatables.js
 //= require clipboard
 //= require gritter
 //= require jquery_nested_form

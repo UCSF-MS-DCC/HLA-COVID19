@@ -1,4 +1,4 @@
-//= require datatables/jquery.dataTables
+//= require ../../../../../../.rbenv/versions/3.0.4/lib/ruby/gems/3.0.0/gems/jquery-datatables-1.10.20/app/assets/javascripts/datatables/jquery.dataTables
 
 // optional change '//' --> '//=' to enable
 

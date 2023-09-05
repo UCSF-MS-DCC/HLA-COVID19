@@ -13,9 +13,9 @@
  @import "bootstrap";
  //@import "gritter";
  //@import "datatables";
- @import '_datatables';
- @import '_home';
- @import "datatables.net-bs4/css/dataTables.bootstrap4.min.css";
+ @import 'datatables';
+ @import 'home';
+ @import "../../../node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min";
  
  //site color variables
 $body-color: #fff;
