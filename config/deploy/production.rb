@@ -1,6 +1,6 @@
 set :application, "database-hlacovid19"
 set :repo_url, "https://github.com/UCSF-MS-DCC/HLA-COVID19"
-set :branch,        :master
+set :branch,        :rails7_upgrade
 server '18.189.191.68', port: 22, roles: [:web, :app, :db], primary: true
 
 set :user,            'deployment'
