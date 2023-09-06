@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_02_183531) do
-
+ActiveRecord::Schema[7.0].define(version: 2023_09_06_172253) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -28,8 +27,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
     t.string "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -42,8 +41,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
 
   create_table "c19_symptoms", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "dry_cough"
     t.boolean "mucus_cough"
     t.integer "days_cough"
@@ -68,8 +67,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
 
   create_table "comorbidities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "hiv"
     t.decimal "cd4_cell_count", precision: 10
     t.decimal "hiv_load", precision: 10
@@ -105,8 +104,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
 
   create_table "hlas", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "drb1_1"
     t.string "drb1_2"
     t.text "dqb1_1"
@@ -140,8 +139,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
 
   create_table "hospitalizations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "icu_admit"
     t.integer "icu_duration_days"
     t.text "reason_hosp_ended"
@@ -174,8 +173,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
 
   create_table "imputationstats", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "hla_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "a_prob"
     t.string "a_matching"
     t.string "b_prob"
@@ -200,8 +199,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
 
   create_table "kirs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "k2dl4_1"
     t.string "k2dl4_2"
     t.string "k2dl23_1"
@@ -218,8 +217,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
   end
 
   create_table "lab_tests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "blood_type"
     t.text "rh_factor"
     t.text "wbc"
@@ -261,8 +260,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
   create_table "projects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "is_test", default: false
     t.boolean "embargo"
     t.index ["user_id"], name: "index_projects_on_user_id"
@@ -271,15 +270,15 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
   create_table "publication_subjects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "publication_id"
     t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["publication_id"], name: "index_publication_subjects_on_publication_id"
     t.index ["subject_id"], name: "index_publication_subjects_on_subject_id"
   end
 
   create_table "publications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "title"
     t.text "url"
     t.text "authors"
@@ -288,8 +287,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
 
   create_table "read_counts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "hla_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "hla_a"
     t.integer "hla_b"
     t.integer "hla_c"
@@ -306,8 +305,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
 
   create_table "risk_factors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "smoke_freq"
     t.text "alcohol_freq"
     t.text "substances_freq"
@@ -316,8 +315,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
   end
 
   create_table "subjects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "hlac19_id"
     t.string "origin_identifier"
     t.string "country_of_residence"
@@ -340,8 +339,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
 
   create_table "treatments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "ace_inhib"
     t.text "angio_blocker"
     t.text "antibiotics"
@@ -364,8 +363,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
 
   create_table "upload_records", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "active_storage_attachment_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "subjects"
     t.string "bad_columns"
     t.boolean "csv_file"
@@ -381,10 +380,10 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "rstudio", default: true
     t.boolean "approved", default: false
     t.text "affiliation"
@@ -398,8 +397,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
     t.string "project_name"
     t.boolean "system_user", default: false, null: false
     t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
     t.boolean "email_opt_in"
@@ -422,7 +421,7 @@ ActiveRecord::Schema.define(version: 2023_08_02_183531) do
     t.string "event", null: false
     t.string "whodunnit"
     t.text "object", size: :long
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 

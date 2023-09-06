@@ -5,7 +5,7 @@ ruby '3.0.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 #gem 'rails', '~> 5.2.4', '>= 5.2.4.5'
-gem 'rails', '~> 6.1.6'
+gem 'rails', '~> 7.0.0'
 gem 'activerecord', '>= 6.0'
 gem 'devise'
 gem 'bootstrap', '~> 4.3.1'
@@ -23,7 +23,7 @@ gem 'gritter', '1.2.0'
 gem 'nested_form'
 gem 'paper_trail'
 gem 'aws-sdk-rails'
-gem 'rails_admin', '~> 2.0'
+gem 'rails_admin'
 gem 'ajax-datatables-rails'
 gem 'jquery-datatables'
 gem 'sprockets-rails'
@@ -42,13 +42,14 @@ gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
+gem 'jsbundling-rails'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
-gem 'webpacker'
+ gem 'webpacker'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
  gem 'net-ssh', '>= 6.0.2'
@@ -73,7 +74,7 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
