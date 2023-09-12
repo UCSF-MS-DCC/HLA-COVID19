@@ -1,0 +1,192 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ */
+ @import "bootstrap";
+ //@import "gritter";
+ //@import "datatables";
+ @import 'datatables';
+ @import 'home';
+ @import "../../../node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min";
+ 
+ //site color variables
+$body-color: #fff;
+$primary-color: #326CA7;
+$secondary-color: #B9B9B9;
+$text-color: #9e9fa6;
+$text-color-dark: #00113E;
+$site-ease: cubic-bezier(0.36, 0.03, 0, 0.91);
+$gray: #F7F9FF;
+$dark-gray: #646569;
+
+// solid colors
+$white: #fff;
+$black: #000;
+
+// Font Variables
+$primary-font: 'Josefin Sans', sans-serif;
+$secondary-font: 'Montserrat', sans-serif;
+html { height: 100%;}
+body {
+  height:100%;
+  background-image: image_url("../../images/largefadedcovid_square.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 750px auto;
+}
+h2, h3, h4, h5, a, label, #file_upload_submit {
+  font-family: $secondary-font;
+  font-weight: bold;
+}
+p {
+  font-family: $secondary-font !important;
+}
+ul {
+  list-style:none;
+}
+.nav-item {
+  font-family: $secondary-font;
+}
+.nav-link {
+  color:black !important;
+  font-weight: bold;
+}
+.main-view {
+  min-height:100%;
+}
+ #home-page-card {
+    background-image: image_url("../../images/coronavirus-banner2.png");
+    min-height:350px;
+    height:auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: center;
+  }
+  #home-page-card-header {
+    top:5px;
+    font-family: sans-serif;
+    font-size:72pt;
+    font-weight:bold;
+    color:white;
+  }
+  .session-link {
+      color:white;
+      font-size:16pt;
+      margin-left:15px;
+  }
+  .menu-link {
+    color:black;
+    font-size:16pt;
+  }
+  #title-placement-box {
+    margin-top:50px;
+    margin-left:50px;
+  }
+  #title-text {
+    font-size:54pt;
+    color:white;
+  }
+  .btn-trans {
+    background-color:transparent;
+  }
+  #main-dropdown-button-text {
+    color:white;
+    font-size:16pt;
+  }
+  .dropdown-menu {
+    width:100% !important;
+  }
+  .dropdown-list-item {
+    margin-left:20px;
+  }
+  #log-in-form {
+    width:100%;
+    border:1px solid lightgrey;
+    border-radius:4px;
+  }
+  #registration-form {
+    border-radius:4px;
+    border:1px solid lightgrey;
+  }
+  .robot {
+    min-width: 50%;
+    min-height: 300px;
+    background-image: image_url("../../images/error_404-broken-robot-2.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top:150px;
+    margin-bottom:40vh;
+  }
+  .n-chart-label {
+    font-family: $primary_font;
+    font-size: 12pt;
+  }
+  .n-chart-value {
+    font-family: $primary_font;
+    font-size: 72pt;
+  }
+  #n-chart-box {
+    height: 400px;
+  }
+  #n-chart-inner {
+    width:90%;
+    height:85%;
+    margin-top:7%;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .n-chart-label-box {
+    width:100%;
+    height:8%;
+  }
+  .n-chart-value-box {
+    width:100%;
+    height:92%;
+  }
+  #n-chart-subjects-box {
+    width:100%;
+    height:33%;
+  }
+  #n-chart-hlas-box {
+    width:100%;
+    height:51%;
+  }
+  #n-chart-imported-hlas-box {
+    width:100%;
+    height:91%;
+    float:left;
+  }
+  #n-chart-imputed-hlas-box {
+    width:100%;
+    height:91%;
+  }
+  .nav-link.active {
+    font-size: 18px;
+    font-weight: bolder;
+    text-decoration: underline;
+  }
+  .btn-download {
+    background-color:#0b6c8d;
+    border:1px solid grey;
+    color:white;
+
+  }
+  .dt-button span{
+    padding-left:10px;
+    padding-right:10px;
+  }
+  .data-table-container{
+    border-left: 1px solid lightgrey;
+    border-right:1px solid lightgrey;
+    border-bottom:1px solid lightgrey;
+    padding-top:20px;
+    padding-bottom:30px;
+  }
