@@ -453,7 +453,7 @@ DEPENDENCIES
   net-ssh (>= 6.0.2)
   paper_trail
   popper_js (~> 1.14.5)
-  puma (>= 6.0.2)
+  puma (>= 6.3.1)
   rails (~> 7.0.0)
   rails_admin
   recaptcha
