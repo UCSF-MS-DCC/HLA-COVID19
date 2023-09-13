@@ -44,6 +44,12 @@ namespace :puma do
     end
   end
   before :start, :make_dirs
+  desc 'Restart the puma service'
+  task :restart_puma do
+    on roles(:app) do
+      execute "sudo service puma restart"
+    end
+  end
 end
 
 namespace :deploy do
@@ -78,7 +84,7 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      invoke 'puma:restart'
+      invoke 'puma:restart_puma'
     end
   end
 
