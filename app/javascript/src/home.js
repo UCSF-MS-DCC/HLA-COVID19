@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load',function(){
+$(document).on('turbo:load', () => {
 
   if (window.location.pathname === "/home/new_account_approval") {
     // when either an approve or remove button is clicked, disable the other option and send the params to the controller method.
