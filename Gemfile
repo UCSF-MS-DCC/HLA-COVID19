@@ -49,7 +49,7 @@ gem 'jsbundling-rails'
 # gem 'bcrypt', '~> 3.1.7'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
- gem 'webpacker'
+# gem 'webpacker'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
  gem 'net-ssh', '>= 6.0.2'
@@ -90,3 +90,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "cssbundling-rails", "~> 1.3"

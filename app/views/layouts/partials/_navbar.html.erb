@@ -40,7 +40,7 @@
                 <li class="nav-item"><%= link_to "Project Data" , project_index_path(current_user.approved_access.first), :class => "nav-link"%></li>
             <% end %>
             <li class="nav-item"><%= link_to "My Account", edit_user_registration_path, :class => "nav-link"%></li>
-            <li class="nav-item"><%= link_to "Logout", destroy_user_session_path, :method => 'delete', :class => "nav-link"%></li>
+            <li class="nav-item"><%= button_to("Logout", destroy_user_session_path, method: :delete, :class => "nav-link")%></li>
         <% end %>
       </li>
 

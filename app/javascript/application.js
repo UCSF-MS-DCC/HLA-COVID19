@@ -4,4 +4,4 @@
 import "@hotwired/turbo-rails"
 import jquery from "jquery"
 window.jQuery = jquery
-window.$ = jquery
+window.$ = jqueryimport * as bootstrap from "bootstrap"
