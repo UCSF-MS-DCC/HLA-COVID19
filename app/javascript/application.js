@@ -11,7 +11,3 @@ import "./src/project"
 import "./src/cable"
 import * as bootstrap from "bootstrap"
 import DataTable from "datatables.net-bs5"
-
-$(document).on('turbo:load',function() {
-    alert("Hya, application.js")
-});

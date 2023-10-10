@@ -48,14 +48,14 @@ $(document).on('preInit.dt', function(e, settings) {
 
 
 // init on turbolinks load
-$(document).on('turbolinks:load', function() {
+$(document).on('turbo:load', function() {
   if (!$.fn.DataTable.isDataTable("table[id^=dttb-]")) {
     $("table[id^=dttb-]").DataTable();
   }
 });
 
 // turbolinks cache fix
-$(document).on('turbolinks:before-cache', function() {
+$(document).on('turbo:before-cache', function() {
   var dataTable = $($.fn.dataTable.tables(true)).DataTable();
   if (dataTable !== null) {
     dataTable.clear();
