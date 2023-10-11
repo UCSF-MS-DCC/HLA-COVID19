@@ -24,7 +24,7 @@
 //= require_tree .
 
 $(document).on('turbo:load', function(){
-  var clipboard = new Clipboard('.clipboard-btn');
+  //var clipboard = new Clipboard('.clipboard-btn');
     
   $('#irb_checkbox').on('change', function(){
     if ($(this).prop("checked") === true) {

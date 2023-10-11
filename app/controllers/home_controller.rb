@@ -126,7 +126,9 @@ class HomeController < ApplicationController
         end
     end
     def sex_data
+        puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
         results = ActiveRecord::Base.connection.execute("select sex, count(s.id) from subjects s join projects p on s.project_id = p.id where p.is_test = false and sex in ('M','F') group by s.sex")
+        puts results.to_json
         respond_to do |format|
             format.html
             format.json { render json: { :data => results }, status: :ok }
