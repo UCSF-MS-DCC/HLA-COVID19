@@ -12,7 +12,7 @@
 # if Project.count > 0
 #     Project.delete_all
 # end
-=begin
+
 if Subject.count > 0
     PublicationSubject.delete_all
     Publication.delete_all
@@ -28,11 +28,12 @@ if Subject.count > 0
     Kir.delete_all
     Subject.delete_all
 end
-=end
+
 # # admin user account
-User.new(email:"dev@dev.org", password:"321321", password_confirmation:"321321", affiliation:"UCSF", can_upload:true, approved:true, firstname:"Admin", lastname:"User").save(validate:false)
+# User.new(email:"dev@dev.org", password:"321321", password_confirmation:"321321", affiliation:"UCSF", can_upload:true, 
+# approved:true, firstname:"Admin", lastname:"User").save(validate:false)
 # # # create separate domains for different users
-=begin
+
 domains = [Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name,Faker::GreekPhilosophers.name].uniq
 # create project owner accounts
 domains.each do |d|
@@ -80,9 +81,10 @@ Project.all.each do |p|
     Faker::Number.between(from:25, to: 50).times do |idx|
         n = 3
         spi = "#{p.name}#{idx.to_s.rjust(4,'0')}" # Subject's Project ID S.P.I.
+        sx = ["F", "M"][Faker::Number.between(from:0, to:1)]
         # TODO: need to put parameters on sex column
-        sjt_cols = Subject.column_names.reject{ |cn| ["id", "project_id", "created_at", "updated_at", "origin_identifier"].include? cn }
-        sjt_hash = {project_id:p.id, origin_identifier:spi}
+        sjt_cols = Subject.column_names.reject{ |cn| ["id", "project_id", "created_at", "updated_at", "origin_identifier", "sex"].include? cn }
+        sjt_hash = {project_id:p.id, origin_identifier:spi, sex: sx}
         sjt_cols.each do |cn|
             sjt_hash[cn] = get_random_value(Subject.column_for_attribute(cn).type.to_s)
         end
@@ -114,7 +116,6 @@ Project.all.each do |p|
                     drbo_2:"DRBo*#{Faker::Number.between(from:1, to:20).to_s.rjust(2,'0')}").save
         end
         #c19 symptoms
-        puts "C!9:#{sub.c19_symptoms.count}"
         unless sub.c19_symptoms.count >= 1
             cs_cols = C19Symptom.column_names.reject{ |cn| ["id", "subject_id", "created_at", "updated_at"].include? cn }
             cs_hash = {subject_id:sub.id}
@@ -186,5 +187,5 @@ Project.all.each do |p|
     end
 end
 
-=end
+
 

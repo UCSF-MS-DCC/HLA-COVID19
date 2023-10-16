@@ -64,7 +64,7 @@ $(document).on('turbo:load', () => {
         response["data"]["colnames"].forEach(function(column){
           dt.addColumn('string', column);
          });
-        for(member in response["data"]["members"]) {
+        for(let member in response["data"]["members"]) {
             var url = response["data"]["members"][member]["pub_url"] ? '<a href='+response["data"]["members"][member]["pub_url"]+' target="_blank" rel="noopener noreferrer">Link</a>' : '-'
           dt.addRow([member, response["data"]["members"][member]["n"].toString(), url])
         };
@@ -76,7 +76,7 @@ $(document).on('turbo:load', () => {
     });
     /* SEX PIE CHART */
     $.get('/home/sex_data.json', function(response){
-      sdMatrix = response['data'];
+      let sdMatrix = response['data'];
       sdMatrix.unshift(['Sex', 'N']);
 
       google.charts.load('current', {'packages':['corechart']});
@@ -104,7 +104,7 @@ $(document).on('turbo:load', () => {
     /* AGE HISTOGRAM */
     $.get('/home/age_data.json', function(response){
 
-      adMatrix = response['data'];
+      let adMatrix = response['data'];
       adMatrix.forEach(function(arr){
           arr.push('stroke-color: black; stroke-width: 2');
       });
