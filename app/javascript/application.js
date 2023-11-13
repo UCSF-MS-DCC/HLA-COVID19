@@ -1,5 +1,5 @@
 // Entry point for the build script in your package.json
-import { Turbo } from '../../node_modules/@hotwired/turbo-rails'
+import '@hotwired/turbo-rails'
 Turbo.session.drive = false
 import jquery from '../../node_modules/jquery'
 window.jQuery = jquery
