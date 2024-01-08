@@ -33,7 +33,7 @@ class HomeController < ApplicationController
     def approve_users
         @user = User.find(approved_users_params[:user].to_i)
         approved_list = approved_users_params[:approved] == "true" ? @user.approved_access.concat([approved_users_params[:project].to_i]) : @user.approved_access - [approved_users_params[:project].to_i]
-        @user.update_attributes(approved_access:approved_list)
+        @user.update(approved_access:approved_list)
         status = (@user.approved_access.include?(approved_users_params[:project].to_i)) ? "access approved" : "no access"
         respond_to do |format|
             format.json { render json: {"user_status": status }, status: :ok}
@@ -48,7 +48,7 @@ class HomeController < ApplicationController
     end
     def new_account_approval_handler
         @user = User.find_by(email:account_approval_params[:email])
-        if @user && @user.update_attributes(account_approval_params)
+        if @user && @user.update(account_approval_params)
             @status = "OK"
         else
             @status = "ERROR"
