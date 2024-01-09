@@ -11,7 +11,7 @@ class Project < ApplicationRecord
 
   def wipe_name_from_users_project_list
     new_list = self.user.project_name - [self.name]
-    self.user.update_attributes(project_name:new_list)
+    self.user.update(project_name:new_list)
   end
   # The method for generating these csv files is: 
   # 1) Generate a list of the table's column names, stripping out unneeded columns such as id, created_at, etc.

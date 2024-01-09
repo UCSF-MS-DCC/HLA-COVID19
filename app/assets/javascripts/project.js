@@ -6,7 +6,7 @@ $('#project-select-control').change(function(e){
     window.location.href = '/project/index/' + project_id;
 })
 
-$('#subjects-datatable').dataTable({
+$('#subjects-datatable').DataTable({
     "processing": true,
     "serverSide": true,
     "initComplete": function (settings, json) {  

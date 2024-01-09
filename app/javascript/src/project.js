@@ -1,10 +1,9 @@
 $(document).on('turbo:load',function(){
 
 $('#project-select-control').change(function(e){
-    console.log($(this).val())
     var project_id = $(this).val();
     window.location.href = '/project/index/' + project_id;
-})
+});
 
 $('#subjects-datatable').dataTable({
     "processing": true,
