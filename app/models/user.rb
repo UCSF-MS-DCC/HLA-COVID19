@@ -20,7 +20,7 @@ class User < ApplicationRecord
 
   has_paper_trail
 
-  after_update :upload_filename_check
+  # after_update :upload_filename_check
 
   serialize :approved_access, Array
   serialize :project_name, Array
@@ -106,9 +106,7 @@ class User < ApplicationRecord
   def upload_filename_check
     self.uploads.each do |u|
       unless u.filename.to_s.match(/^'#{self.rstudio_username}'/)
-        puts "NO MATCH: #{u.filename}"
         u.update(filename:"#{self.rstudio_username}_#{u.filename}")
-        puts "UPDATED: #{u.filename}"
         system("pwd")
       end
     end
